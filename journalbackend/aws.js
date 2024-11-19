@@ -1,5 +1,3 @@
-import AWS from '@aws-sdk/client-s3'
-
 import {
     S3Client,
     PutObjectCommand,
@@ -53,4 +51,19 @@ async function getJournalEntry(key) {
 
 }
 
-getJournalEntries()
+export async function saveJournalEntry(entryText) {
+    const today = new Date().toISOString().split('T')[0];
+
+    console.log(today)
+    const input = {
+        Bucket: bucketName,
+        Key: today,
+        Body: entryText
+    }
+
+    let command = new PutObjectCommand(input)
+
+    const response = await s3Client.send(command)
+
+    console.log(response)
+}

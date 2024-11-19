@@ -20,7 +20,6 @@ export function JournalEntry() {
     return (
         <>
             <h1>{journalEntryDate}</h1>
-            {/* <p>{journalEntryText}</p> */}
             {renderTextWithNewlines(journalEntryText)}
         </>
     )
