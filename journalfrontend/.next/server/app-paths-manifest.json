@@ -1,1 +1,6 @@
-{}
+{
+  "/journal/write/page": "app/journal/write/page.js",
+  "/journal/read/[entry]/page": "app/journal/read/[entry]/page.js",
+  "/journal/page": "app/journal/page.js",
+  "/page": "app/page.js"
+}
