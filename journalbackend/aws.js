@@ -36,7 +36,7 @@ export async function getJournalEntries() {
     return formattedEntries
 }
 
-async function getJournalEntry(key) {
+export async function getJournalEntry(key) {
 
     const input = {
         Bucket: bucketName,
@@ -54,7 +54,6 @@ async function getJournalEntry(key) {
 export async function saveJournalEntry(entryText) {
     const today = new Date().toISOString().split('T')[0];
 
-    console.log(today)
     const input = {
         Bucket: bucketName,
         Key: today,

@@ -1,5 +1,5 @@
 import express from 'express';
-import { getJournalEntries, saveJournalEntry } from './aws.js';
+import { getJournalEntries, getJournalEntry, saveJournalEntry } from './aws.js';
 import cors from 'cors'
 import { getRedisClient } from './redis.js';
 
@@ -41,6 +41,12 @@ app.get('/journal-entries', async (req, res) => {
         let entries = JSON.parse(cachedEntries);
         res.send(entries)
     }
+})
+
+app.get('/journal-entry', async (req, res) => {
+    const { date } = req.query; // Grab the 'date' from the query parameters
+    const entry = await getJournalEntry(date); // Pass the 'date' to the function
+    res.send(entry);
 })
 
 app.post('/write-journal', async (req, res) => {
