@@ -44,9 +44,9 @@ export default function JournalEntry() {
         </CardHeader>
         <CardContent className="p-4 sm:p-6 md:p-8">
           {data ? (
-            renderTextWithNewlines(data)
+            renderTextWithNewlines(data.entry)
           ) : (
-            <p className="text-stone-700 text-lg leading-relaxed mb-6">
+            <p className="text-stone-700 text-lg  leading-relaxed mb-6">
               Loading
             </p>
           )}

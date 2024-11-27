@@ -22,6 +22,7 @@ export default function JournalEntryEditor() {
       try {
         const response = await axios.post('http://localhost:8000/write-journal', {
           entry: content,
+          title: title
         });
         console.log('Journal entry submitted:', response.data);
       } catch (err) {

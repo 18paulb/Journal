@@ -1,5 +1,5 @@
 import express from 'express';
-import { getJournalEntries, getJournalEntry, saveJournalEntry } from './aws.js';
+import { writeJournalEntry, getJournalEntries, getJournalEntry } from './aws/dynamodb.js';
 import cors from 'cors'
 import { getRedisClient } from './redis.js';
 
@@ -14,11 +14,8 @@ app.use(cors({
 
 app.use(express.json())
 
-// Define a route
-app.get('/', (req, res) => {
-  res.send('Hello, World!');
-});
 
+// TODO: Probably going to want to store REDIS entries better because not sure if it scales well
 
 app.get('/journal-entries', async (req, res) => {
 
@@ -26,15 +23,17 @@ app.get('/journal-entries', async (req, res) => {
 
     // First see if there are cached journal entries, that way we don't have to fetch from s3 again
     let cachedEntries = await redisClient.get('journalEntries');
+    
+    // TODO: REPLACE Hard-Coded Email
+    const email = "bjpaul99@gmail.com"
 
     if (cachedEntries === null) {
-        let entries = await getJournalEntries()
+        let entries = await getJournalEntries(email)
 
         // Redis stores as a string
         await redisClient.set('journalEntries', JSON.stringify(entries));
-        // Set expieration on retreived journal entries for 1 hour
+        // Set expiration on retreived journal entries for 1 hour
         await redisClient.expire('journalEntries', 3600)
-        console.log("returning " + entries.length + " entries")
         res.send(entries)
     }
     else {
@@ -44,8 +43,8 @@ app.get('/journal-entries', async (req, res) => {
 })
 
 app.get('/journal-entry', async (req, res) => {
-    const { date } = req.query; // Grab the 'date' from the query parameters
-    const entry = await getJournalEntry(date); // Pass the 'date' to the function
+    const { date } = req.query;
+    const entry = await getJournalEntry(date, "bjpaul99@gmail.com");
     res.send(entry);
 })
 
@@ -54,8 +53,10 @@ app.post('/write-journal', async (req, res) => {
     let redisClient = await getRedisClient()
 
     let entry = req.body.entry
+    let title = req.body.title
+    const today = new Date().toISOString().split('T')[0];
 
-    await saveJournalEntry(entry)
+    await writeJournalEntry(entry, title, today)
 
     // TODO: Temporary solution, after saving journal entry, delete entries from redis so that it is forced to fetch all new entries
     await redisClient.del("journalEntries")

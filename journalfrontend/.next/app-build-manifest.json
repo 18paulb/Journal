@@ -6,25 +6,20 @@
       "static/css/app/layout.css",
       "static/chunks/app/layout.js"
     ],
-    "/journal/write/page": [
+    "/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/journal/write/page.js"
-    ],
-    "/journal/read/[entry]/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/journal/read/[entry]/page.js"
+      "static/chunks/app/page.js"
     ],
     "/journal/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/journal/page.js"
     ],
-    "/page": [
+    "/journal/read/[entry]/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/page.js"
+      "static/chunks/app/journal/read/[entry]/page.js"
     ]
   }
 }
