@@ -26,3 +26,5 @@ yarn-error.log*
 .vscode/
 
 journalfrontend/.next/
+
+.env.local
