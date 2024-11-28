@@ -1,33 +1,57 @@
-'use client'
+"use client";
 
 import axios from "axios";
-import { useState } from 'react'
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-// import { toast, useToast } from "@/components/ui/use-toast"
-import { CalendarIcon, BookOpenIcon, SaveIcon } from 'lucide-react'
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+
+import { CalendarIcon, BookOpenIcon, SaveIcon } from "lucide-react";
+
+import { useUser } from "@auth0/nextjs-auth0/client";
 
 export default function JournalEntryEditor() {
-  const [title, setTitle] = useState('')
-  const [content, setContent] = useState('')
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+  const { user, error, isLoading } = useUser();
 
   const handleSave = async () => {
-      if (content.trim() === '') {
-        alert('Please enter a journal entry.');
-        return;
-      }
+    // Check if user is not initialized
+    if (!user) {
+      alert("User not authenticated. Please log in.");
+      return;
+    }
 
-      try {
-        const response = await axios.post('http://localhost:8000/write-journal', {
-          entry: content,
-          title: title
-        });
-        console.log('Journal entry submitted:', response.data);
-      } catch (err) {
-        console.error('Error submitting journal entry:', err);
-      }
+    if (content.trim() === "") {
+      alert("Please enter a journal entry.");
+      return;
+    }
+
+    try {
+      const response = await axios.post("http://localhost:8000/write-journal", {
+        entry: content,
+        title: title,
+        email: user.email, // Use the user's email for the request
+      });
+      console.log("Journal entry submitted:", response.data);
+    } catch (err) {
+      console.error("Error submitting journal entry:", err);
+    }
+  };
+
+  if (isLoading) {
+    return <h1>Loading...</h1>;
+  }
+
+  if (error) {
+    return <h1>Error: {error.message}</h1>;
   }
 
   return (
@@ -41,7 +65,10 @@ export default function JournalEntryEditor() {
         </CardHeader>
         <CardContent className="space-y-4 p-6">
           <div>
-            <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-1 flex items-center">
+            <label
+              htmlFor="title"
+              className="block text-sm font-medium text-gray-700 mb-1 flex items-center"
+            >
               <CalendarIcon className="mr-2 h-4 w-4 text-primary" />
               Title
             </label>
@@ -54,7 +81,10 @@ export default function JournalEntryEditor() {
             />
           </div>
           <div>
-            <label htmlFor="content" className="block text-sm font-medium text-gray-700 mb-1">
+            <label
+              htmlFor="content"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
               Journal Entry
             </label>
             <Textarea
@@ -67,12 +97,15 @@ export default function JournalEntryEditor() {
           </div>
         </CardContent>
         <CardFooter className="bg-primary/5 border-t border-primary/10">
-          <Button onClick={handleSave} className="w-full bg-primary hover:bg-primary/90 text-primary-foreground">
+          <Button
+            onClick={handleSave}
+            className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
+          >
             <SaveIcon className="mr-2 h-4 w-4" />
             Save Entry
           </Button>
         </CardFooter>
       </Card>
     </div>
-  )
+  );
 }

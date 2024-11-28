@@ -6,9 +6,11 @@ import axios from "axios";
 import { CalendarDays } from "lucide-react";
 
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { useUser } from "@auth0/nextjs-auth0/client";
 
 export default function JournalEntry() {
   const params = useParams(); // Use useParams to access the dynamic 'date' parameter
+  const { user, error, isLoading } = useUser();
 
   const date = params.entry;
 
@@ -16,10 +18,10 @@ export default function JournalEntry() {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:8000/journal-entry?date=${date}`)
+      .get(`http://localhost:8000/journal-entry?date=${date}&email=${user.email}`)
       .then((response) => setData(response.data))
       .catch((error) => console.log(error));
-  }, []);
+  }, [user]);
 
   const renderTextWithNewlines = (text) => {
     return text.split("\n").map((line, index) => (

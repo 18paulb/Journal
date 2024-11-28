@@ -20,20 +20,19 @@ app.use(express.json())
 app.get('/journal-entries', async (req, res) => {
 
     let redisClient = await getRedisClient()
+    const { email } = req.query
+
 
     // First see if there are cached journal entries, that way we don't have to fetch from s3 again
-    let cachedEntries = await redisClient.get('journalEntries');
-    
-    // TODO: REPLACE Hard-Coded Email
-    const email = "bjpaul99@gmail.com"
+    let cachedEntries = await redisClient.get(email);
 
     if (cachedEntries === null) {
         let entries = await getJournalEntries(email)
 
         // Redis stores as a string
-        await redisClient.set('journalEntries', JSON.stringify(entries));
+        await redisClient.set(email, JSON.stringify(entries));
         // Set expiration on retreived journal entries for 1 hour
-        await redisClient.expire('journalEntries', 3600)
+        await redisClient.expire(email, 3600)
         res.send(entries)
     }
     else {
@@ -43,8 +42,8 @@ app.get('/journal-entries', async (req, res) => {
 })
 
 app.get('/journal-entry', async (req, res) => {
-    const { date } = req.query;
-    const entry = await getJournalEntry(date, "bjpaul99@gmail.com");
+    const { date, email } = req.query;
+    const entry = await getJournalEntry(date, email);
     res.send(entry);
 })
 
@@ -54,12 +53,14 @@ app.post('/write-journal', async (req, res) => {
 
     let entry = req.body.entry
     let title = req.body.title
+    let email = req.body.email
+
     const today = new Date().toISOString().split('T')[0];
 
-    await writeJournalEntry(entry, title, today)
+    await writeJournalEntry(entry, title, today, email)
 
     // TODO: Temporary solution, after saving journal entry, delete entries from redis so that it is forced to fetch all new entries
-    await redisClient.del("journalEntries")
+    await redisClient.del(email)
 
     res.sendStatus(200)
 })

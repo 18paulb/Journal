@@ -10,21 +10,19 @@ const table_name = "JournalEntry"
 const client = new DynamoDBClient({})
 const docClient = DynamoDBDocumentClient.from(client);
 
-export async function writeJournalEntry(entryText, entryTitle, date) {
+export async function writeJournalEntry(entryText, entryTitle, date, email) {
 
     let command = new PutCommand({
         TableName: table_name,
         Item: {
             date: date,
-            email: "bjpaul99@gmail.com",
+            email: email,
             entry: entryText,
             title: entryTitle
         }
     })
 
     const data = await docClient.send(command);
-    
-    console.log(data)
 }
 
 export async function getJournalEntries(email) {
@@ -53,6 +51,5 @@ export async function getJournalEntry(key, email) {
       });
     
       const response = await docClient.send(command);
-      console.log(response.Item);
       return response.Item;
 }
