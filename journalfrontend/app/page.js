@@ -27,8 +27,6 @@ export default function Home() {
               </p>
             </header>
 
-            <Link href="/api/auth/logout">Logout</Link>
-
             <div className="grid gap-8 md:grid-cols-2">
               <Link href={{ pathname: `/journal` }}>
                 <Button

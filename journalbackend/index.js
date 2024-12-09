@@ -65,6 +65,27 @@ app.post('/write-journal', async (req, res) => {
     res.sendStatus(200)
 })
 
+app.post('/clear-cache', async (req, res) => {
+
+    let redisClient = await getRedisClient()
+
+    const email = req.body.email
+
+    // Deleting a key
+    redisClient.del(email, (err, response) => {
+        if (err) {
+            console.error('Error deleting key:', err);
+            res.sendStatus(500)
+        } else if (response === 1) {
+            console.log('Key deleted successfully');
+            res.sendStatus(200)
+        } else {
+            console.log('Key does not exist');
+            res.sendStatus(400)
+        }
+    });
+})
+
 app.listen(PORT, HOSTNAME, () => {
     console.log(`Server is running at http://${HOSTNAME}:${PORT}`);
 })

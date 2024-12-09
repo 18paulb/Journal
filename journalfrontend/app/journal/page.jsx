@@ -36,10 +36,10 @@ export default function JournalEntries() {
                 <li key={entry.date} className="border-b pb-4 last:border-b-0">
                   <Link href={{ pathname: `/journal/read/${entry.date}` }}>
                     <h3 className="text-lg font-semibold text-primary">
-                      {entry.date}
+                      {entry.title}
                     </h3>
                     <p className="text-sm text-muted-foreground mt-1 line-clamp-2">
-                      {entry.text}
+                      {entry.date}
                     </p>
                   </Link>
                 </li>

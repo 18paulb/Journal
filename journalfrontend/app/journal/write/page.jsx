@@ -37,7 +37,7 @@ export default function JournalEntryEditor() {
     try {
       const response = await axios.post("http://localhost:8000/write-journal", {
         entry: content,
-        title: title,
+        title: title.length > 0 ? title : "N/A",
         email: user.email, // Use the user's email for the request
       });
       console.log("Journal entry submitted:", response.data);

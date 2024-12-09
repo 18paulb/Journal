@@ -28,12 +28,18 @@ export default function JournalEntry() {
 
   const renderTextWithNewlines = (text) => {
     return text.split("\n").map((line, index) => (
-      <p className="text-stone-700 text-lg leading-relaxed mb-6" key={index}>
+      <p className="text-stone-700 text-lg leading-relaxed mb-1" key={index}>
         {line}
         {index < text.split("\n").length - 1 && <br />}
       </p>
     ));
   };
+
+  if (isLoading) {
+    return <p className="text-stone-700 text-lg  leading-relaxed mb-6">
+      Loading...
+    </p>
+  }
 
   return (
     <div>
