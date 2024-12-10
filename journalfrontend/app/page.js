@@ -3,8 +3,6 @@
 import Link from "next/link";
 import { BookOpen, PenSquare } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import axios from "axios";
-import { useEffect } from "react";
 import { useUser } from "@auth0/nextjs-auth0/client";
 
 export default function Home() {

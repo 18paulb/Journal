@@ -1,6 +1,6 @@
 "use client";
 
-import { useParams } from "next/navigation"; // Import useParams from next/navigation
+import { useParams } from "next/navigation";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { CalendarDays } from "lucide-react";
@@ -8,6 +8,8 @@ import { CalendarDays } from "lucide-react";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import { NasaData } from "@/app/widgets/nasa";
+
+import { UserLoading } from "@/app/components/userLoading";
 
 export default function JournalEntry() {
   const params = useParams(); // Use useParams to access the dynamic 'date' parameter
@@ -17,15 +19,19 @@ export default function JournalEntry() {
 
   const [data, setData] = useState(null);
 
+  // Grab the journal entry once the user Object has loaded in
   useEffect(() => {
     if (user != null) {
-    axios
-      .get(`http://localhost:8000/journal-entry?date=${date}&email=${user.email}`)
-      .then((response) => setData(response.data))
-      .catch((error) => console.log(error));
+      axios
+        .get(
+          `http://localhost:8000/journal-entry?date=${date}&email=${user.email}`
+        )
+        .then((response) => setData(response.data))
+        .catch((error) => console.log(error));
     }
   }, [user]);
 
+  // Formats entry text to have correct spacing
   const renderTextWithNewlines = (text) => {
     return text.split("\n").map((line, index) => (
       <p className="text-stone-700 text-lg leading-relaxed mb-1" key={index}>
@@ -35,13 +41,7 @@ export default function JournalEntry() {
     ));
   };
 
-  if (isLoading) {
-    return <p className="text-stone-700 text-lg  leading-relaxed mb-6">
-      Loading...
-    </p>
-  }
-
-  return (
+  return user ? (
     <div>
       <div className="min-h-screen bg-stone-100 flex items-center justify-center p-4 sm:p-6 md:p-8">
         <Card className="w-full max-w-5xl bg-white shadow-md">
@@ -65,7 +65,9 @@ export default function JournalEntry() {
           </CardContent>
         </Card>
       </div>
-      <NasaData date={date}/>
+      <NasaData date={date} />
     </div>
+  ) : (
+    <UserLoading isLoading={isLoading} error={error} />
   );
 }

@@ -71,19 +71,15 @@ app.post('/clear-cache', async (req, res) => {
 
     const email = req.body.email
 
-    // Deleting a key
-    redisClient.del(email, (err, response) => {
-        if (err) {
-            console.error('Error deleting key:', err);
-            res.sendStatus(500)
-        } else if (response === 1) {
-            console.log('Key deleted successfully');
-            res.sendStatus(200)
-        } else {
-            console.log('Key does not exist');
-            res.sendStatus(400)
-        }
-    });
+    const response = await redisClient.del(email);
+
+    if (response === 1) {
+        console.log('Key deleted successfully');
+        res.status(200).json({ message: 'Cache cleared successfully' });
+    } else {
+        console.log('Key does not exist');
+        res.status(200).json({ message: 'No cache entry found' });
+    }
 })
 
 app.listen(PORT, HOSTNAME, () => {

@@ -1,7 +1,7 @@
 "use client";
 
 import axios from "axios";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -13,14 +13,34 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
-import { CalendarIcon, BookOpenIcon, SaveIcon } from "lucide-react";
-
+import { CalendarIcon, BookOpenIcon, SaveIcon, User } from "lucide-react";
 import { useUser } from "@auth0/nextjs-auth0/client";
+import { UserLoading } from "@/app/components/userLoading";
 
 export default function JournalEntryEditor() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const { user, error, isLoading } = useUser();
+
+  // Load in today's entry if it exists
+  useEffect(() => {
+    if (user != null) {
+      const today = new Date().toISOString().split("T")[0];
+      axios
+        .get(
+          `http://localhost:8000/journal-entry?date=${today}&email=${user.email}`
+        )
+        .then((response) => {
+          console.log(response.data);
+          const entry = response.data;
+          if (entry != null) {
+            setTitle(entry?.title || ""); // Fallback to empty string if title is null/undefined
+            setContent(entry?.entry || ""); // Fallback to empty string if entry is null/undefined
+          }
+        })
+        .catch((error) => console.log(error));
+    }
+  }, [user]);
 
   const handleSave = async () => {
     // Check if user is not initialized
@@ -46,15 +66,7 @@ export default function JournalEntryEditor() {
     }
   };
 
-  if (isLoading) {
-    return <h1>Loading...</h1>;
-  }
-
-  if (error) {
-    return <h1>Error: {error.message}</h1>;
-  }
-
-  return (
+  return user ? (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 flex items-center justify-center p-4">
       <Card className="w-full max-w-2xl shadow-lg">
         <CardHeader className="bg-primary/5 border-b border-primary/10">
@@ -107,5 +119,7 @@ export default function JournalEntryEditor() {
         </CardFooter>
       </Card>
     </div>
+  ) : (
+    <UserLoading isLoading={isLoading} error={error} />
   );
 }

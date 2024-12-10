@@ -1,61 +1,31 @@
-'use client'
+"use client";
 
-import { useState } from "react"
-import { useFormState } from "react-dom"
-import { BarChart3, Calendar, Clock, Layout, MessageSquare, Music2, Settings2, UserRound , SaveIcon} from 'lucide-react'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card"
+import { useEffect, useState } from "react";
+import {
+  BarChart3,
+  Calendar,
+  Clock,
+  Layout,
+  MessageSquare,
+  Music2,
+  Settings2,
+  UserRound,
+  SaveIcon,
+  User,
+} from "lucide-react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label"
-import { Switch } from "@/components/ui/switch"
-
+import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
 import { useUser } from "@auth0/nextjs-auth0/client";
-
 import axios from "axios";
-
-const defaultWidgets = [
-  {
-    id: "nasa",
-    name: "Nasa Image of the Day",
-    description: "See the picture of the day",
-    enabled: true,
-    preview: "bg-blue-100"
-  },
-  {
-    id: "calendar",
-    name: "Calendar",
-    description: "Schedule and manage your events",
-    enabled: true,
-    preview: "bg-green-100"
-  },
-  {
-    id: "messages",
-    name: "Messages",
-    description: "Chat with team members and clients",
-    enabled: false,
-    preview: "bg-purple-100"
-  },
-  {
-    id: "music-player",
-    name: "Music Player",
-    description: "Control your music playback",
-    enabled: false,
-    preview: "bg-pink-100"
-  },
-  {
-    id: "clock",
-    name: "World Clock",
-    description: "View time across different zones",
-    enabled: true,
-    preview: "bg-yellow-100"
-  },
-  {
-    id: "user-profile",
-    name: "User Profile",
-    description: "Manage your profile settings",
-    enabled: true,
-    preview: "bg-orange-100"
-  }
-]
+import { UserLoading } from "../components/userLoading";
 
 const iconMap = {
   nasa: BarChart3,
@@ -63,30 +33,45 @@ const iconMap = {
   messages: MessageSquare,
   "music-player": Music2,
   clock: Clock,
-  "user-profile": UserRound
-}
+  "user-profile": UserRound,
+};
 
 export default function SettingsPage() {
-  const [widgets, setWidgets] = useState(defaultWidgets)
+  const [widgets, setWidgets] = useState([]);
   const { user, error, isLoading } = useUser();
 
   const handleToggleWidget = (widgetId) => {
-    setWidgets(prev =>
-      prev.map(widget =>
+    setWidgets((prev) =>
+      prev.map((widget) =>
         widget.id === widgetId
           ? { ...widget, enabled: !widget.enabled }
           : widget
       )
-    )
-  }
+    );
+  };
+
+  useEffect(() => {
+    if (user != null) {
+      let widgets = user?.user_metadata.widgets;
+
+      let newWidgets = [];
+      for (let i = 0; i < widgets.length; ++i) {
+        if (widgets[i] == "NASA_PHOTO") {
+          newWidgets.push({
+            id: "nasa",
+            name: "Nasa Image of the Day",
+            description: "See the picture of the day",
+            enabled: true,
+            preview: "bg-blue-100",
+          });
+        }
+      }
+
+      setWidgets(newWidgets);
+    }
+  }, [user]);
 
   const handleClearCache = async () => {
-    // Check if user is not initialized
-    if (!user) {
-      alert("User not authenticated. Please log in.");
-      return;
-    }
-
     try {
       const response = await axios.post("http://localhost:8000/clear-cache", {
         email: user.email, // Use the user's email for the request
@@ -97,15 +82,8 @@ export default function SettingsPage() {
     }
   };
 
-  if (isLoading) {
-    return <h1>Loading...</h1>;
-  }
-
-  if (error) {
-    return <h1>Error: {error.message}</h1>;
-  }
-
-  return (
+  // This page should only appear if the user object has loaded in
+  return user ? (
     <div className="container max-w-4xl py-6 space-y-8">
       <div className="flex items-center gap-4">
         <Settings2 className="w-8 h-8" />
@@ -125,8 +103,8 @@ export default function SettingsPage() {
           </CardDescription>
         </CardHeader>
         <CardContent className="grid gap-6">
-          {widgets.map(widget => {
-            const Icon = iconMap[widget.id]
+          {widgets.map((widget) => {
+            const Icon = iconMap[widget.id];
             return (
               <div
                 key={widget.id}
@@ -151,19 +129,20 @@ export default function SettingsPage() {
                   onCheckedChange={() => handleToggleWidget(widget.id)}
                 />
               </div>
-            )
+            );
           })}
         </CardContent>
       </Card>
 
       <Button
-            onClick={handleClearCache}
-            className="bg-primary hover:bg-primary/90 text-primary-foreground"
-          >
-            <SaveIcon className="mr-2 h-4 w-4" />
-            Clear Cache
+        onClick={handleClearCache}
+        className="bg-primary hover:bg-primary/90 text-primary-foreground"
+      >
+        <SaveIcon className="mr-2 h-4 w-4" />
+        Clear Cache
       </Button>
     </div>
-  )
+  ) : (
+    <UserLoading isLoading={isLoading} erorr={error} />
+  );
 }
-

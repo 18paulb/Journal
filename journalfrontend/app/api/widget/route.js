@@ -2,7 +2,6 @@ import axios from "axios";
 import { NextRequest } from 'next/server'
 
 export const GET = async (request) => {
-    // let date = '2020-01-01';
     const searchParams = request.nextUrl.searchParams
     const date = searchParams.get('date')
 

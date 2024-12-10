@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     images: {
-        domains: ['apod.nasa.gov'], // Add the domain hosting your images
+        domains: ['apod.nasa.gov', 'www.youtube.com'], // Add the domain hosting your images
       },
 };
 

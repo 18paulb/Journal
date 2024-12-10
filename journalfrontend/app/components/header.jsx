@@ -1,12 +1,5 @@
 import Link from 'next/link'
-import { Button } from "@/components/ui/button"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { Home, LogOut, Settings, MoreHorizontal, User, Bell, HelpCircle } from 'lucide-react'
+import { Home, LogOut, Settings } from 'lucide-react'
 
 export function PageHeader() {
   return (
@@ -31,65 +24,7 @@ export function PageHeader() {
               <LogOut className="w-4 h-4 mr-1" />
               Logout
             </Link>
-            {/* <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="text-gray-600 hover:text-gray-900">
-                  <MoreHorizontal className="w-4 h-4 mr-1" />
-                  More
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <DropdownMenuItem>
-                  <User className="w-4 h-4 mr-2" />
-                  Profile
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <Bell className="w-4 h-4 mr-2" />
-                  Notifications
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <HelpCircle className="w-4 h-4 mr-2" />
-                  Help
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu> */}
           </nav>
-          {/* <div className="md:hidden">
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon">
-                  <MoreHorizontal className="h-5 w-5" />
-                  <span className="sr-only">Open menu</span>
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <DropdownMenuItem>
-                  <Home className="w-4 h-4 mr-2" />
-                  Home
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <Settings className="w-4 h-4 mr-2" />
-                  Settings
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <LogOut className="w-4 h-4 mr-2" />
-                  Logout
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <User className="w-4 h-4 mr-2" />
-                  Profile
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <Bell className="w-4 h-4 mr-2" />
-                  Notifications
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <HelpCircle className="w-4 h-4 mr-2" />
-                  Help
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </div> */}
         </div>
       </div>
     </header>
