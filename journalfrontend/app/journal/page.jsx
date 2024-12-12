@@ -14,11 +14,16 @@ export default function JournalEntries() {
   const [data, setData] = useState(null);
   const { user, error, isLoading } = useUser();
 
-  // TODO: Don't pass in a user email in URI, probably isn't secure
   useEffect(() => {
     if (user) {
       axios
-        .get(`http://localhost:8000/journal-entries?email=${user.email}`)
+        .get(`http://localhost:8000/journal-entries`, 
+          {
+            headers: {
+              Authorization: `Bearer ${user.email}`, // Sending email in the header
+            },
+          }
+        )
         .then((response) => setData(response.data))
         .catch((error) => console.log(error));
     }

@@ -25,7 +25,12 @@ export default function JournalEntry() {
     if (user != null) {
       axios
         .get(
-          `http://localhost:8000/journal-entry?date=${date}&email=${user.email}`
+          `http://localhost:8000/journal-entry?date=${date}`,
+          {
+            headers: {
+              Authorization: `Bearer ${user.email}`, // Sending email in the header
+            },
+          }
         )
         .then((response) => setData(response.data))
         .catch((error) => console.log(error));
@@ -71,16 +76,16 @@ export default function JournalEntry() {
       </div>
       {/* Map over the array of components and render each widget*/}
       {widgets.map((widget, index) => {
-                const WidgetComponent = widget.component; // Extract component
-                const widgetProps = widget.props || {};   // Extract props (default to empty object)
+        const WidgetComponent = widget.component; // Extract component
+        const widgetProps = widget.props || {}; // Extract props (default to empty object)
 
-                return (
-                    <div key={index}>
-                        {/* Render the component with its props */}
-                        <WidgetComponent {...widgetProps} />
-                    </div>
-                );
-            })}
+        return (
+          <div key={index}>
+            {/* Render the component with its props */}
+            <WidgetComponent {...widgetProps} />
+          </div>
+        );
+      })}
     </div>
   ) : (
     <UserLoading isLoading={isLoading} error={error} />

@@ -20,7 +20,8 @@ app.use(express.json())
 app.get('/journal-entries', async (req, res) => {
 
     let redisClient = await getRedisClient()
-    const { email } = req.query
+
+    const email = req.headers['authorization']?.split(' ')[1];
 
 
     // First see if there are cached journal entries, that way we don't have to fetch from s3 again
@@ -42,7 +43,9 @@ app.get('/journal-entries', async (req, res) => {
 })
 
 app.get('/journal-entry', async (req, res) => {
-    const { date, email } = req.query;
+    const { date } = req.query;
+    const email = req.headers['authorization']?.split(' ')[1];
+
     const entry = await getJournalEntry(date, email);
     res.send(entry);
 })
