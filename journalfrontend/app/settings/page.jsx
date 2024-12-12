@@ -26,9 +26,10 @@ import { Switch } from "@/components/ui/switch";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import axios from "axios";
 import { UserLoading } from "../components/userLoading";
+import { widgetsMap } from "./widget_info";
 
 const iconMap = {
-  nasa: BarChart3,
+  "NASA_IMAGE_OF_THE_DAY": BarChart3,
   calendar: Calendar,
   messages: MessageSquare,
   "music-player": Music2,
@@ -52,25 +53,25 @@ export default function SettingsPage() {
 
   useEffect(() => {
     if (user != null) {
-      let widgets = user?.user_metadata.widgets;
-
-      let newWidgets = [];
-      for (let i = 0; i < widgets.length; ++i) {
-        if (widgets[i] == "NASA_PHOTO") {
-          newWidgets.push({
-            id: "nasa",
-            name: "Nasa Image of the Day",
-            description: "See the picture of the day",
-            enabled: true,
-            preview: "bg-blue-100",
-          });
-        }
-      }
-
+      const userWidgets = user?.user_metadata?.widgets || [];
+  
+      // Get all enabled widgets based on user data
+      const enabledWidgets = userWidgets
+        .filter(widgetKey => widgetsMap[widgetKey])
+        .map(widgetKey => ({ ...widgetsMap[widgetKey], enabled: true }));
+  
+      // Get all remaining widgets that are not in the enabledWidgets
+      const remainingWidgets = Object.entries(widgetsMap)
+        .filter(([key]) => !userWidgets.includes(key))
+        .map(([key, widget]) => ({ ...widget, enabled: false }));
+  
+      // Combine enabled and remaining widgets
+      const newWidgets = [...enabledWidgets, ...remainingWidgets];
+  
       setWidgets(newWidgets);
     }
   }, [user]);
-
+  
   const handleClearCache = async () => {
     try {
       const response = await axios.post("http://localhost:8000/clear-cache", {

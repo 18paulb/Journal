@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { BookOpen, PenSquare } from "lucide-react";
+import { BookOpen, PenSquare, LogIn } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useUser } from "@auth0/nextjs-auth0/client";
 
@@ -60,8 +60,13 @@ export default function Home() {
           </main>
         </div>
       ) : (
-        <div>
-          <Link href="/api/auth/login">Login</Link>
+        <div className="flex items-center justify-center min-h-screen bg-background">
+          <Link href="/api/auth/login" passHref>
+            <Button className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold py-2 px-4 rounded-lg shadow-lg transition-all duration-300 ease-in-out transform hover:scale-105">
+              <LogIn className="mr-2 h-5 w-5" />
+              Login
+            </Button>
+          </Link>
         </div>
       )}
     </>

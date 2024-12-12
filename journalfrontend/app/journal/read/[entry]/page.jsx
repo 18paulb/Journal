@@ -7,13 +7,14 @@ import { CalendarDays } from "lucide-react";
 
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { useUser } from "@auth0/nextjs-auth0/client";
-import { NasaData } from "@/app/widgets/nasa";
 
 import { UserLoading } from "@/app/components/userLoading";
+import { getWidgets } from "@/app/widgets/widgetController";
 
 export default function JournalEntry() {
   const params = useParams(); // Use useParams to access the dynamic 'date' parameter
   const { user, error, isLoading } = useUser();
+  const [widgets, setWidgets] = useState([]);
 
   const date = params.entry;
 
@@ -28,6 +29,9 @@ export default function JournalEntry() {
         )
         .then((response) => setData(response.data))
         .catch((error) => console.log(error));
+
+      // Also grab the widgets that are active for the user
+      setWidgets(getWidgets(user, date));
     }
   }, [user]);
 
@@ -65,7 +69,18 @@ export default function JournalEntry() {
           </CardContent>
         </Card>
       </div>
-      <NasaData date={date} />
+      {/* Map over the array of components and render each widget*/}
+      {widgets.map((widget, index) => {
+                const WidgetComponent = widget.component; // Extract component
+                const widgetProps = widget.props || {};   // Extract props (default to empty object)
+
+                return (
+                    <div key={index}>
+                        {/* Render the component with its props */}
+                        <WidgetComponent {...widgetProps} />
+                    </div>
+                );
+            })}
     </div>
   ) : (
     <UserLoading isLoading={isLoading} error={error} />

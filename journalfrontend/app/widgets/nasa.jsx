@@ -1,9 +1,8 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import Image from 'next/image'
-import { ImageWidget } from "./image_widget";
+import { ImageWidget } from "./imageWidget";
 
-export function NasaData({date}) {
+export function NasaWidget({ date }) {
   const [data, setData] = useState(null);
 
   useEffect(() => {
@@ -19,7 +18,12 @@ export function NasaData({date}) {
   return (
     <>
       {data ? (
-        <ImageWidget title={data.title} imageSrc={data.url} description={data.explanation} tags={null}/>
+        <ImageWidget
+          title={data.title}
+          imageSrc={data.url}
+          description={data.explanation}
+          tags={null}
+        />
       ) : (
         <p>No data</p>
       )}
