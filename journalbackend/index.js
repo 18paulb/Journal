@@ -5,8 +5,8 @@ import { getRedisClient } from './redis.js';
 
 
 const app = express();
-const PORT = 8000
-const HOSTNAME = 'localhost'
+const PORT = process.env.PORT || 8000; // Use the Heroku assigned port or 8000 for local development
+const HOSTNAME = '0.0.0.0'; // Allow all incoming requests in production
 
 app.use(cors({
     origin: '*'
