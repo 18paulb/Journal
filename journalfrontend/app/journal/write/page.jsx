@@ -28,7 +28,7 @@ export default function JournalEntryEditor() {
       const today = new Date().toISOString().split("T")[0];
       axios
         .get(
-          `http://localhost:8000/journal-entry?date=${today}&email=${user.email}`
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/journal-entry?date=${today}&email=${user.email}`
         )
         .then((response) => {
           console.log(response.data);

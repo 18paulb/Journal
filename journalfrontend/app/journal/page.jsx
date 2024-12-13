@@ -17,7 +17,7 @@ export default function JournalEntries() {
   useEffect(() => {
     if (user) {
       axios
-        .get(`http://localhost:8000/journal-entries`, 
+        .get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/journal-entries`, 
           {
             headers: {
               Authorization: `Bearer ${user.email}`, // Sending email in the header

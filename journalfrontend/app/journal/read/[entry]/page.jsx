@@ -25,7 +25,7 @@ export default function JournalEntry() {
     if (user != null) {
       axios
         .get(
-          `http://localhost:8000/journal-entry?date=${date}`,
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/journal-entry?date=${date}`,
           {
             headers: {
               Authorization: `Bearer ${user.email}`, // Sending email in the header
