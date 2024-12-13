@@ -28,7 +28,12 @@ export default function JournalEntryEditor() {
       const today = new Date().toISOString().split("T")[0];
       axios
         .get(
-          `${process.env.NEXT_PUBLIC_BACKEND_URL}/journal-entry?date=${today}&email=${user.email}`
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/journal-entry?date=${today}`,
+          {
+            headers: {
+              Authorization: `Bearer ${user.email}`, // Sending email in the header
+            },
+          }
         )
         .then((response) => {
           console.log(response.data);
@@ -55,7 +60,7 @@ export default function JournalEntryEditor() {
     }
 
     try {
-      const response = await axios.post("http://localhost:8000/write-journal", {
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/write-journal`, {
         entry: content,
         title: title.length > 0 ? title : "N/A",
         email: user.email, // Use the user's email for the request

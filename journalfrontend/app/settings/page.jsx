@@ -74,7 +74,7 @@ export default function SettingsPage() {
   
   const handleClearCache = async () => {
     try {
-      const response = await axios.post("http://localhost:8000/clear-cache", {
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/clear-cache`, {
         email: user.email, // Use the user's email for the request
       });
       console.log("Cache cleared", response.data);
