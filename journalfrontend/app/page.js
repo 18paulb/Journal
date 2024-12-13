@@ -45,7 +45,7 @@ export default function Home() {
                 >
                   <div className="flex flex-col items-center space-y-4">
                     <PenSquare className="h-8 w-8" />
-                    <span>Write Today's Journal</span>
+                    <span>Write Entry For Today</span>
                   </div>
                 </Button>
               </Link>
