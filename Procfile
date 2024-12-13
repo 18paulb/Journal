@@ -1,0 +1,1 @@
+web: cd journalbackend && npm start

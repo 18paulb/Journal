@@ -8,7 +8,8 @@
     "dev:backend": "cd journalbackend && node index.js",
     "build": "next build journalfrontend",
     "start": "next start journalfrontend && node journalbackend/index.js",
-    "lint": "next lint journalfrontend"
+    "lint": "next lint journalfrontend",
+    "heroku-postbuild": "cd journalfrontend && npm install && npm run build"
   },
   "dependencies": {
     "@auth0/nextjs-auth0": "^3.5.0",
