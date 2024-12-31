@@ -20,6 +20,10 @@ const apiRouter = express.Router();
 
 // TODO: Probably going to want to store REDIS entries better because not sure if it scales well
 
+aoiRouter.get('/', (req,res) => {
+    res.status(200).json({ message: 'Successfully Pinged Backend' });
+})
+
 apiRouter.get('/journal-entries', async (req, res) => {
 
     let redisClient = await getRedisClient()
