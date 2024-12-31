@@ -14,10 +14,13 @@ app.use(cors({
 
 app.use(express.json())
 
+// Define routes
+const apiRouter = express.Router();
+
 
 // TODO: Probably going to want to store REDIS entries better because not sure if it scales well
 
-app.get('/journal-entries', async (req, res) => {
+apiRouter.get('/journal-entries', async (req, res) => {
 
     let redisClient = await getRedisClient()
 
@@ -42,7 +45,7 @@ app.get('/journal-entries', async (req, res) => {
     }
 })
 
-app.get('/journal-entry', async (req, res) => {
+apiRouter.get('/journal-entry', async (req, res) => {
     const { date } = req.query;
     const email = req.headers['authorization']?.split(' ')[1];
 
@@ -50,7 +53,7 @@ app.get('/journal-entry', async (req, res) => {
     res.send(entry);
 })
 
-app.post('/write-journal', async (req, res) => {
+apiRouter.post('/write-journal', async (req, res) => {
 
     let redisClient = await getRedisClient()
 
@@ -68,7 +71,7 @@ app.post('/write-journal', async (req, res) => {
     res.sendStatus(200)
 })
 
-app.post('/clear-cache', async (req, res) => {
+apiRouter.post('/clear-cache', async (req, res) => {
 
     let redisClient = await getRedisClient()
 
@@ -84,6 +87,9 @@ app.post('/clear-cache', async (req, res) => {
         res.status(200).json({ message: 'No cache entry found' });
     }
 })
+
+// Prepend `/api` to all routes
+app.use('/api', apiRouter);
 
 app.listen(PORT, HOSTNAME, () => {
     console.log(`Server is running at http://${HOSTNAME}:${PORT}`);

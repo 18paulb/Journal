@@ -12,6 +12,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { useToast } from "@/hooks/use-toast"
+
 
 import { CalendarIcon, BookOpenIcon, SaveIcon, User } from "lucide-react";
 import { useUser } from "@auth0/nextjs-auth0/client";
@@ -21,6 +23,9 @@ export default function JournalEntryEditor() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const { user, error, isLoading } = useUser();
+
+  const { toast } = useToast()
+
 
   // Load in today's entry if it exists
   useEffect(() => {
@@ -65,9 +70,16 @@ export default function JournalEntryEditor() {
         title: title.length > 0 ? title : "N/A",
         email: user.email, // Use the user's email for the request
       });
-      console.log("Journal entry submitted:", response.data);
+      toast({
+        title: "Successfully saved",
+        duration: 2000,
+      })
     } catch (err) {
-      console.error("Error submitting journal entry:", err);
+      toast({
+        title: "An error occurred",
+        duration: 2000,
+        variant: "destructive"
+      })
     }
   };
 

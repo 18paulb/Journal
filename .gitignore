@@ -29,3 +29,5 @@ yarn-error.log*
 journalfrontend/.next/
 
 .env.local
+
+.env

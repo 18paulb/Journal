@@ -27,6 +27,7 @@ import { useUser } from "@auth0/nextjs-auth0/client";
 import axios from "axios";
 import { UserLoading } from "../components/userLoading";
 import { widgetsMap } from "./widget_info";
+import { useToast } from "@/hooks/use-toast"
 
 const iconMap = {
   "NASA_IMAGE_OF_THE_DAY": BarChart3,
@@ -40,6 +41,8 @@ const iconMap = {
 export default function SettingsPage() {
   const [widgets, setWidgets] = useState([]);
   const { user, error, isLoading } = useUser();
+
+  const { toast } = useToast()
 
   const handleToggleWidget = (widgetId) => {
     setWidgets((prev) =>
@@ -77,9 +80,16 @@ export default function SettingsPage() {
       const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/clear-cache`, {
         email: user.email, // Use the user's email for the request
       });
-      console.log("Cache cleared", response.data);
+      toast({
+        title: "Successfully cleared cache",
+        duration: 2000
+      })
     } catch (err) {
-      console.error("Error clearing cache:", err);
+      toast({
+        title: "Successfully cleared cache",
+        duration: 2000,
+        variant: "destructive"
+      })
     }
   };
 
