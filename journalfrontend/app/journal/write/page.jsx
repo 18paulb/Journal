@@ -15,9 +15,10 @@ import {
 import { useToast } from "@/hooks/use-toast"
 
 
-import { CalendarIcon, BookOpenIcon, SaveIcon, User } from "lucide-react";
+import { CalendarIcon, BookOpenIcon, SaveIcon } from "lucide-react";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import { UserLoading } from "@/app/components/userLoading";
+import PhotoUpload from "@/app/components/photoupload";
 
 export default function JournalEntryEditor() {
   const [title, setTitle] = useState("");
@@ -126,13 +127,16 @@ export default function JournalEntryEditor() {
           </div>
         </CardContent>
         <CardFooter className="bg-primary/5 border-t border-primary/10">
-          <Button
-            onClick={handleSave}
-            className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
-          >
-            <SaveIcon className="mr-2 h-4 w-4" />
-            Save Entry
-          </Button>
+          <div className="flex flex-col w-full gap-4">
+            <PhotoUpload />
+            <Button
+              onClick={handleSave}
+              className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
+            >
+              <SaveIcon className="mr-2 h-4 w-4" />
+              Save Entry
+            </Button>
+          </div>
         </CardFooter>
       </Card>
     </div>
