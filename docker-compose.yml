@@ -22,10 +22,13 @@ services:
       - "8000:8000"
     networks:
       - app-network
+    env_file:
+      - .env
     environment:
       REDIS_HOST: redis    # Service name 'redis' defined in Docker Compose
       REDIS_PORT: 6379
       AWS_SECRET_KEY_ID: ${AWS_SECRET_KEY}
+      AWS_SECRET_KEY: ${AWS_SECRET_KEY}
       AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
       AWS_REGION: ${AWS_REGION}
 

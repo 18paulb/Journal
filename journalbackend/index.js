@@ -1,12 +1,16 @@
 import express from 'express';
 import { writeJournalEntry, getJournalEntries, getJournalEntry } from './aws/dynamodb.js';
 import cors from 'cors'
+import multer from 'multer'
 import { getRedisClient } from './redis.js';
-
+import { uploadPhoto } from './aws/s3.js';
 
 const app = express();
 const PORT = process.env.PORT || 8000; // Use the Heroku assigned port or 8000 for local development
 const HOSTNAME = '0.0.0.0'; // Allow all incoming requests in production
+
+const storage = multer.memoryStorage()
+const upload = multer({ storage })
 
 app.use(cors({
     origin: '*'
@@ -28,8 +32,7 @@ apiRouter.get('/journal-entries', async (req, res) => {
 
     let redisClient = await getRedisClient()
 
-    const email = req.headers['authorization']?.split(' ')[1];
-
+    const email = req.headers['authorization']?.split(' ')[1];``
 
     // First see if there are cached journal entries, that way we don't have to fetch from s3 again
     let cachedEntries = await redisClient.get(email);
@@ -57,22 +60,31 @@ apiRouter.get('/journal-entry', async (req, res) => {
     res.send(entry);
 })
 
-apiRouter.post('/write-journal', async (req, res) => {
+apiRouter.post('/write-journal', upload.single('image'), async (req, res) => {
 
-    let redisClient = await getRedisClient()
+    try {
+        let redisClient = await getRedisClient()
 
-    let entry = req.body.entry
-    let title = req.body.title
-    let email = req.body.email
+        let entry = req.body.entry
+        let title = req.body.title
+        let email = req.body.email
+        let image = req.file
 
-    const today = new Date().toISOString().split('T')[0];
+        const today = new Date().toISOString().split('T')[0];
 
-    await writeJournalEntry(entry, title, today, email)
+        await writeJournalEntry(entry, title, today, email)
+        
+        if (image) {
+            await uploadPhoto(image, email, today)
+        }
 
-    // TODO: Temporary solution, after saving journal entry, delete entries from redis so that it is forced to fetch all new entries
-    await redisClient.del(email)
+        // TODO: Temporary solution, after saving journal entry, delete entries from redis so that it is forced to fetch all new entries
+        await redisClient.del(email)
 
-    res.sendStatus(200)
+        res.sendStatus(200)
+    } catch (error) {
+        res.sendStatus(500)
+    }
 })
 
 apiRouter.post('/clear-cache', async (req, res) => {

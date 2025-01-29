@@ -7,33 +7,41 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Upload, X } from 'lucide-react'
 import Image from "next/image"
 
-export default function PhotoUpload() {
-  const [files, setFiles] = useState([])
-  const [previews, setPreviews] = useState([])
+export default function PhotoUpload({ uploadPhoto }) {
+  const [preview, setPreview] = useState(null)
 
   const onDrop = useCallback((acceptedFiles) => {
-    setFiles((prevFiles) => [...prevFiles, ...acceptedFiles])
-    
-    // Create preview URLs for the new files
-    const newPreviews = acceptedFiles.map(file => URL.createObjectURL(file))
-    setPreviews((prevPreviews) => [...prevPreviews, ...newPreviews])
-  }, [])
+    const file = acceptedFiles[0]
+  
+    if (file) {
+
+      // Remove previously uploaded file
+      if (preview) {
+        URL.revokeObjectURL(preview)
+      }
+
+      const previewUrl = URL.createObjectURL(file)
+      setPreview(previewUrl)
+
+      uploadPhoto(file)
+    }
+
+  }, [preview, uploadPhoto])
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
     accept: {
-      'image/*': ['.jpeg', '.jpg', '.png', '.gif', '.webp']
+      'image/*': ['.jpeg', '.jpg', '.png',]
     },
     multiple: true
   })
 
-  const removeFile = (index) => {
-    setFiles((prevFiles) => prevFiles.filter((_, i) => i !== index))
-    setPreviews((prevPreviews) => {
-      // Revoke the URL to avoid memory leaks
-      URL.revokeObjectURL(prevPreviews[index])
-      return prevPreviews.filter((_, i) => i !== index)
-    })
+  const removeFile = () => {
+    if (preview) {
+      URL.revokeObjectURL(preview)
+    }
+    setPreview(null)
+    uploadPhoto(null)
   }
 
   return (
@@ -60,30 +68,27 @@ export default function PhotoUpload() {
           </div>
         </div>
 
-        {previews.length > 0 && (
+        {preview && (
           <div className="mt-6 grid grid-cols-2 gap-4">
-            {previews.map((preview, index) => (
               <div key={preview} className="relative group">
                 <Image
                   src={preview}
-                  alt={`Preview ${index + 1}`}
+                  alt={`Preview`}
                   width={200}
                   height={200}
                   className="rounded-lg object-cover w-full aspect-square"
                 />
                 <button
-                  onClick={() => removeFile(index)}
+                  onClick={() => removeFile()}
                   className="absolute top-2 right-2 p-1 rounded-full bg-black/50 text-white 
                     opacity-0 group-hover:opacity-100 transition-opacity"
                 >
                   <X className="h-4 w-4" />
                 </button>
               </div>
-            ))}
           </div>
         )}
       </CardContent>
     </Card>
   )
 }
-

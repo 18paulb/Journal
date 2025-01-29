@@ -6,9 +6,29 @@ import {
 } from "@aws-sdk/client-s3";
 
 
-const bucketName = 'brandonpauljournal'
+const bucketName = 'journalappphotos'
+
 
 const s3Client = new S3Client({});
+
+
+export async function uploadPhoto(image, email, date) {
+    const key = `${email}-${date}`
+    const input = {
+        Bucket: bucketName,
+        Key: key,
+        Body: image.buffer,
+        ContentType: image.mimetype
+    }
+
+    try {
+        let command = new PutObjectCommand(input)
+        const response = await s3Client.send(command)
+        console.log(response)
+    } catch (error) {
+        console.log(error)
+    }
+}
 
 export async function getJournalEntries() {
 

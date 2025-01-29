@@ -24,9 +24,9 @@ export default function JournalEntryEditor() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const { user, error, isLoading } = useUser();
+  const [uploadedPhoto, setUploadedPhoto] = useState(null)
 
   const { toast } = useToast()
-
 
   // Load in today's entry if it exists
   useEffect(() => {
@@ -42,7 +42,6 @@ export default function JournalEntryEditor() {
           }
         )
         .then((response) => {
-          console.log(response.data);
           const entry = response.data;
           if (entry != null) {
             setTitle(entry?.title || ""); // Fallback to empty string if title is null/undefined
@@ -65,11 +64,21 @@ export default function JournalEntryEditor() {
       return;
     }
 
+    // upload any image data
+    const formData = new FormData()
+    formData.append('entry', content)
+    formData.append('title', title.length > 0 ? title : "N/A")
+    formData.append('email', user.email)
+    formData.append("image", uploadedPhoto) 
+
+    console.log("Photo:", uploadedPhoto)
+    console.log(formData)
+
     try {
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/write-journal`, {
-        entry: content,
-        title: title.length > 0 ? title : "N/A",
-        email: user.email, // Use the user's email for the request
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/write-journal`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',  // Ensure the right content type for file upload
+        }
       });
       toast({
         title: "Successfully saved",
@@ -128,7 +137,7 @@ export default function JournalEntryEditor() {
         </CardContent>
         <CardFooter className="bg-primary/5 border-t border-primary/10">
           <div className="flex flex-col w-full gap-4">
-            <PhotoUpload />
+            <PhotoUpload uploadPhoto={setUploadedPhoto} />
             <Button
               onClick={handleSave}
               className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
