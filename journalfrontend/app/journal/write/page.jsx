@@ -1,6 +1,5 @@
 "use client";
 
-import axios from "axios";
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -18,6 +17,7 @@ import { useToast } from "@/hooks/use-toast"
 import { CalendarIcon, BookOpenIcon, SaveIcon } from "lucide-react";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import { UserLoading } from "@/app/components/userLoading";
+import NetworkClient from "@/app/network/NetworkClient";
 import PhotoUpload from "@/app/components/photoupload";
 
 export default function JournalEntryEditor() {
@@ -25,6 +25,7 @@ export default function JournalEntryEditor() {
   const [content, setContent] = useState("");
   const { user, error, isLoading } = useUser();
   const [uploadedPhoto, setUploadedPhoto] = useState(null)
+  const network = new NetworkClient()
 
   const { toast } = useToast()
 
@@ -32,15 +33,8 @@ export default function JournalEntryEditor() {
   useEffect(() => {
     if (user != null) {
       const today = new Date().toLocaleDateString("en-CA"); 
-      axios
-        .get(
-          `${process.env.NEXT_PUBLIC_BACKEND_URL}/journal-entry?date=${today}`,
-          {
-            headers: {
-              Authorization: `Bearer ${user.email}`, // Sending email in the header
-            },
-          }
-        )
+
+      network.getUserEntry(today, user.email)
         .then((response) => {
           const entry = response.data.journalEntry;
           if (entry != null) {
@@ -71,15 +65,8 @@ export default function JournalEntryEditor() {
     formData.append('email', user.email)
     formData.append("image", uploadedPhoto) 
 
-    console.log("Photo:", uploadedPhoto)
-    console.log(formData)
-
     try {
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/write-journal`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',  // Ensure the right content type for file upload
-        }
-      });
+      await network.writeJournalEntry(formData)
       toast({
         title: "Successfully saved",
         duration: 2000,

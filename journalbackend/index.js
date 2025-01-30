@@ -7,7 +7,7 @@ import { getPhotosForJournalEntry, uploadPhoto } from './aws/s3.js';
 import DateUtil from '../shared/utils/DateUtil.js'
 
 const app = express();
-const PORT = process.env.PORT || 8000; // Use the Heroku assigned port or 8000 for local development
+const PORT = process.env.PORT || 8000; // Use .env port or 8000 for local development
 const HOSTNAME = '0.0.0.0'; // Allow all incoming requests in production
 
 const storage = multer.memoryStorage()

@@ -11,7 +11,6 @@ import {
   Settings2,
   UserRound,
   SaveIcon,
-  User,
 } from "lucide-react";
 import {
   Card,
@@ -24,10 +23,10 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { useUser } from "@auth0/nextjs-auth0/client";
-import axios from "axios";
 import { UserLoading } from "../components/userLoading";
 import { widgetsMap } from "./widget_info";
 import { useToast } from "@/hooks/use-toast"
+import NetworkClient from "../network/NetworkClient";
 
 const iconMap = {
   "NASA_IMAGE_OF_THE_DAY": BarChart3,
@@ -43,6 +42,8 @@ export default function SettingsPage() {
   const { user, error, isLoading } = useUser();
 
   const { toast } = useToast()
+
+  const network = new NetworkClient()
 
   const handleToggleWidget = (widgetId) => {
     setWidgets((prev) =>
@@ -77,9 +78,7 @@ export default function SettingsPage() {
   
   const handleClearCache = async () => {
     try {
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/clear-cache`, {
-        email: user.email, // Use the user's email for the request
-      });
+      await network.clearCache(user.email)
       toast({
         title: "Successfully cleared cache",
         duration: 2000

@@ -2,28 +2,23 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import axios from "axios";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
 import { useUser } from "@auth0/nextjs-auth0/client";
 import { UserLoading } from "../components/userLoading";
+import NetworkClient from "../network/NetworkClient";
 
 export default function JournalEntries() {
+
+  const network = new NetworkClient()
   const [data, setData] = useState(null);
   const { user, error, isLoading } = useUser();
 
   useEffect(() => {
     if (user) {
-      axios
-        .get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/journal-entries`, 
-          {
-            headers: {
-              Authorization: `Bearer ${user.email}`, // Sending email in the header
-            },
-          }
-        )
+        network.getUserJournals(user.email)
         .then((response) => setData(response.data))
         .catch((error) => console.log(error));
     }

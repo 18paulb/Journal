@@ -2,7 +2,6 @@
 
 import { useParams } from "next/navigation";
 import { useState, useEffect } from "react";
-import axios from "axios";
 import { CalendarDays } from "lucide-react";
 
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
@@ -10,6 +9,7 @@ import { useUser } from "@auth0/nextjs-auth0/client";
 
 import { UserLoading } from "@/app/components/userLoading";
 import { getWidgets } from "@/app/widgets/widgetController";
+import NetworkClient from "@/app/network/NetworkClient";
 
 export default function JournalEntry() {
   const params = useParams(); // Use useParams to access the dynamic 'date' parameter
@@ -21,18 +21,12 @@ export default function JournalEntry() {
   const [entryData, setEntryData] = useState(null)
   const [entryImages, setEntryImages] = useState([])
 
+  const network = new NetworkClient()
+
   // Grab the journal entry once the user Object has loaded in
   useEffect(() => {
     if (user != null) {
-      axios
-        .get(
-          `${process.env.NEXT_PUBLIC_BACKEND_URL}/journal-entry?date=${date}`,
-          {
-            headers: {
-              Authorization: `Bearer ${user.email}`, // Sending email in the header
-            },
-          }
-        )
+        network.getUserEntry(date, user.email)
         .then((response) => {
           setEntryData(response.data.journalEntry)
           setEntryImages(response.data.images)
