@@ -18,7 +18,8 @@ export default function JournalEntry() {
 
   const date = params.entry;
 
-  const [data, setData] = useState(null);
+  const [entryData, setEntryData] = useState(null)
+  const [entryImages, setEntryImages] = useState([])
 
   // Grab the journal entry once the user Object has loaded in
   useEffect(() => {
@@ -32,7 +33,10 @@ export default function JournalEntry() {
             },
           }
         )
-        .then((response) => setData(response.data))
+        .then((response) => {
+          setEntryData(response.data.journalEntry)
+          setEntryImages(response.data.images)
+        })
         .catch((error) => console.log(error));
 
       // Also grab the widgets that are active for the user
@@ -56,7 +60,7 @@ export default function JournalEntry() {
         <Card className="w-full max-w-5xl bg-white shadow-md">
           <CardHeader className="bg-teal-100 text-teal-800 flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 sm:p-6 border-b border-teal-200">
             <h2 className="text-2xl sm:text-3xl font-bold mb-2 sm:mb-0">
-              Journal Entry
+            {entryData?.title ? entryData?.title : "Journal Entry"}
             </h2>
             <div className="flex items-center space-x-2">
               <CalendarDays className="h-5 w-5" />
@@ -64,8 +68,8 @@ export default function JournalEntry() {
             </div>
           </CardHeader>
           <CardContent className="p-4 sm:p-6 md:p-8">
-            {data ? (
-              renderTextWithNewlines(data.entry)
+            {entryData?.entry ? (
+              renderTextWithNewlines(entryData.entry)
             ) : (
               <p className="text-stone-700 text-lg  leading-relaxed mb-6">
                 Loading...

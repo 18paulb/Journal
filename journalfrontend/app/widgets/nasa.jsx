@@ -10,7 +10,6 @@ export function NasaWidget({ date }) {
       .get(`/api/widget?date=${date}`)
       .then((response) => {
         setData(response.data);
-        console.log(response.data);
       })
       .catch((error) => console.log(error));
   }, []);

@@ -10,8 +10,9 @@ export default class DateUtil {
     /*
         Has to be a Date() class that is passed in
     */
+   // FIXME: Eventually this has to account for user time zone
     getDateString(date) {
-        return date.toISOString().split('T')[0]
+        return date.toLocaleDateString("en-CA"); 
     }
 
     convertStringToDateObject(dateString) {

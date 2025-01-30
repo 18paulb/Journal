@@ -3,7 +3,7 @@ import { writeJournalEntry, getJournalEntries, getJournalEntry } from './aws/dyn
 import cors from 'cors'
 import multer from 'multer'
 import { getRedisClient } from './redis.js';
-import { uploadPhoto } from './aws/s3.js';
+import { getPhotosForJournalEntry, uploadPhoto } from './aws/s3.js';
 import DateUtil from '../shared/utils/DateUtil.js'
 
 const app = express();
@@ -58,9 +58,20 @@ apiRouter.get('/journal-entry', async (req, res) => {
     const email = req.headers['authorization']?.split(' ')[1];
 
     const entry = await getJournalEntry(date, email);
-    res.send(entry);
+    let dateObject = dateUtil.convertStringToDateObject(date)
+    const photos = await getPhotosForJournalEntry(email, dateObject)
+
+    let imageData = photos.map(photo => ({
+        image: photo.imageBuffer.toString("base64")
+    }))
+
+    res.json({
+        journalEntry: entry,
+        images: imageData
+    })
 })
 
+// As of right now, backend is only expecting one image to be uploaded
 apiRouter.post('/write-journal', upload.single('image'), async (req, res) => {
 
     try {

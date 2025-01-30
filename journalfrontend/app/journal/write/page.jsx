@@ -31,7 +31,7 @@ export default function JournalEntryEditor() {
   // Load in today's entry if it exists
   useEffect(() => {
     if (user != null) {
-      const today = new Date().toISOString().split("T")[0];
+      const today = new Date().toLocaleDateString("en-CA"); 
       axios
         .get(
           `${process.env.NEXT_PUBLIC_BACKEND_URL}/journal-entry?date=${today}`,
@@ -42,7 +42,7 @@ export default function JournalEntryEditor() {
           }
         )
         .then((response) => {
-          const entry = response.data;
+          const entry = response.data.journalEntry;
           if (entry != null) {
             setTitle(entry?.title || ""); // Fallback to empty string if title is null/undefined
             setContent(entry?.entry || ""); // Fallback to empty string if entry is null/undefined
@@ -67,7 +67,7 @@ export default function JournalEntryEditor() {
     // upload any image data
     const formData = new FormData()
     formData.append('entry', content)
-    formData.append('title', title.length > 0 ? title : "N/A")
+    formData.append('title', title ? title : "N/A")
     formData.append('email', user.email)
     formData.append("image", uploadedPhoto) 
 
