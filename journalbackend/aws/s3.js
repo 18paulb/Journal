@@ -12,8 +12,13 @@ const bucketName = 'journalappphotos'
 const s3Client = new S3Client({});
 
 
-export async function uploadPhoto(image, email, date) {
-    const key = `${email}-${date}`
+export async function uploadPhoto(image, email, today) {
+    const year = today.getFullYear();
+    const month = today.getMonth() + 1; // Gets the month (0-based, so add 1)
+    const day = today.getDate(); 
+
+    const key = `${email}/${year}/${month}/${day}/${image.originalname}`
+
     const input = {
         Bucket: bucketName,
         Key: key,
@@ -28,6 +33,10 @@ export async function uploadPhoto(image, email, date) {
     } catch (error) {
         console.log(error)
     }
+}
+
+export async function getPhotosForJournalEntry(date) {
+    
 }
 
 export async function getJournalEntries() {

@@ -4,6 +4,7 @@ import cors from 'cors'
 import multer from 'multer'
 import { getRedisClient } from './redis.js';
 import { uploadPhoto } from './aws/s3.js';
+import DateUtil from '../shared/utils/DateUtil.js'
 
 const app = express();
 const PORT = process.env.PORT || 8000; // Use the Heroku assigned port or 8000 for local development
@@ -21,9 +22,9 @@ app.use(express.json())
 // Define routes
 const apiRouter = express.Router();
 
+const dateUtil = new DateUtil()
 
 // TODO: Probably going to want to store REDIS entries better because not sure if it scales well
-
 apiRouter.get('/', (req,res) => {
     res.status(200).json({ message: 'Successfully Pinged Backend' });
 })
@@ -70,9 +71,10 @@ apiRouter.post('/write-journal', upload.single('image'), async (req, res) => {
         let email = req.body.email
         let image = req.file
 
-        const today = new Date().toISOString().split('T')[0];
+        const today = dateUtil.getTodayDate()
+        const todayString = dateUtil.getDateString(today)
 
-        await writeJournalEntry(entry, title, today, email)
+        await writeJournalEntry(entry, title, todayString, email)
         
         if (image) {
             await uploadPhoto(image, email, today)
