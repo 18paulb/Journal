@@ -33,7 +33,7 @@ export default function JournalEntryEditor() {
     if (user != null) {
       const today = new Date().toLocaleDateString("en-CA"); 
 
-      network.getUserEntry(today, user.email)
+      network.getUserEntryText(today, user.email)
         .then((response) => {
           const entry = response.data.journalEntry;
           if (entry != null) {
