@@ -13,7 +13,6 @@ import {
 } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast"
 
-
 import { CalendarIcon, BookOpenIcon, SaveIcon } from "lucide-react";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import { UserLoading } from "@/app/components/userLoading";
@@ -38,8 +37,9 @@ export default function JournalEntryEditor() {
         .then((response) => {
           const entry = response.data.journalEntry;
           if (entry != null) {
-            setTitle(entry?.title || ""); // Fallback to empty string if title is null/undefined
-            setContent(entry?.entry || ""); // Fallback to empty string if entry is null/undefined
+            // Fallback to empty strings if missing data
+            setTitle(entry?.title || "");
+            setContent(entry?.entry || "");
           }
         })
         .catch((error) => console.log(error));

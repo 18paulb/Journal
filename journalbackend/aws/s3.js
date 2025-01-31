@@ -40,7 +40,6 @@ export async function getPhotosForJournalEntry(email, date) {
     const month = date.getMonth() + 1; // Gets the month (0-based, so add 1)
     const day = date.getDate(); 
 
-
     const input = { // ListObjectsRequest
         Bucket: bucketName, // required
         Prefix: `${email}/${year}/${month}/${day}/`,

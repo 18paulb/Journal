@@ -5,6 +5,7 @@ import multer from 'multer'
 import { getRedisClient } from './redis.js';
 import { getPhotosForJournalEntry, uploadPhoto } from './aws/s3.js';
 import DateUtil from '../shared/utils/DateUtil.js'
+import { toBase64, getMimeTypePrefix } from './utils/photo-manipulator.js';
 
 const app = express();
 const PORT = process.env.PORT || 8000; // Use .env port or 8000 for local development
@@ -61,9 +62,13 @@ apiRouter.get('/journal-entry', async (req, res) => {
     let dateObject = dateUtil.convertStringToDateObject(date)
     const photos = await getPhotosForJournalEntry(email, dateObject)
 
-    let imageData = photos.map(photo => ({
-        image: photo.imageBuffer.toString("base64")
-    }))
+    let imageData = photos.map(photo => {
+        const base64String = toBase64(photo.imageBuffer)
+        const photoUrl = getMimeTypePrefix(base64String, photo.imageKey.split('.').pop().toLowerCase())
+        return {
+            image: `data:image/jpeg;base64,${base64String}`
+        }
+    })
 
     res.json({
         journalEntry: entry,

@@ -10,6 +10,7 @@ import { useUser } from "@auth0/nextjs-auth0/client";
 import { UserLoading } from "@/app/components/userLoading";
 import { getWidgets } from "@/app/widgets/widgetController";
 import NetworkClient from "@/app/network/NetworkClient";
+import ImageGrid from "@/app/components/photogrid";
 
 export default function JournalEntry() {
   const params = useParams(); // Use useParams to access the dynamic 'date' parameter
@@ -72,6 +73,8 @@ export default function JournalEntry() {
           </CardContent>
         </Card>
       </div>
+      <ImageGrid images={entryImages}></ImageGrid>
+      
       {/* Map over the array of components and render each widget*/}
       {widgets.map((widget, index) => {
         const WidgetComponent = widget.component; // Extract component
