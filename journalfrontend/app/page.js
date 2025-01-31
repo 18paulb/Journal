@@ -1,9 +1,15 @@
 "use client";
 
 import Link from "next/link";
-import { BookOpen, PenSquare, LogIn } from "lucide-react";
+import { BookCopy, PenLine, LogIn } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useUser } from "@auth0/nextjs-auth0/client";
+import {
+  Card,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
 export default function Home() {
   const { user, error, isLoading } = useUser();
@@ -16,47 +22,50 @@ export default function Home() {
       {user ? (
         <div className="min-h-screen bg-gradient-to-b from-blue-100 to-white">
           <main className="container mx-auto px-4 py-16">
-            <header className="mb-12 text-center">
-              <h1 className="mb-4 text-4xl font-bold text-blue-800">
-                My Daily Journal
-              </h1>
-              <p className="text-lg text-gray-600">
-                Capture your thoughts, reflect on your day
-              </p>
-            </header>
+            <div className="relative mb-12 flex flex-col items-center text-center">
+              <div className="animate-fade-in">
+                <h1 className="mb-4 text-4xl font-bold tracking-tight lg:text-6xl">
+                  Your Digital Journal
+                </h1>
+                <p className="mb-8 text-lg text-muted-foreground lg:text-xl">
+                  Capture your thoughts, memories, and reflections
+                </p>
+              </div>
 
-            <div className="grid gap-8 md:grid-cols-2">
-              <Link href={{ pathname: `/journal` }}>
-                <Button
-                  variant="outline"
-                  className="h-40 w-full text-lg shadow-md transition-all hover:bg-blue-50 hover:shadow-lg"
-                >
-                  <div className="flex flex-col items-center space-y-4">
-                    <BookOpen className="h-8 w-8" />
-                    <span>View Journal Entries</span>
-                  </div>
-                </Button>
-              </Link>
+              {/* Floating decoration */}
+              <div className="absolute left-1/2 top-0 -z-10 h-[300px] w-[300px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/20 blur-[100px]" />
 
-              <Link href={{ pathname: `/journal/write` }}>
-                <Button
-                  variant="outline"
-                  className="h-40 w-full text-lg shadow-md transition-all hover:bg-blue-50 hover:shadow-lg"
-                >
-                  <div className="flex flex-col items-center space-y-4">
-                    <PenSquare className="h-8 w-8" />
-                    <span>Write Entry For Today</span>
-                  </div>
-                </Button>
-              </Link>
+              {/* Main Actions */}
+              <div className="animate-fade-in-up grid w-full max-w-2xl gap-6 sm:grid-cols-2 [--animation-delay:200ms]">
+              <Link href={{ pathname: `/journal` }} className="group">
+                  <Card className="h-full transition-all duration-300 hover:scale-[1.02] hover:border-primary/50 hover:shadow-lg">
+                    <CardHeader>
+                      <div className="mb-2 flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 text-primary transition-colors group-hover:bg-primary group-hover:text-primary-foreground">
+                        <BookCopy className="h-6 w-6" />
+                      </div>
+                      <CardTitle>View Journals</CardTitle>
+                      <CardDescription>
+                        Browse your past entries
+                      </CardDescription>
+                    </CardHeader>
+                  </Card>
+                </Link>
+                
+                <Link href={{ pathname: `/journal/write` }} className="group">
+                  <Card className="h-full transition-all duration-300 hover:scale-[1.02] hover:border-primary/50 hover:shadow-lg">
+                    <CardHeader>
+                      <div className="mb-2 flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 text-primary transition-colors group-hover:bg-primary group-hover:text-primary-foreground">
+                        <PenLine className="h-6 w-6" />
+                      </div>
+                      <CardTitle>Write Journal</CardTitle>
+                      <CardDescription>
+                        Create a new journal entry
+                      </CardDescription>
+                    </CardHeader>
+                  </Card>
+                </Link>
+              </div>
             </div>
-
-            <footer className="mt-16 text-center text-gray-600">
-              <p>
-                Start your journaling journey today and track your personal
-                growth!
-              </p>
-            </footer>
           </main>
         </div>
       ) : (
