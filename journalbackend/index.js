@@ -54,11 +54,21 @@ apiRouter.get('/journal-entries', async (req, res) => {
     }
 })
 
-apiRouter.get('/journal-entry', async (req, res) => {
+apiRouter.get('/journal-entry-text', async (req, res) => {
     const { date } = req.query;
     const email = req.headers['authorization']?.split(' ')[1];
 
     const entry = await getJournalEntry(date, email);
+
+    res.json({
+        journalEntry: entry,
+    })
+})
+
+apiRouter.get('/journal-entry-images', async (req, res) => {
+    const { date } = req.query;
+    const email = req.headers['authorization']?.split(' ')[1];
+
     let dateObject = dateUtil.convertStringToDateObject(date)
     const photos = await getPhotosForJournalEntry(email, dateObject)
 
@@ -66,15 +76,15 @@ apiRouter.get('/journal-entry', async (req, res) => {
         const base64String = toBase64(photo.imageBuffer)
         const photoUrl = getMimeTypePrefix(base64String, photo.imageKey.split('.').pop().toLowerCase())
         return {
-            image: `data:image/jpeg;base64,${base64String}`
+            image: photoUrl
         }
     })
 
     res.json({
-        journalEntry: entry,
         images: imageData
     })
-})
+
+}) 
 
 // As of right now, backend is only expecting one image to be uploaded
 apiRouter.post('/write-journal', upload.single('image'), async (req, res) => {

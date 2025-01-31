@@ -25,11 +25,17 @@ export default function JournalEntry() {
   const network = new NetworkClient()
 
   // Grab the journal entry once the user Object has loaded in
+  // We make two API calls to load the text faster and then the images can load after
   useEffect(() => {
     if (user != null) {
-        network.getUserEntry(date, user.email)
+        network.getUserEntryText(date, user.email)
         .then((response) => {
           setEntryData(response.data.journalEntry)
+        })
+        .catch((error) => console.log(error));
+
+        network.getUserEntryImages(date, user.email)
+        .then((response) => {
           setEntryImages(response.data.images)
         })
         .catch((error) => console.log(error));

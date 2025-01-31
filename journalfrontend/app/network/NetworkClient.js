@@ -13,9 +13,9 @@ export default class NetworkClient {
         )
     }
 
-    getUserEntry(date, email) {
+    getUserEntryText(date, email) {
         return axios.get(
-          `${process.env.NEXT_PUBLIC_BACKEND_URL}/journal-entry?date=${date}`,
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/journal-entry-text?date=${date}`,
           {
             headers: {
               Authorization: `Bearer ${email}`, // Sending email in the header
@@ -23,6 +23,17 @@ export default class NetworkClient {
           }
         )
     }
+
+    getUserEntryImages(date, email) {
+      return axios.get(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/journal-entry-images?date=${date}`,
+        {
+          headers: {
+            Authorization: `Bearer ${email}`, // Sending email in the header
+          },
+        }
+      )
+  }
 
     async writeJournalEntry(formData) {
         axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/write-journal`, formData, {
