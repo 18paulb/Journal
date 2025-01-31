@@ -7,7 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
-export default function JournalEntriesList({entries}) {
+export default function JournalEntriesList({ entries }) {
   return (
     <Card className="w-full max-w-3xl mx-auto">
       <CardHeader className="border-b">
@@ -17,7 +17,7 @@ export default function JournalEntriesList({entries}) {
         </CardTitle>
       </CardHeader>
       <CardContent className="p-0">
-        {data ? (
+        {entries ? (
           <ScrollArea className="h-[70vh]">
             <ul className="divide-y">
               {entries.map((entry) => (
@@ -61,5 +61,5 @@ export default function JournalEntriesList({entries}) {
         )}
       </CardContent>
     </Card>
-  )
+  );
 }

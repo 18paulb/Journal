@@ -1,81 +1,91 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { ChevronLeft, ChevronRight } from 'lucide-react'
-import Link from "next/link"
-import { useState, useMemo } from "react"
+import * as React from "react";
+import { ChevronLeft, ChevronRight, CalendarClock } from "lucide-react";
+import Link from "next/link";
+import { useState, useMemo } from "react";
 
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
-import DateUtil from "../../../shared/utils/DateUtil"
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import DateUtil from "../../../shared/utils/DateUtil";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@/components/ui/tooltip"
+} from "@/components/ui/tooltip";
 
 export function JournalEntriesCalendar({ entries = [] }) {
-  const dateUtil = new DateUtil()
-  const [year, setYear] = useState(dateUtil.getTodayDate().getFullYear())
-  const [currentMonth, setCurrentMonth] = useState(new Date().getMonth()) // For mobile view
+  const dateUtil = new DateUtil();
+  const [year, setYear] = useState(dateUtil.getTodayDate().getFullYear());
+  const [currentMonth, setCurrentMonth] = useState(new Date().getMonth()); // For mobile view
 
   const months = [
-    "January", "February", "March", "April", "May", "June",
-    "July", "August", "September", "October", "November", "December",
-  ]
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
 
   const entryMap = useMemo(() => {
-    const map = new Map()
+    const map = new Map();
     if (entries != null || entries != undefined) {
       entries.forEach((entry) => {
-        let date = dateUtil.convertStringToDateObject(entry.date)
-        const dateKey = `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`
-        map.set(dateKey, entry)
-      })
+        let date = dateUtil.convertStringToDateObject(entry.date);
+        const dateKey = `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
+        map.set(dateKey, entry);
+      });
     }
-    return map
+    return map;
   }, [entries]); // Added dateUtil.convertStringToDateObject to dependencies
 
   const getEntry = (year, month, day) => {
-    const dateKey = `${year}-${month}-${day}`
-    return entryMap.get(dateKey)
-  }
+    const dateKey = `${year}-${month}-${day}`;
+    return entryMap.get(dateKey);
+  };
 
-  const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
+  const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
   const getDaysInMonth = (month, year) => {
-    return new Date(year, month + 1, 0).getDate()
-  }
+    return new Date(year, month + 1, 0).getDate();
+  };
 
   const getFirstDayOfMonth = (month, year) => {
-    return new Date(year, month, 1).getDay()
-  }
+    return new Date(year, month, 1).getDay();
+  };
 
   const generateMonthGrid = (month) => {
-    const daysInMonth = getDaysInMonth(month, year)
-    const firstDay = getFirstDayOfMonth(month, year)
-    const grid = []
-    let day = 1
+    const daysInMonth = getDaysInMonth(month, year);
+    const firstDay = getFirstDayOfMonth(month, year);
+    const grid = [];
+    let day = 1;
 
     for (let i = 0; i < 6; i++) {
-      const week = []
+      const week = [];
       for (let j = 0; j < 7; j++) {
         if (i === 0 && j < firstDay) {
-          week.push(null)
+          week.push(null);
         } else if (day > daysInMonth) {
-          week.push(null)
+          week.push(null);
         } else {
-          week.push(day)
-          day++
+          week.push(day);
+          day++;
         }
       }
-      grid.push(week)
-      if (day > daysInMonth) break
+      grid.push(week);
+      if (day > daysInMonth) break;
     }
 
-    return grid
-  }
+    return grid;
+  };
 
   const DayCell = ({ day, month }) => {
     if (!day)
@@ -83,9 +93,9 @@ export function JournalEntriesCalendar({ entries = [] }) {
         <div className="aspect-square flex items-center justify-center text-xs text-muted-foreground/25">
           {day}
         </div>
-      )
+      );
 
-    const entry = getEntry(year, month, day)
+    const entry = getEntry(year, month, day);
 
     if (!entry)
       return (
@@ -97,7 +107,7 @@ export function JournalEntriesCalendar({ entries = [] }) {
         >
           {day}
         </div>
-      )
+      );
 
     return (
       <Tooltip delayDuration={200}>
@@ -116,17 +126,11 @@ export function JournalEntriesCalendar({ entries = [] }) {
         <TooltipContent className="max-w-[200px]">
           <div className="space-y-1">
             <p className="font-medium">{entry.title}</p>
-            {entry.preview && (
-              <p className="text-xs text-muted-foreground line-clamp-2">
-                {entry.preview}
-              </p>
-            )}
-            <p className="text-xs text-primary">Click to read more</p>
           </div>
         </TooltipContent>
       </Tooltip>
-    )
-  }
+    );
+  };
 
   const MonthGrid = ({ month, monthIndex }) => (
     <div
@@ -156,23 +160,23 @@ export function JournalEntriesCalendar({ entries = [] }) {
         </div>
       </div>
     </div>
-  )
+  );
 
   // Navigation for mobile view
   const navigateMonth = (direction) => {
     setCurrentMonth((prev) => {
-      let newMonth = prev + direction
+      let newMonth = prev + direction;
       if (newMonth > 11) {
-        setYear(year + 1)
-        return 0
+        setYear(year + 1);
+        return 0;
       }
       if (newMonth < 0) {
-        setYear(year - 1)
-        return 11
+        setYear(year - 1);
+        return 11;
       }
-      return newMonth
-    })
-  }
+      return newMonth;
+    });
+  };
 
   return (
     <TooltipProvider>
@@ -187,6 +191,17 @@ export function JournalEntriesCalendar({ entries = [] }) {
               onClick={() => setYear(year - 1)}
             >
               <ChevronLeft className="h-4 w-4" />
+            </Button>
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={() => {
+                setYear(dateUtil.getTodayDate().getFullYear());
+                setCurrentMonth(dateUtil.getTodayDate().getMonth());
+              }}
+              className="hover:text-primary"
+            >
+              <CalendarClock className="h-4 w-4" />
             </Button>
             <Button
               variant="outline"
@@ -231,12 +246,9 @@ export function JournalEntriesCalendar({ entries = [] }) {
 
         {/* Mobile view - single month */}
         <div className="sm:hidden w-full">
-          <MonthGrid
-            month={months[currentMonth]}
-            monthIndex={currentMonth}
-          />
+          <MonthGrid month={months[currentMonth]} monthIndex={currentMonth} />
         </div>
       </div>
     </TooltipProvider>
-  )
+  );
 }

@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import {
@@ -13,7 +15,10 @@ import {
   MoreHorizontal,
   BookHeart,
 } from "lucide-react";
+import { useUser } from "@auth0/nextjs-auth0/client";
+
 export function PageHeader() {
+  const { user, error, isLoading } = useUser();
   return (
     <header className="sticky top-0 z-50 bg-white/80 border-b backdrop-blur-sm">
       <div className="container mx-auto px-4">
@@ -36,52 +41,16 @@ export function PageHeader() {
           </div>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-1">
-            <Button variant="ghost" size="sm" asChild>
-              <Link href="/" className="flex items-center space-x-2">
-                <Home className="h-4 w-4" />
-                <span>Home</span>
-              </Link>
-            </Button>
-            <Button variant="ghost" size="sm" asChild>
-              <Link href="/settings" className="flex items-center space-x-2">
-                <Settings className="h-4 w-4" />
-                <span>Settings</span>
-              </Link>
-            </Button>
-            <Button
-              variant="ghost"
-              size="sm"
-              className="text-red-500 hover:text-red-600 hover:bg-red-50"
-              asChild
-            >
-              <Link
-                href="/api/auth/logout"
-                className="flex items-center space-x-2"
-              >
-                <LogOut className="h-4 w-4" />
-                <span>Logout</span>
-              </Link>
-            </Button>
-          </nav>
-
-          {/* Mobile Navigation */}
-          <div className="md:hidden">
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon" className="h-8 w-8">
-                  <MoreHorizontal className="h-5 w-5" />
-                  <span className="sr-only">Open menu</span>
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-48">
-                <DropdownMenuItem asChild>
+          {user && (
+            <div>
+              <nav className="hidden md:flex items-center space-x-1">
+                <Button variant="ghost" size="sm" asChild>
                   <Link href="/" className="flex items-center space-x-2">
                     <Home className="h-4 w-4" />
                     <span>Home</span>
                   </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
+                </Button>
+                <Button variant="ghost" size="sm" asChild>
                   <Link
                     href="/settings"
                     className="flex items-center space-x-2"
@@ -89,10 +58,12 @@ export function PageHeader() {
                     <Settings className="h-4 w-4" />
                     <span>Settings</span>
                   </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="text-red-500 hover:text-red-600 hover:bg-red-50"
                   asChild
-                  className="text-red-500 focus:text-red-500"
                 >
                   <Link
                     href="/api/auth/logout"
@@ -101,10 +72,50 @@ export function PageHeader() {
                     <LogOut className="h-4 w-4" />
                     <span>Logout</span>
                   </Link>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </div>
+                </Button>
+              </nav>
+
+              <div className="md:hidden">
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" size="icon" className="h-8 w-8">
+                      <MoreHorizontal className="h-5 w-5" />
+                      <span className="sr-only">Open menu</span>
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="w-48">
+                    <DropdownMenuItem asChild>
+                      <Link href="/" className="flex items-center space-x-2">
+                        <Home className="h-4 w-4" />
+                        <span>Home</span>
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link
+                        href="/settings"
+                        className="flex items-center space-x-2"
+                      >
+                        <Settings className="h-4 w-4" />
+                        <span>Settings</span>
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem
+                      asChild
+                      className="text-red-500 focus:text-red-500"
+                    >
+                      <Link
+                        href="/api/auth/logout"
+                        className="flex items-center space-x-2"
+                      >
+                        <LogOut className="h-4 w-4" />
+                        <span>Logout</span>
+                      </Link>
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </header>
