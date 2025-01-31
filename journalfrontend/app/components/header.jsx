@@ -11,78 +11,95 @@ import {
   LogOut,
   Settings,
   MoreHorizontal,
+  BookHeart,
 } from "lucide-react";
 export function PageHeader() {
   return (
-    <header className="bg-white border-b">
+    <header className="sticky top-0 z-50 bg-white/80 border-b backdrop-blur-sm">
       <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-16">
-          <div className="flex items-center">
-            <Link href="/" className="flex-shrink-0">
-              <span className="text-xl font-bold text-gray-800">
-                My Journal
-              </span>
-            </Link>
-          </div>
-          <nav className="hidden md:flex space-x-4">
+        <div className="flex h-16 items-center justify-between">
+          <div className="flex items-center space-x-2">
             <Link
               href="/"
-              className="text-gray-600 hover:text-gray-900 flex items-center"
+              className="flex items-center space-x-3 transition-colors hover:text-primary"
             >
-              <Home className="w-4 h-4 mr-1" />
-              Home
+              <div className="rounded-lg bg-primary/10 p-2">
+                <BookHeart className="h-6 w-6 text-primary" />
+              </div>
+              <div>
+                <h1 className="text-xl font-bold">My Journal</h1>
+                <p className="text-xs text-muted-foreground">
+                  Record your journey
+                </p>
+              </div>
             </Link>
-            <Link
-              href="/settings"
-              className="text-gray-600 hover:text-gray-900 flex items-center"
-            >
-              <Settings className="w-4 h-4 mr-1" />
-              Settings
-            </Link>
-            <Link
-              href="/api/auth/logout"
+          </div>
+
+          {/* Desktop Navigation */}
+          <nav className="hidden md:flex items-center space-x-1">
+            <Button variant="ghost" size="sm" asChild>
+              <Link href="/" className="flex items-center space-x-2">
+                <Home className="h-4 w-4" />
+                <span>Home</span>
+              </Link>
+            </Button>
+            <Button variant="ghost" size="sm" asChild>
+              <Link href="/settings" className="flex items-center space-x-2">
+                <Settings className="h-4 w-4" />
+                <span>Settings</span>
+              </Link>
+            </Button>
+            <Button
               variant="ghost"
-              className="text-gray-600 hover:text-gray-900 flex items-center"
+              size="sm"
+              className="text-red-500 hover:text-red-600 hover:bg-red-50"
+              asChild
             >
-              <LogOut className="w-4 h-4 mr-1" />
-              Logout
-            </Link>
+              <Link
+                href="/api/auth/logout"
+                className="flex items-center space-x-2"
+              >
+                <LogOut className="h-4 w-4" />
+                <span>Logout</span>
+              </Link>
+            </Button>
           </nav>
+
+          {/* Mobile Navigation */}
           <div className="md:hidden">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon">
+                <Button variant="ghost" size="icon" className="h-8 w-8">
                   <MoreHorizontal className="h-5 w-5" />
                   <span className="sr-only">Open menu</span>
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
+              <DropdownMenuContent align="end" className="w-48">
                 <DropdownMenuItem asChild>
-                  <Link
-                    href="/"
-                    className="text-gray-600 hover:text-gray-900 flex items-center"
-                  >
-                    <Home className="w-4 h-4 mr-1" />
-                    Home
+                  <Link href="/" className="flex items-center space-x-2">
+                    <Home className="h-4 w-4" />
+                    <span>Home</span>
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
                   <Link
                     href="/settings"
-                    className="text-gray-600 hover:text-gray-900 flex items-center"
+                    className="flex items-center space-x-2"
                   >
-                    <Settings className="w-4 h-4 mr-1" />
-                    Settings
+                    <Settings className="h-4 w-4" />
+                    <span>Settings</span>
                   </Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem asChild>
+                <DropdownMenuItem
+                  asChild
+                  className="text-red-500 focus:text-red-500"
+                >
                   <Link
                     href="/api/auth/logout"
-                    variant="ghost"
-                    className="text-gray-600 hover:text-gray-900 flex items-center"
+                    className="flex items-center space-x-2"
                   >
-                    <LogOut className="w-4 h-4 mr-1" />
-                    Logout
+                    <LogOut className="h-4 w-4" />
+                    <span>Logout</span>
                   </Link>
                 </DropdownMenuItem>
               </DropdownMenuContent>

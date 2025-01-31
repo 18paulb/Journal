@@ -3,7 +3,9 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 
+import { CalendarDays } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
 import { useUser } from "@auth0/nextjs-auth0/client";
@@ -11,14 +13,14 @@ import { UserLoading } from "../components/userLoading";
 import NetworkClient from "../network/NetworkClient";
 
 export default function JournalEntries() {
-
-  const network = new NetworkClient()
+  const network = new NetworkClient();
   const [data, setData] = useState(null);
   const { user, error, isLoading } = useUser();
 
   useEffect(() => {
     if (user) {
-        network.getUserJournals(user.email)
+      network
+        .getUserJournals(user.email)
         .then((response) => setData(response.data))
         .catch((error) => console.log(error));
     }
@@ -26,29 +28,54 @@ export default function JournalEntries() {
 
   return user ? (
     <Card className="w-full max-w-3xl mx-auto">
-      <CardHeader>
-        <CardTitle className="text-2xl font-bold">My Journal Entries</CardTitle>
+      <CardHeader className="border-b">
+        <CardTitle className="flex items-center gap-2 text-2xl font-bold">
+          <CalendarDays className="h-6 w-6 text-primary" />
+          My Journal Entries
+        </CardTitle>
       </CardHeader>
-      <CardContent>
+      <CardContent className="p-0">
         {data ? (
           <ScrollArea className="h-[70vh]">
-            <ul className="space-y-4">
+            <ul className="divide-y">
               {data.map((entry) => (
-                <li key={entry.date} className="border-b pb-4 last:border-b-0">
-                  <Link href={{ pathname: `/journal/read/${entry.date}` }}>
-                    <h3 className="text-lg font-semibold text-primary">
-                      {entry.title}
-                    </h3>
-                    <p className="text-sm text-muted-foreground mt-1 line-clamp-2">
-                      {entry.date}
-                    </p>
+                <li key={entry.date}>
+                  <Link
+                    href={{ pathname: `/journal/read/${entry.date}` }}
+                    className="block p-6 transition-colors hover:bg-muted/50"
+                  >
+                    <div className="flex items-start justify-between gap-4">
+                      <div className="space-y-1.5">
+                        <h3 className="text-lg font-semibold text-primary">
+                          {entry.title}
+                        </h3>
+                        <p className="line-clamp-2 text-sm text-muted-foreground">
+                          {entry.content}
+                        </p>
+                      </div>
+                      <time className="shrink-0 text-sm text-muted-foreground">
+                        {new Date(entry.date).toLocaleDateString("en-US", {
+                          year: "numeric",
+                          month: "short",
+                          day: "numeric",
+                        })}
+                      </time>
+                    </div>
                   </Link>
                 </li>
               ))}
             </ul>
           </ScrollArea>
         ) : (
-          <h1>Loading</h1>
+          <div className="p-6 space-y-6">
+            {Array.from({ length: 5 }).map((_, i) => (
+              <div key={i} className="space-y-2">
+                <Skeleton className="h-5 w-2/3" />
+                <Skeleton className="h-4 w-full" />
+                <Skeleton className="h-4 w-1/2" />
+              </div>
+            ))}
+          </div>
         )}
       </CardContent>
     </Card>

@@ -9,6 +9,7 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
+  CardContent,
 } from "@/components/ui/card";
 
 export default function Home() {
@@ -21,8 +22,8 @@ export default function Home() {
     <>
       {user ? (
         <div className="min-h-screen bg-gradient-to-b from-blue-100 to-white">
-          <main className="container mx-auto px-4 py-16">
-            <div className="relative mb-12 flex flex-col items-center text-center">
+          <main className="container mx-auto px-4 py-12">
+            <div className="relative mb-16 flex flex-col items-center text-center">
               <div className="animate-fade-in">
                 <h1 className="mb-4 text-4xl font-bold tracking-tight lg:text-6xl">
                   Your Digital Journal
@@ -36,32 +37,58 @@ export default function Home() {
               <div className="absolute left-1/2 top-0 -z-10 h-[300px] w-[300px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/20 blur-[100px]" />
 
               {/* Main Actions */}
-              <div className="animate-fade-in-up grid w-full max-w-2xl gap-6 sm:grid-cols-2 [--animation-delay:200ms]">
-              <Link href={{ pathname: `/journal` }} className="group">
+              <div className="animate-fade-in-up grid w-full max-w-5xl gap-8 sm:grid-cols-2 [--animation-delay:200ms]">
+                <Link href={{ pathname: `/journal` }} className="group">
                   <Card className="h-full transition-all duration-300 hover:scale-[1.02] hover:border-primary/50 hover:shadow-lg">
-                    <CardHeader>
-                      <div className="mb-2 flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 text-primary transition-colors group-hover:bg-primary group-hover:text-primary-foreground">
-                        <BookCopy className="h-6 w-6" />
+                    <CardHeader className="pb-4">
+                      <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-lg bg-primary/10 text-primary transition-colors group-hover:bg-primary group-hover:text-primary-foreground">
+                        <BookCopy className="h-8 w-8" />
                       </div>
-                      <CardTitle>View Journals</CardTitle>
-                      <CardDescription>
-                        Browse your past entries
+                      <CardTitle className="text-2xl">View Journals</CardTitle>
+                      <CardDescription className="text-base">
+                        Browse your past entries and relive your memories
                       </CardDescription>
                     </CardHeader>
+                    <CardContent className="min-h-[200px] pb-8">
+                      <div className="space-y-4 text-left">
+                        <p className="text-muted-foreground">
+                          Access your personal collection of:
+                        </p>
+                        <ul className="ml-6 list-disc space-y-2 text-muted-foreground">
+                          <li>Daily reflections and thoughts</li>
+                          <li>Important memories and milestones</li>
+                          <li>Personal growth journey entries</li>
+                          <li>Organized and searchable archives</li>
+                        </ul>
+                      </div>
+                    </CardContent>
                   </Card>
                 </Link>
-                
+
                 <Link href={{ pathname: `/journal/write` }} className="group">
                   <Card className="h-full transition-all duration-300 hover:scale-[1.02] hover:border-primary/50 hover:shadow-lg">
-                    <CardHeader>
-                      <div className="mb-2 flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 text-primary transition-colors group-hover:bg-primary group-hover:text-primary-foreground">
-                        <PenLine className="h-6 w-6" />
+                    <CardHeader className="pb-4">
+                      <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-lg bg-primary/10 text-primary transition-colors group-hover:bg-primary group-hover:text-primary-foreground">
+                        <PenLine className="h-8 w-8" />
                       </div>
-                      <CardTitle>Write Journal</CardTitle>
-                      <CardDescription>
-                        Create a new journal entry
+                      <CardTitle className="text-2xl">Write Journal</CardTitle>
+                      <CardDescription className="text-base">
+                        Express yourself and document your journey
                       </CardDescription>
                     </CardHeader>
+                    <CardContent className="min-h-[200px] pb-8">
+                      <div className="space-y-4 text-left">
+                        <p className="text-muted-foreground">
+                          Start writing about:
+                        </p>
+                        <ul className="ml-6 list-disc space-y-2 text-muted-foreground">
+                          <li>Today's experiences and emotions</li>
+                          <li>Goals and aspirations</li>
+                          <li>Memorable moments and achievements</li>
+                          <li>Personal insights and learnings</li>
+                        </ul>
+                      </div>
+                    </CardContent>
                   </Card>
                 </Link>
               </div>
