@@ -2,7 +2,8 @@ import {
     S3Client,
     PutObjectCommand,
     GetObjectCommand,
-    ListObjectsCommand
+    ListObjectsCommand,
+    ListObjectsV2Command
 } from "@aws-sdk/client-s3";
 
 
@@ -43,8 +44,9 @@ export async function getPhotosForJournalEntry(email, date) {
     const input = { // ListObjectsRequest
         Bucket: bucketName, // required
         Prefix: `${email}/${year}/${month}/${day}/`,
+        StartAfter: `${email}/${year}/${month}/${day}/`
     };
-    const command = new ListObjectsCommand(input);
+    const command = new ListObjectsV2Command(input);
     const response = await s3Client.send(command);
 
     let photos = response.Contents

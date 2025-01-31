@@ -30,9 +30,6 @@ export default function ImageGrid({images}) {
                   height: "auto",
                 }}
               />
-              <div className="absolute bottom-0 left-0 right-0 bg-black/50 text-white text-xs p-2">
-                {image.width} × {image.height}
-              </div>
             </div>
           ))}
         </div>

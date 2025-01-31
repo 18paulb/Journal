@@ -16,6 +16,6 @@ export default class DateUtil {
     }
 
     convertStringToDateObject(dateString) {
-        return new Date(dateString);
+        return new Date(dateString + 'T00:00:00');
     }
 }
