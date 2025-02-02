@@ -90,3 +90,7 @@ export async function getPhotosForJournalEntry(email, date) {
         return []
     }
 }
+
+export async function uploadAudio(audio, email, today) {
+    
+}

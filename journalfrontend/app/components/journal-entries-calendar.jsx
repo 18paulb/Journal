@@ -7,7 +7,7 @@ import { useState, useMemo } from "react";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import DateUtil from "../../../shared/utils/DateUtil";
+import DateUtil from "@shared/utils/DateUtil";
 import {
   Tooltip,
   TooltipContent,
@@ -15,7 +15,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 
-export function JournalEntriesCalendar({ entries = [] }) {
+export function JournalEntriesCalendar({ entries  }) {
   const dateUtil = new DateUtil();
   const [year, setYear] = useState(dateUtil.getTodayDate().getFullYear());
   const [currentMonth, setCurrentMonth] = useState(new Date().getMonth()); // For mobile view

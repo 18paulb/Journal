@@ -8,6 +8,12 @@
     "start": "next start",
     "lint": "next lint"
   },
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@shared/*": ["../shared/*"]
+    }
+  },
   "dependencies": {
     "@auth0/nextjs-auth0": "^3.5.0",
     "@radix-ui/react-dialog": "^1.1.5",

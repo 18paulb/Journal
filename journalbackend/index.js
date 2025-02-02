@@ -3,7 +3,7 @@ import { writeJournalEntry, getJournalEntries, getJournalEntry } from './aws/dyn
 import cors from 'cors'
 import multer from 'multer'
 import { getRedisClient } from './redis.js';
-import { getPhotosForJournalEntry, uploadPhoto } from './aws/s3.js';
+import { getPhotosForJournalEntry, uploadPhoto, uploadAudio } from './aws/s3.js';
 import DateUtil from '../shared/utils/DateUtil.js'
 import { toBase64, getMimeTypePrefix } from './utils/photo-manipulator.js';
 
@@ -87,7 +87,11 @@ apiRouter.get('/journal-entry-images', async (req, res) => {
 }) 
 
 // As of right now, backend is only expecting one image to be uploaded
-apiRouter.post('/write-journal', upload.single('image'), async (req, res) => {
+apiRouter.post('/write-journal',   upload.fields([
+        { name: "audio", maxCount: 1 },
+        { name: "image", maxCount: 1 },
+        ]
+    ), async (req, res) => {
 
     try {
         let redisClient = await getRedisClient()
@@ -95,7 +99,8 @@ apiRouter.post('/write-journal', upload.single('image'), async (req, res) => {
         let entry = req.body.entry
         let title = req.body.title
         let email = req.body.email
-        let image = req.file
+        let image = req.files["image"]
+        let audio = req.files["audio"]
 
         const today = dateUtil.getTodayDate()
         const todayString = dateUtil.getDateString(today)
@@ -104,6 +109,10 @@ apiRouter.post('/write-journal', upload.single('image'), async (req, res) => {
         
         if (image) {
             await uploadPhoto(image, email, today)
+        }
+
+        if (audio) {
+            await uploadAudio(audio, email, today)
         }
 
         // TODO: Temporary solution, after saving journal entry, delete entries from redis so that it is forced to fetch all new entries
