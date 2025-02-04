@@ -34,7 +34,7 @@ export default function JournalEntryEditor() {
   const [content, setContent] = useState("");
   const { user, error, isLoading } = useUser();
   const [uploadedPhoto, setUploadedPhoto] = useState(null);
-  const network = new NetworkClient();
+  const [network] = useState(new NetworkClient());
 
   const { toast } = useToast();
 
@@ -46,7 +46,7 @@ export default function JournalEntryEditor() {
       const today = new Date().toLocaleDateString("en-CA");
 
       network
-        .getUserEntryText(today, user.email)
+        .getJournalEntryText(today, user.email)
         .then((response) => {
           const entry = response.data.journalEntry;
           if (entry != null) {
@@ -57,15 +57,9 @@ export default function JournalEntryEditor() {
         })
         .catch((error) => console.log(error));
     }
-  }, [user]);
+  }, [user, network]);
 
   const handleSave = async () => {
-    // Check if user is not initialized
-    if (!user) {
-      alert("User not authenticated. Please log in.");
-      return;
-    }
-
     if (content.trim() === "") {
       alert("Please enter a journal entry.");
       return;
@@ -76,8 +70,12 @@ export default function JournalEntryEditor() {
     formData.append("entry", content);
     formData.append("title", title ? title : "N/A");
     formData.append("email", user.email);
-    formData.append("image", uploadedPhoto);
-    formData.append("audio", audioRecording, "recording.webm");
+    if (uploadedPhoto) {
+      formData.append("image", uploadedPhoto);
+    }
+    if (audioRecording) {
+          formData.append("audio", audioRecording, "recording.webm");
+    }
 
     try {
       await network.writeJournalEntry(formData);
@@ -128,21 +126,21 @@ export default function JournalEntryEditor() {
             <TabsList className="w-full grid grid-cols-3">
               <TabsTrigger value="text" className="flex items-center space-x-2">
                 <PenTool className="h-4 w-4" />
-                <span>Text</span>
+                <span>Write</span>
               </TabsTrigger>
               <TabsTrigger
                 value="photos"
                 className="flex items-center space-x-2"
               >
                 <ImageIcon className="h-4 w-4" />
-                <span>Photos</span>
+                <span>Upload Photos</span>
               </TabsTrigger>
               <TabsTrigger
                 value="audio"
                 className="flex items-center space-x-2"
               >
                 <Mic className="h-4 w-4" />
-                <span>Audio</span>
+                <span>Record Audio</span>
               </TabsTrigger>
             </TabsList>
 
@@ -168,7 +166,7 @@ export default function JournalEntryEditor() {
             </TabsContent>
 
             <TabsContent value="photos" className="space-y-4">
-              <div className="rounded-lg border border-dashed border-primary/20 p-4 hover:border-primary/40 transition-colors">
+              <div className="rounded-lg transition-colors">
                 <PhotoUpload
                   uploadPhoto={setUploadedPhoto}
                   className="w-full"

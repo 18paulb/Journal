@@ -7,7 +7,7 @@ import { useState, useMemo } from "react";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import DateUtil from "@shared/utils/DateUtil";
+// import DateUtil from "@shared/utils/DateUtil";
 import {
   Tooltip,
   TooltipContent,
@@ -15,9 +15,10 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 
-export function JournalEntriesCalendar({ entries  }) {
-  const dateUtil = new DateUtil();
-  const [year, setYear] = useState(dateUtil.getTodayDate().getFullYear());
+export function JournalEntriesCalendar({ entries }) {
+  // const dateUtil = new DateUtil();
+  // const [year, setYear] = useState(dateUtil.getTodayDate().getFullYear());
+  const [year, setYear] = useState(new Date().getFullYear());
   const [currentMonth, setCurrentMonth] = useState(new Date().getMonth()); // For mobile view
 
   const months = [
@@ -39,13 +40,14 @@ export function JournalEntriesCalendar({ entries  }) {
     const map = new Map();
     if (entries != null || entries != undefined) {
       entries.forEach((entry) => {
-        let date = dateUtil.convertStringToDateObject(entry.date);
+        let date = new Date(entry.date + 'T00:00:00');
+        // let date = dateUtil.convertStringToDateObject(entry.date);
         const dateKey = `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
         map.set(dateKey, entry);
       });
     }
     return map;
-  }, [entries]); // Added dateUtil.convertStringToDateObject to dependencies
+  }, [entries]);
 
   const getEntry = (year, month, day) => {
     const dateKey = `${year}-${month}-${day}`;
@@ -196,8 +198,10 @@ export function JournalEntriesCalendar({ entries  }) {
               variant="outline"
               size="icon"
               onClick={() => {
-                setYear(dateUtil.getTodayDate().getFullYear());
-                setCurrentMonth(dateUtil.getTodayDate().getMonth());
+                // setYear(dateUtil.getTodayDate().getFullYear());
+                // setCurrentMonth(dateUtil.getTodayDate().getMonth());
+                setYear(new Date().getFullYear());
+                setCurrentMonth(new Date().getMonth());
               }}
               className="hover:text-primary"
             >

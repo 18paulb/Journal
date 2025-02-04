@@ -82,7 +82,7 @@ export default function Home() {
                           Start writing about:
                         </p>
                         <ul className="ml-6 list-disc space-y-2 text-muted-foreground">
-                          <li>Today's experiences and emotions</li>
+                          <li>Today&apos;s experiences and emotions</li>
                           <li>Goals and aspirations</li>
                           <li>Memorable moments and achievements</li>
                           <li>Personal insights and learnings</li>

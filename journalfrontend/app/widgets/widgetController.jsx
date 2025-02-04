@@ -5,8 +5,6 @@ export function getWidgets(user, date) {
     // Hard Code for now, figure out a better solution
     let user_widgets = user?.user_metadata?.widgets || []
 
-    console.log(user_widgets)
-
     let widget_components = []
     for (let i = 0; i < user_widgets.length; ++i) {
         let widget_id = user_widgets[i]
@@ -17,8 +15,6 @@ export function getWidgets(user, date) {
             });
         }
     }
-
-    console.log(widget_components)
 
     return widget_components
 }

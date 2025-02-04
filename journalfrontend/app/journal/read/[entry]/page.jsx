@@ -4,7 +4,6 @@ import { useParams } from "next/navigation";
 import { useState, useEffect } from "react";
 import { CalendarDays, Book, Image, Layout } from "lucide-react";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { Skeleton } from "@/components/ui/skeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useUser } from "@auth0/nextjs-auth0/client";
 
@@ -12,42 +11,53 @@ import { UserLoading } from "@/app/components/userLoading";
 import { getWidgets } from "@/app/widgets/widgetController";
 import NetworkClient from "@/app/network/NetworkClient";
 import ImageGrid from "@/app/components/photogrid";
+import AudioView from "@/app/components/audio-view";
 
 export default function JournalEntry() {
   const params = useParams(); // Use useParams to access the dynamic 'date' parameter
   const { user, error, isLoading } = useUser();
   const [widgets, setWidgets] = useState([]);
-  const [activeTab, setActiveTab] = useState("journal");
 
-  const date = params.entry;
+  const [date] = useState(params.entry);
 
   const [entryData, setEntryData] = useState(null);
   const [entryImages, setEntryImages] = useState([]);
+  const [audioData, setAudioData] = useState(null);
 
-  const network = new NetworkClient();
+  const [network] = useState(new NetworkClient());
 
   // Grab the journal entry once the user Object has loaded in
   // We make two API calls to load the text faster and then the images can load after
   useEffect(() => {
     if (user != null) {
+      // Load the text separate
       network
-        .getUserEntryText(date, user.email)
+        .getJournalEntryText(date, user.email)
         .then((response) => {
           setEntryData(response.data.journalEntry);
         })
         .catch((error) => console.log(error));
 
+      // Load Images
       network
-        .getUserEntryImages(date, user.email)
+        .getJournalEntryImages(date, user.email)
         .then((response) => {
           setEntryImages(response.data.images);
+        })
+        .catch((error) => console.log(error));
+
+      // Load Audio Data
+      network
+        .getJournalEntryAudio(date, user.email)
+        .then((response) => {
+          setAudioData(response.data.audio);
         })
         .catch((error) => console.log(error));
 
       // Also grab the widgets that are active for the user
       setWidgets(getWidgets(user, date));
     }
-  }, [user]);
+  }, [user, network, date]);
 
   // Formats entry text to have correct spacing
   const renderTextWithNewlines = (text) => {
@@ -73,7 +83,7 @@ export default function JournalEntry() {
             </div>
           </div>
           <Tabs defaultValue="journal" className="w-full">
-            <TabsList className="grid w-full grid-cols-3 gap-1 bg-white/50 p-1 rounded-lg">
+            <TabsList className="grid w-full grid-cols-4 gap-1 bg-white/50 p-1 rounded-lg">
               <TabsTrigger
                 value="journal"
                 className="flex items-center gap-2 data-[state=active]:bg-white data-[state=active]:text-blue-600"
@@ -85,8 +95,15 @@ export default function JournalEntry() {
                 value="photos"
                 className="flex items-center gap-2 data-[state=active]:bg-white data-[state=active]:text-blue-600"
               >
-                <Image className="h-4 w-4" />
+                <Image alt="imageIcon" className="h-4 w-4" />
                 Photos
+              </TabsTrigger>
+              <TabsTrigger
+                value="audio"
+                className="flex items-center gap-2 data-[state=active]:bg-white data-[state=active]:text-blue-600"
+              >
+                <Layout className="h-4 w-4" />
+                Audio
               </TabsTrigger>
               <TabsTrigger
                 value="widgets"
@@ -119,6 +136,9 @@ export default function JournalEntry() {
               <CardContent className="p-6 sm:p-8">
                 <ImageGrid images={entryImages} />
               </CardContent>
+            </TabsContent>
+            <TabsContent value="audio" className="space-y-4">
+              <AudioView></AudioView>
             </TabsContent>
             <TabsContent value="widgets">
               <CardContent className="p-6 sm:p-8">

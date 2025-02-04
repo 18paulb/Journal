@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "target": "es2020",
+    "module": "commonjs",
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "allowJs": true,
+    "paths": {
+      "@utils/*": ["../shared/utils/*"]
+    }
+  },
+  "allowImportingTsExtensions": true,
+  "include": ["src/**/*", "../shared/utils"],
+  "exclude": ["node_modules", "../shared/utils/*.js"]
+}

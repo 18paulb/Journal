@@ -5,12 +5,10 @@ import {
   BarChart3,
   Calendar,
   Clock,
-  Layout,
   MessageSquare,
   Music2,
   Settings2,
   UserRound,
-  SaveIcon,
   Save,
 } from "lucide-react";
 import {
