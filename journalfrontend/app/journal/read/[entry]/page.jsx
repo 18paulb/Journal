@@ -12,6 +12,7 @@ import { getWidgets } from "@/app/widgets/widget-controller";
 import NetworkClient from "@/app/network/network-client";
 import ImageGrid from "@/app/components/photo-grid";
 import AudioView from "@/app/components/audio-view";
+import LoadingSpinner from "@/app/components/loading-spinner";
 
 export default function JournalEntry() {
   const params = useParams(); // Use useParams to access the dynamic 'date' parameter
@@ -23,44 +24,44 @@ export default function JournalEntry() {
   const [entryData, setEntryData] = useState(null);
   const [entryImages, setEntryImages] = useState([]);
   const [audioData, setAudioData] = useState(null);
+  const [mediaIsLoading, setMediaIsLoading] = useState(false);
+  const [textIsLoading, setTextIsLoading] = useState(false);
 
   const [network] = useState(new NetworkClient());
 
   // Grab the journal entry once the user Object has loaded in
-  // We make two API calls to load the text faster and then the images can load after
+  // We make two API calls to load the text faster and then the media can load after
   useEffect(() => {
     if (user != null) {
+      setMediaIsLoading(true);
+      setTextIsLoading(true);
+      
       // Load the text separate
       network
         .getJournalEntryText(date, user.email)
         .then((response) => {
           setEntryData(response.data.journalEntry);
         })
-        .catch((error) => console.log(error));
+        .catch((error) => {
+          console.log(error);
+        })
+        .finally(() => {
+          setTextIsLoading(false);
+        });
 
-      // // Load Images
-      // network
-      //   .getJournalEntryImages(date, user.email)
-      //   .then((response) => {
-      //     setEntryImages(response.data.images);
-      //   })
-      //   .catch((error) => console.log(error));
-
-      // // Load Audio Data
-      // network
-      //   .getJournalEntryAudio(date, user.email)
-      //   .then((response) => {
-      //     debugger
-      //     setAudioData(response.data.audios);
-      //   })
-      //   .catch((error) => console.log(error));
+      // Load Image and Audio Media
       network
         .getJournalEntryMedia(date, user.email)
         .then((response) => {
-          debugger
-          setEntryImages(response.data.images)
-          setAudioData(response.data.audios)
+          setEntryImages(response.data.images);
+          setAudioData(response.data.audios);
         })
+        .catch((error) => {
+          console.log(error);
+        })
+        .finally(() => {
+          setMediaIsLoading(false);
+        });
 
       // Also grab the widgets that are active for the user
       setWidgets(getWidgets(user, date));
@@ -125,7 +126,9 @@ export default function JournalEntry() {
               <CardContent className="p-6 sm:p-8">
                 <Card className="border border-blue-100">
                   <CardContent className="p-6">
-                    {entryData?.entry ? (
+                    {textIsLoading ? (
+                      <LoadingSpinner />
+                    ) : entryData?.entry ? (
                       <div className="prose prose-slate max-w-none">
                         {renderTextWithNewlines(entryData.entry)}
                       </div>
@@ -142,11 +145,14 @@ export default function JournalEntry() {
             </TabsContent>
             <TabsContent value="photos">
               <CardContent className="p-6 sm:p-8">
-                <ImageGrid images={entryImages} />
+                <ImageGrid images={entryImages} isLoading={mediaIsLoading} />
               </CardContent>
             </TabsContent>
             <TabsContent value="audio" className="space-y-4">
-              <AudioView audioData={audioData}></AudioView>
+              <AudioView
+                isLoading={mediaIsLoading}
+                audioData={audioData}
+              ></AudioView>
             </TabsContent>
             <TabsContent value="widgets">
               <CardContent className="p-6 sm:p-8">

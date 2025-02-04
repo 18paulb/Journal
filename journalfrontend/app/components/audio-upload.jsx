@@ -3,12 +3,23 @@
 import {useState, useRef } from "react"
 import { Mic } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+
 
 /**
   AudioUpload should not keep track of it's own audioState, the data from audioRecording should be stored in a parent component
 */
 export function AudioUpload({ audioRecording, onAudioRecorded }) {
   const [isRecording, setIsRecording] = useState(false)
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false)
   const mediaRecorderRef = useRef(null)
   const chunksRef = useRef([])
 
@@ -48,6 +59,7 @@ export function AudioUpload({ audioRecording, onAudioRecorded }) {
   const handleReset = () => {
     chunksRef.current = []
     onAudioRecorded(null)
+    setShowDeleteDialog(false)
   }
 
   return (
@@ -81,9 +93,27 @@ export function AudioUpload({ audioRecording, onAudioRecorded }) {
                 <Button variant="outline" onClick={handleReset}>
                   Record Again
                 </Button>
-                <Button variant="destructive" onClick={handleReset}>
-                  Delete Recording
-                </Button>
+                <Dialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
+                  <DialogTrigger asChild>
+                    <Button variant="destructive">Delete Recording</Button>
+                  </DialogTrigger>
+                  <DialogContent>
+                    <DialogHeader>
+                      <DialogTitle>Delete Recording</DialogTitle>
+                      <DialogDescription>
+                        Are you sure you want to delete this recording? This action cannot be undone.
+                      </DialogDescription>
+                    </DialogHeader>
+                    <DialogFooter>
+                      <Button variant="outline" onClick={() => setShowDeleteDialog(false)}>
+                        Cancel
+                      </Button>
+                      <Button variant="destructive" onClick={handleReset}>
+                        Delete
+                      </Button>
+                    </DialogFooter>
+                  </DialogContent>
+                </Dialog>
               </div>
             </div>
           )}

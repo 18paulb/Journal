@@ -6,9 +6,14 @@ import { ImageIcon } from "lucide-react"
 import { X } from "lucide-react"
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
+import LoadingSpinner from "@/app/components/loading-spinner"
 
-export default function ImageGrid({ images }) {
+export default function ImageGrid({ images, isLoading }) {
   const [selectedImage, setSelectedImage] = useState(null)
+
+  if (isLoading) {
+    return <LoadingSpinner></LoadingSpinner>
+  }
 
   if (!images || images.length === 0) {
     return (

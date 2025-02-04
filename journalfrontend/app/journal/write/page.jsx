@@ -66,14 +66,15 @@ export default function JournalEntryEditor() {
       return;
     }
 
+
     // upload any image data
     const formData = new FormData();
     formData.append("entry", content);
     formData.append("title", title ? title : "N/A");
     formData.append("email", user.email);
     if (uploadedPhoto) {
-      // FIXME: Use a more unique name, might overwite existing photos
-      formData.append("image", uploadedPhoto);
+      let imageType = uploadedPhoto.type.split("/")[1]
+      formData.append("image", uploadedPhoto, `${uuidv4()}.${imageType}`);
     }
     if (audioRecording) {
           formData.append("audio", audioRecording, `${uuidv4()}.webm`);
