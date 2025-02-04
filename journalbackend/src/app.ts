@@ -1,14 +1,14 @@
 import express from 'express';
-import { writeJournalEntry, getJournalEntries, getJournalEntry } from './aws/dynamodb.js';
+import { writeJournalEntry, getJournalEntries, getJournalEntry } from './aws/dynamodb';
 import cors from 'cors'
 import multer from 'multer'
-import { getRedisClient } from './redis.js';
-import { getPhotosForJournalEntry, uploadPhoto, uploadAudio } from './aws/s3.js';
-import DateUtil from '../shared/utils/DateUtil.js'
-import { toBase64, getMimeTypePrefix } from './utils/photo-manipulator.js';
+import { getRedisClient } from './redis';
+import { getPhotosForJournalEntry, uploadPhoto, uploadAudio } from './aws/s3';
+import DateUtil from './utils/DateFactory'
+import { toBase64, getMimeTypePrefix } from './utils/photoManipulator';
 
 const app = express();
-const PORT = process.env.PORT || 8000; // Use .env port or 8000 for local development
+const PORT = parseInt(process.env.PORT ?? "8000") // Use .env port or 8000 for local development
 const HOSTNAME = '0.0.0.0'; // Allow all incoming requests in production
 
 const storage = multer.memoryStorage()
@@ -34,7 +34,7 @@ apiRouter.get('/journal-entries', async (req, res) => {
 
     let redisClient = await getRedisClient()
 
-    const email = req.headers['authorization']?.split(' ')[1];``
+    const email: string = req.headers['authorization']!!.split(' ')[1];``
 
     // First see if there are cached journal entries, that way we don't have to fetch from s3 again
     let cachedEntries = await redisClient.get(email);
@@ -55,8 +55,8 @@ apiRouter.get('/journal-entries', async (req, res) => {
 })
 
 apiRouter.get('/journal-entry-text', async (req, res) => {
-    const { date } = req.query;
-    const email = req.headers['authorization']?.split(' ')[1];
+    const date = req.query.date as string; 
+    const email = req.headers['authorization']!!.split(' ')[1];
 
     const entry = await getJournalEntry(date, email);
 
@@ -66,15 +66,15 @@ apiRouter.get('/journal-entry-text', async (req, res) => {
 })
 
 apiRouter.get('/journal-entry-images', async (req, res) => {
-    const { date } = req.query;
-    const email = req.headers['authorization']?.split(' ')[1];
+    const date = req.query.date as string; 
+    const email = req.headers['authorization']!!.split(' ')[1];
 
     let dateObject = dateUtil.convertStringToDateObject(date)
     const photos = await getPhotosForJournalEntry(email, dateObject)
 
-    let imageData = photos.map(photo => {
+    let imageData = photos.map((photo: any) => {
         const base64String = toBase64(photo.imageBuffer)
-        const photoUrl = getMimeTypePrefix(base64String, photo.imageKey.split('.').pop().toLowerCase())
+        const photoUrl = getMimeTypePrefix(base64String, photo!!.imageKey!!.split('.')!!.pop()!!.toLowerCase())
         return {
             image: photoUrl
         }
@@ -99,8 +99,8 @@ apiRouter.post('/write-journal',   upload.fields([
         let entry = req.body.entry
         let title = req.body.title
         let email = req.body.email
-        let image = req.files["image"]
-        let audio = req.files["audio"]
+        const image = req.files && "image" in req.files ? (req.files["image"] as Express.Multer.File[])[0] : undefined;
+        const audio = req.files && "audio" in req.files ? (req.files["audio"] as Express.Multer.File[])[0] : undefined;
 
         const today = dateUtil.getTodayDate()
         const todayString = dateUtil.getDateString(today)

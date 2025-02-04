@@ -2,7 +2,6 @@ import {
     S3Client,
     PutObjectCommand,
     GetObjectCommand,
-    ListObjectsCommand,
     ListObjectsV2Command
 } from "@aws-sdk/client-s3";
 
@@ -13,7 +12,7 @@ const bucketName = 'journalappphotos'
 const s3Client = new S3Client({});
 
 
-export async function uploadPhoto(image, email, today) {
+export async function uploadPhoto(image: any, email: string, today: Date) {
     const year = today.getFullYear();
     const month = today.getMonth() + 1; // Gets the month (0-based, so add 1)
     const day = today.getDate();
@@ -36,7 +35,7 @@ export async function uploadPhoto(image, email, today) {
     }
 }
 
-export async function getPhotosForJournalEntry(email, date) {
+export async function getPhotosForJournalEntry(email: string, date: Date) {
     const year = date.getFullYear();
     const month = date.getMonth() + 1; // Gets the month (0-based, so add 1)
     const day = date.getDate(); 
@@ -56,7 +55,7 @@ export async function getPhotosForJournalEntry(email, date) {
     if (photos) {
 
         // Loop through the objects and get the image data
-        const fetchPromises = photos.map(async (item) => {
+        const fetchPromises = photos.map(async (item: any) => {
             const imageKey = item.Key;
 
             const getObjectParams = {
@@ -68,7 +67,7 @@ export async function getPhotosForJournalEntry(email, date) {
             const imageResponse = await s3Client.send(getObjectCommand);
 
             // If you want the image data as a Buffer
-            const stream = imageResponse.Body; // This is a ReadableStream
+            const stream: any = imageResponse.Body; // This is a ReadableStream
             const chunks = [];
 
             for await (const chunk of stream) {
@@ -91,6 +90,6 @@ export async function getPhotosForJournalEntry(email, date) {
     }
 }
 
-export async function uploadAudio(audio, email, today) {
+export async function uploadAudio(audio: any, email: string, today: Date) {
     
 }
