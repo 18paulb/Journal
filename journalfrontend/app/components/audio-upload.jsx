@@ -3,15 +3,7 @@
 import {useState, useRef } from "react"
 import { Mic } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog"
+import DeleteDialog from "./deletion-confirm"
 
 
 /**
@@ -90,30 +82,14 @@ export function AudioUpload({ audioRecording, onAudioRecorded }) {
                 Your browser does not support the audio element.
               </audio>
               <div className="flex justify-center gap-2">
-                <Button variant="outline" onClick={handleReset}>
-                  Record Again
-                </Button>
-                <Dialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
-                  <DialogTrigger asChild>
-                    <Button variant="destructive">Delete Recording</Button>
-                  </DialogTrigger>
-                  <DialogContent>
-                    <DialogHeader>
-                      <DialogTitle>Delete Recording</DialogTitle>
-                      <DialogDescription>
-                        Are you sure you want to delete this recording? This action cannot be undone.
-                      </DialogDescription>
-                    </DialogHeader>
-                    <DialogFooter>
-                      <Button variant="outline" onClick={() => setShowDeleteDialog(false)}>
-                        Cancel
-                      </Button>
-                      <Button variant="destructive" onClick={handleReset}>
-                        Delete
-                      </Button>
-                    </DialogFooter>
-                  </DialogContent>
-                </Dialog>
+                <DeleteDialog 
+                  show={showDeleteDialog} 
+                  setShow={setShowDeleteDialog} 
+                  title="Delete Recording" 
+                  description="Are you sure you want to delete this recording? This action cannot be undone."
+                  onDelete={handleReset}
+                ></DeleteDialog>
+                
               </div>
             </div>
           )}
