@@ -23,10 +23,10 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { useUser } from "@auth0/nextjs-auth0/client";
-import { UserLoading } from "../components/userLoading";
-import { widgetsMap } from "./widget_info";
+import { UserLoading } from "../components/user-loading";
+import { widgetsMap } from "./widget-info";
 import { useToast } from "@/hooks/use-toast";
-import NetworkClient from "../network/NetworkClient";
+import NetworkClient from "../network/network-client";
 
 const iconMap = {
   NASA_IMAGE_OF_THE_DAY: BarChart3,

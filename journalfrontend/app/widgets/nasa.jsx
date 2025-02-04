@@ -2,7 +2,7 @@ import { useState, useEffect } from "react"
 import axios from "axios"
 import { Loader2, Rocket } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
-import { ImageWidget } from "./imageWidget";
+import { ImageWidget } from "./image-widget";
 
 export function NasaWidget({ date }) {
   const [data, setData] = useState(null)

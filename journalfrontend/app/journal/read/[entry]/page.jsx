@@ -7,10 +7,10 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useUser } from "@auth0/nextjs-auth0/client";
 
-import { UserLoading } from "@/app/components/userLoading";
-import { getWidgets } from "@/app/widgets/widgetController";
-import NetworkClient from "@/app/network/NetworkClient";
-import ImageGrid from "@/app/components/photogrid";
+import { UserLoading } from "@/app/components/user-loading";
+import { getWidgets } from "@/app/widgets/widget-controller";
+import NetworkClient from "@/app/network/network-client";
+import ImageGrid from "@/app/components/photo-grid";
 import AudioView from "@/app/components/audio-view";
 
 export default function JournalEntry() {
