@@ -38,21 +38,29 @@ export default function JournalEntry() {
         })
         .catch((error) => console.log(error));
 
-      // Load Images
-      network
-        .getJournalEntryImages(date, user.email)
-        .then((response) => {
-          setEntryImages(response.data.images);
-        })
-        .catch((error) => console.log(error));
+      // // Load Images
+      // network
+      //   .getJournalEntryImages(date, user.email)
+      //   .then((response) => {
+      //     setEntryImages(response.data.images);
+      //   })
+      //   .catch((error) => console.log(error));
 
-      // Load Audio Data
+      // // Load Audio Data
+      // network
+      //   .getJournalEntryAudio(date, user.email)
+      //   .then((response) => {
+      //     debugger
+      //     setAudioData(response.data.audios);
+      //   })
+      //   .catch((error) => console.log(error));
       network
-        .getJournalEntryAudio(date, user.email)
+        .getJournalEntryMedia(date, user.email)
         .then((response) => {
-          setAudioData(response.data.audio);
+          debugger
+          setEntryImages(response.data.images)
+          setAudioData(response.data.audios)
         })
-        .catch((error) => console.log(error));
 
       // Also grab the widgets that are active for the user
       setWidgets(getWidgets(user, date));
@@ -138,7 +146,7 @@ export default function JournalEntry() {
               </CardContent>
             </TabsContent>
             <TabsContent value="audio" className="space-y-4">
-              <AudioView></AudioView>
+              <AudioView audioData={audioData}></AudioView>
             </TabsContent>
             <TabsContent value="widgets">
               <CardContent className="p-6 sm:p-8">

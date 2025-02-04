@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import { v4 as uuidv4 } from "uuid";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -71,10 +72,11 @@ export default function JournalEntryEditor() {
     formData.append("title", title ? title : "N/A");
     formData.append("email", user.email);
     if (uploadedPhoto) {
+      // FIXME: Use a more unique name, might overwite existing photos
       formData.append("image", uploadedPhoto);
     }
     if (audioRecording) {
-          formData.append("audio", audioRecording, "recording.webm");
+          formData.append("audio", audioRecording, `${uuidv4()}.webm`);
     }
 
     try {
@@ -180,7 +182,7 @@ export default function JournalEntryEditor() {
             </TabsContent>
 
             <TabsContent value="audio" className="space-y-4">
-              <AudioUpload onAudioRecorded={setAudioRecording}></AudioUpload>
+              <AudioUpload audioRecording={audioRecording} onAudioRecorded={setAudioRecording}></AudioUpload>
             </TabsContent>
           </Tabs>
         </div>

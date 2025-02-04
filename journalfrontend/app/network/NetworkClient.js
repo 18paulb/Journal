@@ -20,19 +20,15 @@ export default class NetworkClient {
     );
   }
 
-  async getJournalEntryImages(date, email) {
+  async getJournalEntryMedia(date, email) {
     return axios.get(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/journal-entry-images?date=${date}`,
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/journal-entry-media?date=${date}`,
       {
         headers: {
           Authorization: `Bearer ${email}`, // Sending email in the header
         },
       }
     );
-  }
-
-  async getJournalEntryAudio(date, email) {
-    return
   }
 
   async writeJournalEntry(formData) {

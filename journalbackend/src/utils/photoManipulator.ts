@@ -18,6 +18,9 @@ export function getMimeTypePrefix(base64String: string, fileExtension: string) {
     case "webp":
       contentType = "image/webp";
       break;
+    case "webm":
+      contentType = "audio/webm"
+      break;
     default:
       contentType = "image/jpeg"; // Default to JPEG if unknown
   }

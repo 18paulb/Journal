@@ -3,7 +3,7 @@ import { writeJournalEntry, getJournalEntries, getJournalEntry } from './aws/dyn
 import cors from 'cors'
 import multer from 'multer'
 import { getRedisClient } from './redis';
-import { getPhotosForJournalEntry, uploadPhoto, uploadAudio } from './aws/s3';
+import { getMediaForJournalEntry, uploadPhoto, uploadAudio } from './aws/s3';
 import DateUtil from './utils/DateFactory'
 import { toBase64, getMimeTypePrefix } from './utils/photoManipulator';
 
@@ -65,22 +65,75 @@ apiRouter.get('/journal-entry-text', async (req, res) => {
     })
 })
 
-apiRouter.get('/journal-entry-images', async (req, res) => {
+// apiRouter.get('/journal-entry-images', async (req, res) => {
+//     const date = req.query.date as string; 
+//     const email = req.headers['authorization']!!.split(' ')[1];
+
+//     let dateObject = dateUtil.convertStringToDateObject(date)
+//     const photos = await getPhotosForJournalEntry(email, dateObject)
+
+//     let imageData = photos.map((photo: any) => {
+//         const base64String = toBase64(photo.imageBuffer)
+//         const photoUrl = getMimeTypePrefix(base64String, photo!!.imageKey!!.split('.')!!.pop()!!.toLowerCase())
+//         return {
+//             image: photoUrl
+//         }
+//     })
+
+//     res.json({
+//         images: imageData
+//     })
+
+// }) 
+
+// apiRouter.get('/journal-entry-audio', async (req, res) => {
+//     const date = req.query.date as string; 
+//     const email = req.headers['authorization']!!.split(' ')[1];
+
+//     let dateObject = dateUtil.convertStringToDateObject(date)
+//     const audios = await getAudioForJournalEntry(email, dateObject)
+
+//     let audioData = audios.map((audio: any) => {
+//         const base64String = toBase64(audio.audioBuffer)
+//         const audioUrl = getMimeTypePrefix(base64String, audio!!.audioKey!!.split('.')!!.pop()!!.toLowerCase())
+//         return {
+//             audio: audioUrl
+//         }
+//     })
+
+//     res.json({
+//         audios: audioData
+//     })
+
+// }) 
+
+apiRouter.get('/journal-entry-media', async (req, res) => {
     const date = req.query.date as string; 
     const email = req.headers['authorization']!!.split(' ')[1];
 
     let dateObject = dateUtil.convertStringToDateObject(date)
-    const photos = await getPhotosForJournalEntry(email, dateObject)
+    const mediaData = await getMediaForJournalEntry(email, dateObject)
+    let audios = mediaData.audios
+    let images = mediaData.images
 
-    let imageData = photos.map((photo: any) => {
-        const base64String = toBase64(photo.imageBuffer)
-        const photoUrl = getMimeTypePrefix(base64String, photo!!.imageKey!!.split('.')!!.pop()!!.toLowerCase())
+    let audioData = audios.map((audio: any) => {
+        const base64String = toBase64(audio.mediaBuffer)
+        const audioUrl = getMimeTypePrefix(base64String, audio!!.mediaKey!!.split('.')!!.pop()!!.toLowerCase())
+        return {
+            audio: audioUrl
+        }
+    })
+
+    let imageData = images.map((photo: any) => {
+        const base64String = toBase64(photo.mediaBuffer)
+        const photoUrl = getMimeTypePrefix(base64String, photo!!.mediaKey!!.split('.')!!.pop()!!.toLowerCase())
         return {
             image: photoUrl
         }
     })
 
     res.json({
+        audios: audioData,
         images: imageData
     })
 

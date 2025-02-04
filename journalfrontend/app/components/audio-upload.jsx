@@ -4,8 +4,10 @@ import {useState, useRef } from "react"
 import { Mic } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
-export function AudioUpload({ onAudioRecorded }) {
-  const [audioRecording, setAudioRecording] = useState(null)
+/**
+  AudioUpload should not keep track of it's own audioState, the data from audioRecording should be stored in a parent component
+*/
+export function AudioUpload({ audioRecording, onAudioRecorded }) {
   const [isRecording, setIsRecording] = useState(false)
   const mediaRecorderRef = useRef(null)
   const chunksRef = useRef([])
@@ -25,7 +27,6 @@ export function AudioUpload({ onAudioRecorded }) {
 
       mediaRecorder.onstop = () => {
         const blob = new Blob(chunksRef.current, { type: "audio/webm" })
-        setAudioRecording(blob)
         onAudioRecorded(blob)
         stream.getTracks().forEach((track) => track.stop())
       }
@@ -45,7 +46,6 @@ export function AudioUpload({ onAudioRecorded }) {
   }
 
   const handleReset = () => {
-    setAudioRecording(null)
     chunksRef.current = []
     onAudioRecorded(null)
   }
