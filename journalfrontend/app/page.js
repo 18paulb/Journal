@@ -1,7 +1,7 @@
 "use client";
 
 import { useUser } from "@auth0/nextjs-auth0/client";
-import LandingPage from "@/app/components/landing-page"
+import LandingPage from "@/app/components/landing/landing-page"
 import HomePage from "@/app/components/home-page"
 
 export default function Home() {
