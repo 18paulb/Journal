@@ -35,7 +35,7 @@ export default function JournalEntry() {
     if (user != null) {
       setMediaIsLoading(true);
       setTextIsLoading(true);
-      
+
       // Load the text separate
       network
         .getJournalEntryText(date, user.email)
@@ -79,7 +79,7 @@ export default function JournalEntry() {
   };
 
   return user ? (
-    <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white flex items-center justify-center p-4 sm:p-6 md:p-8">
+    <div className="min-h-screen flex items-center justify-center p-4 sm:p-6 md:p-8">
       <Card className="w-full max-w-5xl shadow-xl rounded-xl overflow-hidden border">
         <CardHeader className="bg-gradient-to-b from-blue-100/80 to-blue-50/50 text-foreground space-y-6 p-6 sm:p-8">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
