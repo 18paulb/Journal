@@ -65,48 +65,6 @@ apiRouter.get('/journal-entry-text', async (req, res) => {
     })
 })
 
-// apiRouter.get('/journal-entry-images', async (req, res) => {
-//     const date = req.query.date as string; 
-//     const email = req.headers['authorization']!!.split(' ')[1];
-
-//     let dateObject = dateUtil.convertStringToDateObject(date)
-//     const photos = await getPhotosForJournalEntry(email, dateObject)
-
-//     let imageData = photos.map((photo: any) => {
-//         const base64String = toBase64(photo.imageBuffer)
-//         const photoUrl = getMimeTypePrefix(base64String, photo!!.imageKey!!.split('.')!!.pop()!!.toLowerCase())
-//         return {
-//             image: photoUrl
-//         }
-//     })
-
-//     res.json({
-//         images: imageData
-//     })
-
-// }) 
-
-// apiRouter.get('/journal-entry-audio', async (req, res) => {
-//     const date = req.query.date as string; 
-//     const email = req.headers['authorization']!!.split(' ')[1];
-
-//     let dateObject = dateUtil.convertStringToDateObject(date)
-//     const audios = await getAudioForJournalEntry(email, dateObject)
-
-//     let audioData = audios.map((audio: any) => {
-//         const base64String = toBase64(audio.audioBuffer)
-//         const audioUrl = getMimeTypePrefix(base64String, audio!!.audioKey!!.split('.')!!.pop()!!.toLowerCase())
-//         return {
-//             audio: audioUrl
-//         }
-//     })
-
-//     res.json({
-//         audios: audioData
-//     })
-
-// }) 
-
 apiRouter.get('/journal-entry-media', async (req, res) => {
     const date = req.query.date as string; 
     const email = req.headers['authorization']!!.split(' ')[1];
@@ -137,6 +95,14 @@ apiRouter.get('/journal-entry-media', async (req, res) => {
         images: imageData
     })
 
+}) 
+
+apiRouter.delete('/media', async (req, res) => {
+    const date = req.query.date as string; 
+    const email = req.headers['authorization']!!.split(' ')[1];
+    const id = req.query.id
+
+    
 }) 
 
 // As of right now, backend is only expecting one image to be uploaded

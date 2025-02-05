@@ -13,13 +13,13 @@ export default function TermsOfService() {
           <ScrollArea className="h-[600px] pr-4">
             <div className="prose prose-gray max-w-none dark:prose-invert">
               <p className="text-lg">
-                Welcome to Journal App ("the App"). By accessing or using the App, you agree to be bound by these Terms
-                of Service ("Terms"). If you do not agree to these Terms, do not use the App.
+                Welcome to Journal App (&quot;the App&quot;). By accessing or using the App, you agree to be bound by these Terms
+                of Service (&quot;Terms&quot;). If you do not agree to these Terms, do not use the App.
               </p>
 
               <section className="mt-8">
                 <h2 className="text-2xl font-semibold">1. Use of the App</h2>
-                <p>The App is provided on an "as-is" and "as-available" basis for personal use only.</p>
+                <p>The App is provided on an &quot;as-is&quot; and &quot;as-available&quot; basis for personal use only.</p>
                 <p>You are responsible for maintaining the security of your account and data.</p>
               </section>
 
@@ -52,7 +52,7 @@ export default function TermsOfService() {
               <section className="mt-8">
                 <h2 className="text-2xl font-semibold">4. No Warranties</h2>
                 <p className="uppercase">
-                  The app is provided "as is," without any warranties of any kind, express or implied, including but not
+                  The app is provided &quot;as is,&quot; without any warranties of any kind, express or implied, including but not
                   limited to warranties of merchantability or fitness for a particular purpose.
                 </p>
               </section>

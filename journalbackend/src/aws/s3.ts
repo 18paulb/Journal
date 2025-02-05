@@ -2,6 +2,7 @@ import {
     S3Client,
     PutObjectCommand,
     GetObjectCommand,
+    DeleteObjectCommand,
     ListObjectsV2Command
 } from "@aws-sdk/client-s3";
 
@@ -9,6 +10,14 @@ const photoBucketName = 'journalappphotos'
 const audioBucketName = 'journalappaudio'
 
 const s3Client = new S3Client({});
+
+export async function deleteAudio(email: string, key: string) {
+
+}
+
+export async function deleteImage(email: string, key: string) {
+    
+}
 
 export async function uploadPhoto(image: any, email: string, today: Date) {
     const year = today.getFullYear();

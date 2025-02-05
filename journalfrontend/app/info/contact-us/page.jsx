@@ -22,7 +22,7 @@ export default function ContactPage() {
 
     toast({
       title: "Message sent!",
-      description: "We'll get back to you as soon as possible.",
+      description: "We&apos;ll get back to you as soon as possible.",
     })
 
     // Reset form
@@ -38,7 +38,7 @@ export default function ContactPage() {
         <div className="space-y-6">
           <div>
             <h1 className="text-3xl font-bold">Get in Touch</h1>
-            <p className="mt-2 text-muted-foreground">Have a question or feedback? We'd love to hear from you.</p>
+            <p className="mt-2 text-muted-foreground">Have a question or feedback? We&apos;d love to hear from you.</p>
           </div>
 
           <div className="space-y-4">
@@ -88,7 +88,7 @@ export default function ContactPage() {
         <Card>
           <CardHeader>
             <CardTitle>Send us a Message</CardTitle>
-            <CardDescription>Fill out the form below and we'll get back to you as soon as possible.</CardDescription>
+            <CardDescription>Fill out the form below and we&apos;ll get back to you as soon as possible.</CardDescription>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-4">

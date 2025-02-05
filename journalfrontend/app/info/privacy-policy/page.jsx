@@ -18,7 +18,7 @@ export default function PrivacyPolicy() {
                 <Shield className="h-4 w-4" />
                 <AlertDescription>
                   Your privacy is important to us. This Privacy Policy explains how we collect, use, and protect your
-                  personal information when you use Journal App ("the App").
+                  personal information when you use Journal App (&quot;the App&quot;).
                 </AlertDescription>
               </Alert>
 
@@ -54,7 +54,7 @@ export default function PrivacyPolicy() {
               <section className="mt-8">
                 <h2 className="text-2xl font-semibold">2. How We Use Your Information</h2>
                 <ul className="list-disc pl-6 space-y-2">
-                  <li>To provide and improve the App's functionality.</li>
+                  <li>To provide and improve the App&apos;s functionality.</li>
                   <li>To personalize your experience.</li>
                   <li>To troubleshoot issues and improve security.</li>
                   <li>To send optional updates or service-related notifications.</li>
