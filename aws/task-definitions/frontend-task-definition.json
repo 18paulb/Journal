@@ -1,0 +1,64 @@
+{
+    "family": "journal-frontend",
+    "networkMode": "awsvpc",
+    "requiresCompatibilities": ["FARGATE"],
+    "cpu": "1024",
+    "memory": "2048",
+    "executionRoleArn": "arn:aws:iam::625565640444:role/ecsTaskExecutionRole",
+    "taskRoleArn": "arn:aws:iam::625565640444:role/ecsTaskExecutionRole",
+    "containerDefinitions": [
+      {
+        "name": "journal-frontend",
+        "image": "625565640444.dkr.ecr.us-west-2.amazonaws.com/journal-frontend:latest",
+        "essential": true,
+        "portMappings": [
+          {
+            "containerPort": 3000,
+            "protocol": "tcp"
+          }
+        ],
+        "secrets": [
+          {
+            "name": "REACT_APP_API_URL",
+            "valueFrom": "arn:aws:secretsmanager:us-west-2:625565640444:secret:journal-frontend-secrets-TNEAYW:REACT_APP_API_URL::"
+          },
+          {
+            "name": "AUTH0_SECRET",
+            "valueFrom": "arn:aws:secretsmanager:us-west-2:625565640444:secret:journal-frontend-secrets-TNEAYW:AUTH0_SECRET::"
+          },
+          {
+            "name": "AUTH0_BASE_URL",
+            "valueFrom": "arn:aws:secretsmanager:us-west-2:625565640444:secret:journal-frontend-secrets-TNEAYW:AUTH0_BASE_URL::"
+          },
+          {
+            "name": "AUTH0_ISSUER_BASE_URL",
+            "valueFrom": "arn:aws:secretsmanager:us-west-2:625565640444:secret:journal-frontend-secrets-TNEAYW:AUTH0_ISSUER_BASE_URL::"
+          },
+          {
+            "name": "AUTH0_CLIENT_ID",
+            "valueFrom": "arn:aws:secretsmanager:us-west-2:625565640444:secret:journal-frontend-secrets-TNEAYW:AUTH0_CLIENT_ID::"
+          },
+          {
+            "name": "AUTH0_CLIENT_SECRET",
+            "valueFrom": "arn:aws:secretsmanager:us-west-2:625565640444:secret:journal-frontend-secrets-TNEAYW:AUTH0_CLIENT_SECRET::"
+          },
+          {
+            "name": "NASA_API_KEY",
+            "valueFrom": "arn:aws:secretsmanager:us-west-2:625565640444:secret:journal-frontend-secrets-TNEAYW:NASA_API_KEY::"
+          },
+          {
+            "name": "NEXT_PUBLIC_BACKEND_URL",
+            "valueFrom": "arn:aws:secretsmanager:us-west-2:625565640444:secret:journal-frontend-secrets-TNEAYW:NEXT_PUBLIC_BACKEND_URL::"
+          }
+        ],
+        "logConfiguration": {
+          "logDriver": "awslogs",
+          "options": {
+            "awslogs-group": "/ecs/journal-frontend",
+            "awslogs-region": "us-west-2",
+            "awslogs-stream-prefix": "ecs"
+          }
+        }
+      }
+    ]
+  }

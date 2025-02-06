@@ -1,22 +1,22 @@
-"use client";
+"use client"
 
-import { useUser } from "@auth0/nextjs-auth0/client";
-import LandingPage from "@/app/components/landing/landing-page"
-import HomePage from "@/app/components/home-page"
+import { useUser } from '@auth0/nextjs-auth0/client';
+import { redirect } from 'next/navigation'
+import { useEffect } from 'react';
+import LandingPage from '@/app/components/landing/landing-page';
 
-export default function Home() {
-  const { user, error, isLoading } = useUser();
+export default function Landing() {
+  const { user } = useUser();
 
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>{error.message}</div>;
+  useEffect(() => {
+    if (user) {
+      redirect('/home')
+    }
+  }, [user]);
 
   return (
     <>
-      {user ? (
-        <HomePage></HomePage>
-      ) : (
-        <LandingPage></LandingPage>
-      )}
+      <LandingPage />
     </>
   );
 }
