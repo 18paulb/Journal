@@ -1,9 +1,13 @@
 import axios from "axios";
 
 export default class NetworkClient {
+
+
+  backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL ?? 'http://journal-backend-1175592937.us-west-2.elb.amazonaws.com/api/'
+
   async getUserJournals(email) {
     console.log(process.env.NEXT_PUBLIC_BACKEND_URL ?? "No backend url provided")
-    return axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/journal-entries`, {
+    return axios.get(`${this.backendUrl}/journal-entries`, {
       headers: {
         Authorization: `Bearer ${email}`, // Sending email in the header
       },
@@ -12,7 +16,7 @@ export default class NetworkClient {
 
   async getJournalEntryText(date, email) {
     return axios.get(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/journal-entry-text?date=${date}`,
+      `${this.backendUrl}/journal-entry-text?date=${date}`,
       {
         headers: {
           Authorization: `Bearer ${email}`, // Sending email in the header
@@ -23,7 +27,7 @@ export default class NetworkClient {
 
   async getJournalEntryMedia(date, email) {
     return axios.get(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/journal-entry-media?date=${date}`,
+      `${this.backendUrl}/journal-entry-media?date=${date}`,
       {
         headers: {
           Authorization: `Bearer ${email}`, // Sending email in the header
@@ -34,7 +38,7 @@ export default class NetworkClient {
 
   async writeJournalEntry(formData) {
     axios.post(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/write-journal`,
+      `${this.backendUrl}/write-journal`,
       formData,
       {
         headers: {
@@ -45,7 +49,7 @@ export default class NetworkClient {
   }
 
   async clearCache(email) {
-    axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/clear-cache`, {
+    axios.post(`${this.backendUrl}/clear-cache`, {
       email: email,
     });
   }
