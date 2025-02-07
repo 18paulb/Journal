@@ -3,7 +3,7 @@ import axios from "axios";
 export default class NetworkClient {
 
 
-  backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL ?? 'http://journal-backend-1175592937.us-west-2.elb.amazonaws.com/api/'
+  backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL ?? 'https://api.remnity.com/api'
 
   async getUserJournals(email) {
     console.log(process.env.NEXT_PUBLIC_BACKEND_URL ?? "No backend url provided")
