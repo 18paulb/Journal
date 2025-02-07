@@ -32,7 +32,7 @@ export function PageHeader() {
                 <BookHeart className="h-6 w-6 text-primary" />
               </div>
               <div>
-                <h1 className="text-xl font-bold">My Journal</h1>
+                <h1 className="text-xl font-bold">Remnity</h1>
                 <p className="text-xs text-muted-foreground">
                   Record your journey
                 </p>

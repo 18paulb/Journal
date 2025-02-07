@@ -7,7 +7,7 @@ export default function PageFooter() {
         <div className="flex flex-col gap-6 md:flex-row md:items-start md:justify-between">
           <div className="space-y-2">
             <Link href="/" className="font-semibold hover:text-primary transition-colors">
-              Journify
+              Remnity
             </Link>
             <p className="text-sm text-muted-foreground">Your digital safe space for personal reflection</p>
           </div>
