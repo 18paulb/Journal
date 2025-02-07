@@ -3,7 +3,7 @@ import { writeJournalEntry, getJournalEntries, getJournalEntry } from './aws/dyn
 import cors from 'cors'
 import multer from 'multer'
 import { getRedisClient } from './redis';
-import { getMediaForJournalEntry, uploadPhoto, uploadAudio } from './aws/s3';
+import { getMediaForJournalEntry, uploadPhoto, uploadAudio, deleteAudio, deleteImage } from './aws/s3';
 import DateUtil from './utils/DateFactory'
 import { toBase64, getMimeTypePrefix } from './utils/photoManipulator';
 
@@ -78,6 +78,7 @@ apiRouter.get('/journal-entry-media', async (req, res) => {
         const base64String = toBase64(audio.mediaBuffer)
         const audioUrl = getMimeTypePrefix(base64String, audio!!.mediaKey!!.split('.')!!.pop()!!.toLowerCase())
         return {
+            key: audio.mediaKey,
             audio: audioUrl
         }
     })
@@ -86,6 +87,7 @@ apiRouter.get('/journal-entry-media', async (req, res) => {
         const base64String = toBase64(photo.mediaBuffer)
         const photoUrl = getMimeTypePrefix(base64String, photo!!.mediaKey!!.split('.')!!.pop()!!.toLowerCase())
         return {
+            key: photo.mediaKey,
             image: photoUrl
         }
     })
@@ -97,12 +99,24 @@ apiRouter.get('/journal-entry-media', async (req, res) => {
 
 }) 
 
-apiRouter.delete('/media', async (req, res) => {
-    const date = req.query.date as string; 
-    const email = req.headers['authorization']!!.split(' ')[1];
-    const id = req.query.id
+apiRouter.delete('/audio', async (req, res) => {
+    try {
+        const key: string = req.query.key as string
+        await deleteAudio(key)
+        res.send(200)
+    } catch (error) {
+        res.send(500)
+    }
+}) 
 
-    
+apiRouter.delete('/image', async (req, res) => {
+    try {
+        const key: string = req.query.key as string
+        await deleteImage(key)
+        res.send(200)
+    } catch (error) {
+        res.send(500)
+    }
 }) 
 
 // As of right now, backend is only expecting one image to be uploaded

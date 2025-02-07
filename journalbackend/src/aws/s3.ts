@@ -11,13 +11,37 @@ const audioBucketName = 'journalappaudio'
 
 const s3Client = new S3Client({});
 
-export async function deleteAudio(email: string, key: string) {
-
-}
-
-export async function deleteImage(email: string, key: string) {
+export async function deleteAudio(key: string) {
+    try {
+        const command = new DeleteObjectCommand({
+          Bucket: audioBucketName,
+          Key: key,
+        });
     
+        const response = await s3Client.send(command);
+        console.log("Successfully deleted:", key, response);
+        return response;
+      } catch (error) {
+        console.error("Error deleting object:", error);
+        throw error;
+      }
 }
+
+export async function deleteImage(key: string) {
+    try {
+      const command = new DeleteObjectCommand({
+        Bucket: photoBucketName,
+        Key: key,
+      });
+  
+      const response = await s3Client.send(command);
+      console.log("Successfully deleted:", key, response);
+      return response;
+    } catch (error) {
+      console.error("Error deleting object:", error);
+      throw error;
+    }
+  }
 
 export async function uploadPhoto(image: any, email: string, today: Date) {
     const year = today.getFullYear();

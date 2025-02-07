@@ -36,8 +36,24 @@ export default class NetworkClient {
     );
   }
 
+  async deleteAudio(key) {
+    return axios.delete(
+      `${this.backendUrl}/audio`, {
+        params: { key }
+      }
+    )
+  }
+
+  async deleteImage(key) {
+    return axios.delete(
+      `${this.backendUrl}/image`, {
+        params: { key }
+      }
+    )
+  }
+
   async writeJournalEntry(formData) {
-    axios.post(
+    return axios.post(
       `${this.backendUrl}/write-journal`,
       formData,
       {
@@ -49,7 +65,7 @@ export default class NetworkClient {
   }
 
   async clearCache(email) {
-    axios.post(`${this.backendUrl}/clear-cache`, {
+    return axios.post(`${this.backendUrl}/clear-cache`, {
       email: email,
     });
   }
