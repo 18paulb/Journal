@@ -7,9 +7,9 @@ RUN npm install --legacy-peer-deps
 
 COPY . .
 
-RUN chmod u+x /entryPoint.sh
+RUN chmod u+x ./entryPoint.sh
 
-ENTRYPOINT ["/entryPoint.sh"]
+ENTRYPOINT ["./entryPoint.sh"]
 
 RUN npm run build
 
