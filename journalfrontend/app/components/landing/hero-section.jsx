@@ -17,7 +17,7 @@ export default function HeroSection() {
           className="w-full h-full object-cover"
           style={{ filter: "brightness(0.7)" }}
         >
-          <source src="/placeholder.mp4" type="video/mp4" />
+          {/* <source src="/placeholder.mp4" type="video/mp4" /> */}
         </video>
       </div>
       <motion.div

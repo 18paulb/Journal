@@ -7,6 +7,7 @@ function isPublicRoute(pathname) {
   const publicRoutes = [
     '/',              // Landing page
     '/api/auth/login',
+    '/api/auth/logout',
     '/api/auth/callback',
   ];
   return publicRoutes.includes(pathname);
@@ -14,21 +15,25 @@ function isPublicRoute(pathname) {
 
 export async function middleware(req) {
   // Allow public routes to bypass authentication
-  if (isPublicRoute(req.nextUrl.pathname)) {
-    return NextResponse.next();
-  }
+  // if (isPublicRoute(req.nextUrl.pathname)) {
+  //   return NextResponse.next();
+  // }
 
-  // Check if user is authenticated
-  const user = await getSession(req);
+  // // Check if user is authenticated
+  // const user = await getSession(req);
+
   
-  if (!user) {
-    // Redirect to login if not authenticated
-    // Store the intended destination to redirect back after login
-    const returnTo = encodeURIComponent(req.nextUrl.pathname);
-    return NextResponse.redirect(
-      new URL(`/api/auth/login?returnTo=${returnTo}`, req.url)
-    );
-  }
+  // if (!user) {
+  //   // Redirect to login if not authenticated
+  //   // Store the intended destination to redirect back after login
+  //   const returnTo = encodeURIComponent(req.nextUrl.pathname);
+
+  //   console.log("URL:", req.url)
+  //   return NextResponse.redirect(
+  //     // new URL(`/api/auth/login?returnTo=${returnTo}`, req.url)
+  //     new URL('/', req.url)
+  //   );
+  // }
 
   return NextResponse.next();
 }

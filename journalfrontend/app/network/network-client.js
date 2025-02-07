@@ -2,6 +2,7 @@ import axios from "axios";
 
 export default class NetworkClient {
   async getUserJournals(email) {
+    console.log(process.env.NEXT_PUBLIC_BACKEND_URL ?? "No backend url provided")
     return axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/journal-entries`, {
       headers: {
         Authorization: `Bearer ${email}`, // Sending email in the header
