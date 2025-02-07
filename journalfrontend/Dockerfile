@@ -7,6 +7,10 @@ RUN npm install --legacy-peer-deps
 
 COPY . .
 
+RUN chmod u+x /entrypoint.sh
+
+ENTRYPOINT ["/entrypoint.sh"]
+
 RUN npm run build
 
 EXPOSE 3000
