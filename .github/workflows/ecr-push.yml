@@ -61,22 +61,6 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: ${{ secrets.AWS_REGION }}
 
-    - name: Scale Down ECS Services
-      env:
-        ECS_CLUSTER: ${{ secrets.JOURNAL_CLUSTER }}
-        FRONTEND_SERVICE: ${{ secrets.FRONTEND_SERVICE }}
-        BACKEND_SERVICE: ${{ secrets.BACKEND_SERVICE }}
-      run: |
-        echo "Scaling down frontend service..."
-        aws ecs update-service --cluster $ECS_CLUSTER --service $FRONTEND_SERVICE --desired-count 0
-
-        echo "Scaling down backend service..."
-        aws ecs update-service --cluster $ECS_CLUSTER --service $BACKEND_SERVICE --desired-count 0
-
-        echo "Waiting for old tasks to stop..."
-        sleep 10  # Adjust if needed based on stop time
-  
-
     - name: Restart ECS Tasks for Both Services
       env:
         ECS_CLUSTER: ${{ secrets.JOURNAL_CLUSTER }}
