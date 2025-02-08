@@ -11,7 +11,7 @@ import JournalEntriesList from "../components/journal-entries-list";
 import { Calendar, List } from "lucide-react";
 
 export default function JournalEntries() {
-  const [network] = useState(new NetworkClient())
+  const [network] = useState(new NetworkClient());
   const [data, setData] = useState(null);
   const { user, error, isLoading } = useUser();
 
@@ -21,7 +21,9 @@ export default function JournalEntries() {
     if (user) {
       network
         .getUserJournals(user.email)
-        .then((response) => setData(response.data))
+        .then((response) => {
+          setData(response.data);
+        })
         .catch((error) => console.log(error));
     }
   }, [user, network]);

@@ -27,6 +27,7 @@ import { UserLoading } from "../components/user-loading";
 import { widgetsMap } from "./widget-info";
 import { useToast } from "@/hooks/use-toast";
 import NetworkClient from "../network/network-client";
+import DateFactory from "@/app/utils/DateFactory";
 
 const iconMap = {
   NASA_IMAGE_OF_THE_DAY: BarChart3,
@@ -157,7 +158,7 @@ export default function SettingsPage() {
           <CardFooter className="border-t bg-muted/50">
             <div className="flex w-full items-center justify-between">
               <p className="text-sm text-muted-foreground">
-                Last updated: {new Date().toLocaleDateString()}
+                Last updated: {DateFactory.getTodayDate().toLocaleDateString()}
               </p>
               <Button
                 onClick={handleClearCache}

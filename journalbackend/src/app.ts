@@ -132,11 +132,11 @@ apiRouter.post('/write-journal',   upload.fields([
         let entry = req.body.entry
         let title = req.body.title
         let email = req.body.email
+        let todayString = req.body.date
         const image = req.files && "image" in req.files ? (req.files["image"] as Express.Multer.File[])[0] : undefined;
         const audio = req.files && "audio" in req.files ? (req.files["audio"] as Express.Multer.File[])[0] : undefined;
 
-        const today = dateUtil.getTodayDate()
-        const todayString = dateUtil.getDateString(today)
+        const today = dateUtil.convertStringToDateObject(todayString)
 
         await writeJournalEntry(entry, title, todayString, email)
         
