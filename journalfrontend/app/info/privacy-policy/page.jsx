@@ -10,7 +10,7 @@ export default function PrivacyPolicy() {
       <Card className="max-w-4xl mx-auto">
         <CardHeader>
           <CardTitle className="text-3xl font-bold text-center">Privacy Policy</CardTitle>
-          <p className="text-muted-foreground text-center mt-2">Last Updated: {DateFactory().getTodayDate().toLocaleDateString()}</p>
+          <p className="text-muted-foreground text-center mt-2">Last Updated: {DateFactory.getTodayDate().toLocaleDateString()}</p>
         </CardHeader>
         <CardContent>
           <ScrollArea className="h-[600px] pr-4">
