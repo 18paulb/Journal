@@ -29,6 +29,7 @@ import PhotoUpload from "@/app/components/photo-upload";
 import { Label } from "@/components/ui/label";
 
 import { AudioUpload } from "../../components/audio-upload"
+import DateFactory from "@/app/utils/DateFactory";
 
 export default function JournalEntryEditor() {
   const [title, setTitle] = useState("");
@@ -44,7 +45,7 @@ export default function JournalEntryEditor() {
   // Load in today's entry if it exists
   useEffect(() => {
     if (user != null) {
-      const today = new Date().toLocaleDateString("en-CA");
+      const today = DateFactory.getLocalDateString()
 
       network
         .getJournalEntryText(today, user.email)
@@ -72,6 +73,8 @@ export default function JournalEntryEditor() {
     formData.append("entry", content);
     formData.append("title", title ? title : "N/A");
     formData.append("email", user.email);
+    formData.append("date", DateFactory.getLocalDateString())
+    
     if (uploadedPhoto) {
       let imageType = uploadedPhoto.type.split("/")[1]
       formData.append("image", uploadedPhoto, `${uuidv4()}.${imageType}`);

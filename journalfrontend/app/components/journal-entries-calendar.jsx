@@ -7,7 +7,7 @@ import { useState, useMemo } from "react";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-// import DateUtil from "@shared/utils/DateUtil";
+import DateFactory from "@/app/utils/DateFactory";
 import {
   Tooltip,
   TooltipContent,
@@ -16,10 +16,8 @@ import {
 } from "@/components/ui/tooltip";
 
 export function JournalEntriesCalendar({ entries }) {
-  // const dateUtil = new DateUtil();
-  // const [year, setYear] = useState(dateUtil.getTodayDate().getFullYear());
-  const [year, setYear] = useState(new Date().getFullYear());
-  const [currentMonth, setCurrentMonth] = useState(new Date().getMonth()); // For mobile view
+  const [year, setYear] = useState(DateFactory.getTodayDate().getFullYear());
+  const [currentMonth, setCurrentMonth] = useState(DateFactory.getTodayDate().getMonth());
 
   const months = [
     "January",
@@ -41,7 +39,6 @@ export function JournalEntriesCalendar({ entries }) {
     if (entries != null || entries != undefined) {
       entries.forEach((entry) => {
         let date = new Date(entry.date + 'T00:00:00');
-        // let date = dateUtil.convertStringToDateObject(entry.date);
         const dateKey = `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
         map.set(dateKey, entry);
       });
@@ -57,11 +54,11 @@ export function JournalEntriesCalendar({ entries }) {
   const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
   const getDaysInMonth = (month, year) => {
-    return new Date(year, month + 1, 0).getDate();
+    return DateFactory.createDateFromNumbers(year, month + 1, 0).getDate()
   };
 
   const getFirstDayOfMonth = (month, year) => {
-    return new Date(year, month, 1).getDay();
+    return DateFactory.createDateFromNumbers(year, month, 1).getDay()
   };
 
   const generateMonthGrid = (month) => {
@@ -198,10 +195,8 @@ export function JournalEntriesCalendar({ entries }) {
               variant="outline"
               size="icon"
               onClick={() => {
-                // setYear(dateUtil.getTodayDate().getFullYear());
-                // setCurrentMonth(dateUtil.getTodayDate().getMonth());
-                setYear(new Date().getFullYear());
-                setCurrentMonth(new Date().getMonth());
+                setYear(DateFactory.getTodayDate().getFullYear());
+                setCurrentMonth(DateFactory.getTodayDate().getMonth());
               }}
               className="hover:text-primary"
             >
