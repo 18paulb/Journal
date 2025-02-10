@@ -6,14 +6,16 @@ services:
       - "3000:3000"
     networks:
       - "app-network"
+    env_file:
+      - .env
     environment:
-      - AUTH0_SECRET=4dbdaa8eccd69dbeadcd8cfef3fedd2511810eddc608b4381983d7b2db433966
-      - AUTH0_BASE_URL=http://localhost:3000
-      - AUTH0_ISSUER_BASE_URL=https://dev-asa0w72dk1qcqv3g.us.auth0.com
-      - AUTH0_CLIENT_ID=NpXKrGREj23hFG9z0z4t15ApMNDqP8iE
-      - AUTH0_CLIENT_SECRET=Z1B7TaYkXe-lRTizA9RY1ilmG2VuBYp8ZkKh9UeajYl9ZPUIyk-vQ_jUb4Lpe2PN
-      - NASA_API_KEY=7I5PPrZvKdyl0ln21aWNDned6cmcFFRCkPzeqh1U
-      - NEXT_PUBLIC_BACKEND_URL=http://localhost:8000/api
+      AUTH0_SECRET: ${AUTH0_SECRET}
+      AUTH0_BASE_URL: ${AUTH0_BASE_URL}
+      AUTH0_ISSUER_BASE_URL: ${AUTH0_ISSUER_BASE_URL}
+      AUTH0_CLIENT_ID: ${AUTH0_CLIENT_ID}
+      AUTH0_CLIENT_SECRET: ${AUTH0_CLIENT_SECRET}
+      NASA_API_KEY: ${NASA_API_KEY}
+      NEXT_PUBLIC_BACKEND_URL: ${NEXT_PUBLIC_BACKEND_URL}
     volumes:
       - ./shared:/shared  # Mount shared folder for frontend
 

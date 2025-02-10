@@ -33,7 +33,7 @@ export default function AuthErrorPage() {
         <CardFooter className="flex flex-col gap-2">
           <div className="flex gap-2 w-full">
             <Button asChild variant="outline" className="w-full">
-              <Link href="/auth/login">Try Again</Link>
+              <Link href="/api/auth/login">Try Again</Link>
             </Button>
             <Button asChild className="w-full">
               <Link href="/info/contact-us">Contact Support</Link>
