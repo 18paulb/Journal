@@ -3,7 +3,7 @@
 import * as React from "react";
 import { ChevronLeft, ChevronRight, CalendarClock } from "lucide-react";
 import Link from "next/link";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/tooltip";
 
 export function JournalEntriesCalendar({ entries }) {
-  const [year, setYear] = useState(DateFactory.getTodayDate().getFullYear());
+  const [year, setYear] = useState(localStorage.getItem("lastVisitedYear") ?? DateFactory.getTodayDate().getFullYear());
   const [currentMonth, setCurrentMonth] = useState(DateFactory.getTodayDate().getMonth());
 
   const months = [
@@ -33,6 +33,12 @@ export function JournalEntriesCalendar({ entries }) {
     "November",
     "December",
   ];
+
+  // Sets the year whenever user navgiates between years
+  useEffect(() => {
+    localStorage.setItem('lastVisitedYear', year.toString());
+  }, [year]);
+    
 
   const entryMap = useMemo(() => {
     const map = new Map();
