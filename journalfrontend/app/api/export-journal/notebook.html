@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Journal Entry</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f0ede6;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        .journal-page {
+            width: 90%;
+            max-width: 600px;
+            min-height: 800px;
+            background: linear-gradient(to right, #f9f9f9 0%, #ffffff 100%);
+            padding: 40px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1),
+                        2px 2px 4px rgba(0, 0, 0, 0.05);
+            position: relative;
+            border-radius: 2px;
+            line-height: 1.6;
+        }
+
+        .journal-page::before {
+            content: '';
+            position: absolute;
+            left: 40px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background-color: #ff000015;
+        }
+
+        .date {
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 20px;
+        }
+
+        .content {
+            background-image: linear-gradient(#00000012 1px, transparent 1px);
+            background-size: 100% 32px;
+            line-height: 32px;
+            padding: 0 0 0 20px;
+            color: #333;
+        }
+
+        @media (max-width: 600px) {
+            .journal-page {
+                padding: 20px;
+                width: 95%;
+            }
+
+            .journal-page::before {
+                left: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="journal-page">
+        <div class="date">April 15th, 2024</div>
+        <div class="content">
+            Dear Diary,<br><br>
+            Today was an extraordinary day. The morning began with a gentle rain that painted the world in soft, muted colors. I spent hours by the window, watching droplets race down the glass, each one carrying a tiny reflection of the world outside.<br><br>
+            The afternoon cleared up beautifully, and I decided to take a walk in the park. The post-rain freshness was invigorating, and the way the sunlight caught the remaining water drops on leaves made everything sparkle like nature's own jewelry.<br><br>
+            I've been thinking a lot about change lately. How some changes come suddenly like summer storms, while others creep in slowly like the shifting of seasons. Both kinds shape us in their own way, I suppose.<br><br>
+            Tomorrow brings new possibilities, and I'm looking forward to what it might bring. For now, I'll end this entry with a grateful heart for all the small moments that made today special.<br><br>
+            Until tomorrow,<br>
+            Sarah
+        </div>
+    </div>
+</body>
+</html>
