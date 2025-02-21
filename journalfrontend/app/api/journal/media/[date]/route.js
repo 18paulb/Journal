@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getMediaForJournalEntry } from "@/app/api/aws/s3"
+import { getMediaForJournalEntry } from "@/lib/aws/s3"
 import DateFactory from "@/lib/DateFactory"
 import { toBase64, getMimeTypePrefix } from "@/lib/photoManipulator";
 

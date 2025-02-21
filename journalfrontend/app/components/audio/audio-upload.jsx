@@ -3,7 +3,7 @@
 import {useState, useRef } from "react"
 import { Mic } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import DeleteDialog from "./deletion-confirm"
+import DeleteDialog from "../deletion-confirm"
 
 
 /**

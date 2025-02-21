@@ -6,7 +6,7 @@ export default class NetworkClient {
   backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL ?? 'https://api.remnity.com/api'
 
   async getUserJournals(email) {
-    return axios.get(`/api/journal-entries`, {
+    return axios.get(`/api/journal/entries`, {
       headers: {
         Authorization: `Bearer ${email}`, // Sending email in the header
       },

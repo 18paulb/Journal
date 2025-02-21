@@ -24,11 +24,11 @@ import {
 } from "lucide-react";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import { UserLoading } from "@/app/components/user-loading";
-import NetworkClient from "@/app/network/network-client";
-import PhotoUpload from "@/app/components/photo-upload";
+import NetworkClient from "@/lib/network-client";
+import PhotoUpload from "@/app/components/photo/photo-upload";
 import { Label } from "@/components/ui/label";
 
-import { AudioUpload } from "../../components/audio-upload"
+import { AudioUpload } from "../../components/audio/audio-upload"
 import DateFactory from "@/lib/DateFactory";
 
 export default function JournalEntryEditor() {

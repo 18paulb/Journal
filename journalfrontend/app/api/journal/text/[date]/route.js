@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getJournalEntry } from "@/app/api/aws/dynamodb"
+import { getJournalEntry } from "@/lib/aws/dynamodb"
 
 export async function GET(
     request,

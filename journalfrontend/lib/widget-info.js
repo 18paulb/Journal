@@ -8,6 +8,5 @@ export const widgetsMap = {
         description: "See the picture of the day",
         enabled: false,
         preview: "bg-blue-100",
-        
     }
 }

@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getJournalEntries } from "@/app/api/aws/dynamodb";
+import { getJournalEntries } from "@/lib/aws/dynamodb";
 
 export async function GET(request) {
   const authHeader = request.headers.get("authorization");

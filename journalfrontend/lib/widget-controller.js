@@ -1,4 +1,4 @@
-import { NasaWidget } from "./nasa";
+import { NasaWidget } from "../app/components/widgets/nasa";
 
 // FIXME: This is bad to just match direct strings, think of a better way
 export function getWidgets(user, date) { 

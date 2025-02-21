@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { deleteImage } from "@/app/api/aws/s3";
+import { deleteImage } from "@/lib/aws/s3";
 
 export async function DELETE(request) {
     const url = new URL(request.url);

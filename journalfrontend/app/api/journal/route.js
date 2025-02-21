@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
-import { writeJournalEntry } from "../aws/dynamodb";
-import { uploadAudio, uploadPhoto } from "../aws/s3";
+import { writeJournalEntry } from "@/lib/aws/dynamodb";
+import { uploadAudio, uploadPhoto } from "@/lib/aws/s3";
 import DateFactory from "@/lib/DateFactory";
 
 export async function POST(request) {

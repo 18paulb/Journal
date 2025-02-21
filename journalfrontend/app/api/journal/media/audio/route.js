@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { deleteAudio } from "@/app/api/aws/s3";
+import { deleteAudio } from "@/lib/aws/s3";
 
 export async function DELETE(request) {
     const url = new URL(request.url);
