@@ -1,8 +1,18 @@
+"use client"
+
 import Link from "next/link"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { BookOpen, Download, ImageIcon, PenSquare, Sparkles, Trophy } from "lucide-react"
+import { Card, CardContent } from "@/components/ui/card"
+import { BookOpen, Download, PenSquare } from "lucide-react"
+import { useUser } from "@auth0/nextjs-auth0/client"
+import JournalEntryCountStat from "../components/stats/journal-entry-count"
+import PhotoCountStat from "../components/stats/photo-count"
+import CurrentStreakStat from "../components/stats/current-streak"
+import LongestStreakStat from "../components/stats/longest-streak"
 
 export default function HomePage() {
+
+  const { user } = useUser();
+
   return (
     <div className="min-h-screen bg-background">
       <div className="container mx-auto px-4 py-12">
@@ -47,57 +57,15 @@ export default function HomePage() {
         <div>
           <h2 className="text-2xl font-semibold mb-6">Your Stats</h2>
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Total Entries</CardTitle>
-                <div className="bg-primary/10 p-2 rounded-full">
-                  <PenSquare className="h-4 w-4 text-primary" />
-                </div>
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold">128</div>
-                <p className="text-xs text-muted-foreground">+2 from last week</p>
-              </CardContent>
-            </Card>
 
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Photos Added</CardTitle>
-                <div className="bg-primary/10 p-2 rounded-full">
-                  <ImageIcon className="h-4 w-4 text-primary" />
-                </div>
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold">24</div>
-                <p className="text-xs text-muted-foreground">+3 from last week</p>
-              </CardContent>
-            </Card>
+            <JournalEntryCountStat user={user}></JournalEntryCountStat>
 
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Current Streak</CardTitle>
-                <div className="bg-primary/10 p-2 rounded-full">
-                  <Sparkles className="h-4 w-4 text-primary" />
-                </div>
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold">7 days</div>
-                <p className="text-xs text-muted-foreground">Keep it going!</p>
-              </CardContent>
-            </Card>
+            <PhotoCountStat user={user}></PhotoCountStat>
 
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Longest Streak</CardTitle>
-                <div className="bg-primary/10 p-2 rounded-full">
-                  <Trophy className="h-4 w-4 text-primary" />
-                </div>
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold">14 days</div>
-                <p className="text-xs text-muted-foreground">Achieved on Jan 15</p>
-              </CardContent>
-            </Card>
+            <CurrentStreakStat></CurrentStreakStat>
+
+            <LongestStreakStat></LongestStreakStat>
+            
           </div>
         </div>
         {/* Tools Section */}

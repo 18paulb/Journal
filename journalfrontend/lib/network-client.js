@@ -35,6 +35,28 @@ export default class NetworkClient {
     );
   }
 
+  async getJournalEntryCount(email) {
+    return axios.get(
+      `/api/stats/journal`,
+      {
+        headers: {
+          Authorization: `Bearer ${email}`, // Sending email in the header
+        },
+      }
+    )
+  }
+
+  async getPhotoCount(email) {
+    return axios.get(
+      `/api/stats/photo`,
+      {
+        headers: {
+          Authorization: `Bearer ${email}`, // Sending email in the header
+        },
+      }
+    )
+  }
+
   async deleteAudio(key) {
     return axios.delete(
       `/api/journal/media/audio`, {

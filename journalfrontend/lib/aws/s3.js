@@ -159,3 +159,30 @@ export async function uploadAudio(audio, email, today) {
         console.error("Error uploading buffer to S3:", err);
       }
 }
+
+export async function getPhotoCount(email) {
+    let totalCount = 0;
+    let continuationToken = undefined;
+  
+    do {
+      const params = {
+        Bucket: photoBucketName,
+        Prefix: email,
+        ContinuationToken: continuationToken
+      };
+  
+      const command = new ListObjectsV2Command(params);
+      const response = await s3Client.send(command);
+      
+      // Add the count from this page to the total
+      if (response.Contents) {
+        totalCount += response.Contents.length;
+      }
+      
+      // Check if there are more objects to list
+      continuationToken = response.NextContinuationToken;
+      
+    } while (continuationToken);
+  
+    return totalCount;
+}
