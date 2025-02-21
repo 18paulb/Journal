@@ -62,7 +62,7 @@ export function PageHeader() {
                 <Button
                   variant="ghost"
                   size="sm"
-                  className="text-red-500 hover:text-red-600 hover:bg-red-50"
+                  className="text-red-500 hover:text-red-600 hover:bg-red-50 cursor-pointer"
                   onClick={() => window.location.href = "/api/auth/logout"}
                   asChild
                 >
