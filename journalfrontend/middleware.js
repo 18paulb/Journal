@@ -11,7 +11,8 @@ function isPublicRoute(pathname) {
     '/api/auth/callback',
     '/info/contact-us',
     '/info/privacy-policy',
-    '/info/terms-of-service'
+    '/info/terms-of-service',
+    "/journalLogo.jpg"
   ];
   return publicRoutes.includes(pathname);
 }
