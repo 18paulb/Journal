@@ -1,4 +1,4 @@
-import { getJournalEntries } from "../aws/dynamodb";
+import { getJournalEntries } from "@/app/api/aws/dynamodb";
 
 export async function GET(request) {
   const authHeader = request.headers.get("authorization");

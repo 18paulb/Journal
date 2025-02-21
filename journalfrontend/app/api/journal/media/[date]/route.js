@@ -1,20 +1,17 @@
-import { getMediaForJournalEntry, uploadPhoto, uploadAudio, deleteAudio, deleteImage } from "@/app/api/aws/s3"
-import DateFactory from "@/app/api/utils/DateFactory"
-import { toBase64, getMimeTypePrefix } from "@/app/api/utils/photoManipulator";
+import { getMediaForJournalEntry } from "@/app/api/aws/s3"
+import DateFactory from "@/lib/DateFactory"
+import { toBase64, getMimeTypePrefix } from "@/lib/photoManipulator";
 
 export async function GET(
     request,
     { params }
 ) {
-
-    const dateUtil = new DateFactory()
-
     const authHeader = request.headers.get("authorization");
     const email = authHeader?.split(" ")[1];
 
     const date = params.date;
 
-    let dateObject = dateUtil.convertStringToDateObject(date)
+    let dateObject = DateFactory.convertStringToDateObject(date)
     const mediaData = await getMediaForJournalEntry(email, dateObject)
     let audios = mediaData.audios
     let images = mediaData.images

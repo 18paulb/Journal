@@ -53,7 +53,7 @@ export default class NetworkClient {
 
   async writeJournalEntry(formData) {
     return axios.post(
-      `${this.backendUrl}/write-journal`,
+      `/api/journal`,
       formData,
       {
         headers: {

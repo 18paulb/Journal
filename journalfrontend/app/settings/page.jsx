@@ -27,7 +27,7 @@ import { UserLoading } from "../components/user-loading";
 import { widgetsMap } from "./widget-info";
 import { useToast } from "@/hooks/use-toast";
 import NetworkClient from "../network/network-client";
-import DateFactory from "@/app/utils/DateFactory";
+import DateFactory from "@/lib/DateFactory";
 
 const iconMap = {
   NASA_IMAGE_OF_THE_DAY: BarChart3,

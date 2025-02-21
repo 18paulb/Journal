@@ -29,7 +29,7 @@ import PhotoUpload from "@/app/components/photo-upload";
 import { Label } from "@/components/ui/label";
 
 import { AudioUpload } from "../../components/audio-upload"
-import DateFactory from "@/app/utils/DateFactory";
+import DateFactory from "@/lib/DateFactory";
 
 export default function JournalEntryEditor() {
   const [title, setTitle] = useState("");
