@@ -112,7 +112,7 @@ export default function HomePage() {
                       <Download className="h-8 w-8 text-primary" />
                     </div>
                     <h2 className="text-2xl font-semibold mb-2">Export Journal</h2>
-                    <p className="text-muted-foreground">Download your entries as PDF or markdown</p>
+                    <p className="text-muted-foreground">Download your entries as PDF</p>
                   </div>
                 </CardContent>
               </Card>

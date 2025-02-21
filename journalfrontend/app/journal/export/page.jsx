@@ -11,7 +11,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import html2pdf from "html2pdf.js";
 
 const themes = [
   {
@@ -45,6 +46,7 @@ const fonts = [
 
 export default function ExportPage() {
   const [isLoading, setIsLoading] = useState(false);
+
   const [options, setOptions] = useState({
     theme: "minimal",
     font: "inter",
@@ -53,44 +55,6 @@ export default function ExportPage() {
   });
 
   const handleExport = async () => {
-    try {
-      setIsLoading(true);
-
-      const entries = [
-        {
-          date: new Date(),
-          title: "Sample Entry",
-          content: "This is a sample journal entry.",
-        },
-      ];
-
-      const response = await fetch("/api/export-journal", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ entries, options }),
-      });
-
-      if (!response.ok) throw new Error("Export failed");
-
-      const data = await response.text();
-      console.log(data);
-
-      //   const blob = await response.blob()
-      //   const url = window.URL.createObjectURL(blob)
-      //   const a = document.createElement("a")
-      //   a.href = url
-      //   a.download = "journal-export.pdf"
-      //   document.body.appendChild(a)
-      //   a.click()
-      //   window.URL.revokeObjectURL(url)
-      //   document.body.removeChild(a)
-    } catch (error) {
-      console.error("Export error:", error);
-    } finally {
-      setIsLoading(false);
-    }
   };
 
   return (
