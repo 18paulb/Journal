@@ -9,15 +9,12 @@ import LoadingSpinner from "../loading-spinner"
 export default function JournalEntryCountStat({ user }) {
     const [count, setCount] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
-    const hasFetched = useRef(false); // Prevent duplicate API calls
   
     useEffect(() => {
-      if (!user?.email || hasFetched.current) {
+      if (!user?.email) {
         setIsLoading(false);
         return;
       }
-  
-      hasFetched.current = true; // Mark that we've already fetched data
   
       const storedCount = localStorage.getItem("journalEntryCount");
   
