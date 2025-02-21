@@ -182,8 +182,8 @@
 // }
 
 
+import UnderDevelopment from "@/app/error/development/page";
+
 export default function ExportPage() {
-  return (
-    <h1>Page is Under Development</h1>
-  )
+  return <UnderDevelopment></UnderDevelopment>
 }
