@@ -32,11 +32,12 @@ export default function CTASection() {
               </div>
             ))}
           </div>
-          <Button asChild size="lg" className="rounded-full bg-white text-black hover:bg-white/90">
-            <Link href="/api/auth/login">
+          <Button size="lg" className="rounded-full bg-white text-black hover:bg-white/90"
+          onClick={() => window.location.href = "/api/auth/login"}>
+            {/* <Link href="/api/auth/login"> */}
               Create free account
               <ArrowRight className="ml-2 h-4 w-4" />
-            </Link>
+            {/* </Link> */}
           </Button>
         </motion.div>
       </div>

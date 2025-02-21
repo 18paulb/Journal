@@ -37,11 +37,11 @@ export default function HeroSection() {
           A private digital space for your memories, designed with intention.
         </p>
         <div className="space-x-4">
-          <Button asChild size="lg" className="rounded-full bg-white text-black hover:bg-white/90">
-            <Link href="/api/auth/login">
+          <Button size="lg" className="rounded-full bg-white text-black hover:bg-white/90"
+                            onClick={() => window.location.href = "/api/auth/login"}
+                            >
               Start journaling
               <ArrowRight className="ml-2 h-4 w-4" />
-            </Link>
           </Button>
         </div>
       </motion.div>

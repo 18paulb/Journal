@@ -63,15 +63,10 @@ export function PageHeader() {
                   variant="ghost"
                   size="sm"
                   className="text-red-500 hover:text-red-600 hover:bg-red-50"
+                  onClick={() => window.location.href = "/api/auth/logout"}
                   asChild
                 >
-                  <Link
-                    href="/api/auth/logout"
-                    className="flex items-center space-x-2"
-                  >
-                    <LogOut className="h-4 w-4" />
-                    <span>Logout</span>
-                  </Link>
+                  <span>Logout</span>
                 </Button>
               </nav>
 

@@ -9,6 +9,9 @@ function isPublicRoute(pathname) {
     '/api/auth/login',
     '/api/auth/logout',
     '/api/auth/callback',
+    '/info/contact-us',
+    '/info/privacy-policy',
+    '/info/terms-of-service'
   ];
   return publicRoutes.includes(pathname);
 }
