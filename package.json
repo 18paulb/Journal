@@ -2,18 +2,15 @@
   "name": "journal",
   "version": "0.1.0",
   "private": true,
-  "workspaces": ["journalfrontend", "journalbackend"],
+  "workspaces": ["journalfrontend"],
   "scripts": {
-    "dev": "concurrently \"npm run dev:frontend\" \"npm run dev:backend\"",
+    "dev": "npm run dev:frontend",
     "dev:frontend": "cd journalfrontend && next dev",
-    "dev:backend": "cd journalbackend && tsx src/app.ts",
     "build": "next build journalfrontend",
-    "start": "next start journalfrontend && tsx journalbackend/src/app.ts",
-    "lint": "next lint journalfrontend",
-    "heroku-postbuild": "cd journalfrontend && npm install && npm run build"
+    "start": "next start journalfrontend",
+    "lint": "next lint journalfrontend"
   },
   "devDependencies": {
-    "concurrently": "^9.1.0",
     "eslint": "^8",
     "eslint-config-next": "15.0.3",
     "postcss": "^8",
