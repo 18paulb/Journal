@@ -1,5 +1,6 @@
+import { NextRequest, NextResponse } from 'next/server'
+
 import axios from "axios";
-import { NextRequest } from 'next/server'
 
 export const GET = async (request) => {
     const searchParams = request.nextUrl.searchParams
@@ -12,10 +13,11 @@ export const GET = async (request) => {
         );
 
         // Return the response as a JSON string for the Response object
-        return new Response(JSON.stringify(response.data), {
+        return new NextResponse(JSON.stringify(response.data), {
             status: 200,
             headers: { 'Content-Type': 'application/json' },
         });
+
     } catch (error) {
         console.error('Error fetching data:', error);
     }

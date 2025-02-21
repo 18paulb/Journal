@@ -1,3 +1,4 @@
+import { NextResponse } from "next/server";
 import { getJournalEntries } from "@/app/api/aws/dynamodb";
 
 export async function GET(request) {
@@ -6,5 +7,5 @@ export async function GET(request) {
 
   let entries = await getJournalEntries(email);
 
-  return Response.json(entries);
+  return NextResponse.json(entries);
 }

@@ -1,3 +1,4 @@
+import { NextResponse } from "next/server";
 import { getMediaForJournalEntry } from "@/app/api/aws/s3"
 import DateFactory from "@/lib/DateFactory"
 import { toBase64, getMimeTypePrefix } from "@/lib/photoManipulator";
@@ -34,7 +35,7 @@ export async function GET(
         }
     })
 
-    return Response.json({
+    return NextResponse.json({
         audios: audioData,
         images: imageData
     });
