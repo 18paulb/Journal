@@ -96,7 +96,6 @@ apiRouter.get('/journal-entry-media', async (req, res) => {
         audios: audioData,
         images: imageData
     })
-
 }) 
 
 apiRouter.delete('/audio', async (req, res) => {

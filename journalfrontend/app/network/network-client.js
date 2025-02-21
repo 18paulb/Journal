@@ -6,8 +6,7 @@ export default class NetworkClient {
   backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL ?? 'https://api.remnity.com/api'
 
   async getUserJournals(email) {
-    console.log(process.env.NEXT_PUBLIC_BACKEND_URL ?? "No backend url provided")
-    return axios.get(`${this.backendUrl}/journal-entries`, {
+    return axios.get(`/api/journal-entries`, {
       headers: {
         Authorization: `Bearer ${email}`, // Sending email in the header
       },
@@ -16,7 +15,7 @@ export default class NetworkClient {
 
   async getJournalEntryText(date, email) {
     return axios.get(
-      `${this.backendUrl}/journal-entry-text?date=${date}`,
+      `/api/journal/text/${date}`,
       {
         headers: {
           Authorization: `Bearer ${email}`, // Sending email in the header
@@ -27,7 +26,7 @@ export default class NetworkClient {
 
   async getJournalEntryMedia(date, email) {
     return axios.get(
-      `${this.backendUrl}/journal-entry-media?date=${date}`,
+      `/api/journal/media/${date}`,
       {
         headers: {
           Authorization: `Bearer ${email}`, // Sending email in the header
@@ -38,7 +37,7 @@ export default class NetworkClient {
 
   async deleteAudio(key) {
     return axios.delete(
-      `${this.backendUrl}/audio`, {
+      `/api/journal/media/audio`, {
         params: { key }
       }
     )
@@ -46,7 +45,7 @@ export default class NetworkClient {
 
   async deleteImage(key) {
     return axios.delete(
-      `${this.backendUrl}/image`, {
+      `/api/journal/media/image`, {
         params: { key }
       }
     )
