@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/tooltip";
 
 export function JournalEntriesCalendar({ entries }) {
-  const [year, setYear] = useState(localStorage.getItem("lastVisitedYear") ?? DateFactory.getTodayDate().getFullYear());
+  const [year, setYear] = useState(parseInt(localStorage.getItem("lastVisitedYear") ?? DateFactory.getTodayDate().getFullYear()));
   const [currentMonth, setCurrentMonth] = useState(DateFactory.getTodayDate().getMonth());
 
   const months = [
