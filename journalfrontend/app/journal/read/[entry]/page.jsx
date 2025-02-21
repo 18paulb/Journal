@@ -20,10 +20,10 @@ import {
 } from "@/components/ui/alert-dialog";
 
 import { UserLoading } from "@/app/components/user-loading";
-import { getWidgets } from "@/app/widgets/widget-controller";
-import NetworkClient from "@/app/network/network-client";
-import ImageGrid from "@/app/components/photo-grid";
-import AudioView from "@/app/components/audio-view";
+import { getWidgets } from "@/lib/widget-controller";
+import NetworkClient from "@/lib/network-client";
+import ImageGrid from "@/app/components/photo/photo-grid";
+import AudioView from "@/app/components/audio/audio-view";
 import LoadingSpinner from "@/app/components/loading-spinner";
 
 export default function JournalEntry() {

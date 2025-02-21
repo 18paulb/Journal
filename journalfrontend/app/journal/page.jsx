@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import { UserLoading } from "../components/user-loading";
 import { Toggle } from "@/components/ui/toggle";
-import NetworkClient from "../network/network-client";
+import NetworkClient from "@/lib/network-client";
 import { JournalEntriesCalendar } from "../components/journal-entries-calendar";
 import JournalEntriesList from "../components/journal-entries-list";
 import { Calendar, List } from "lucide-react";
