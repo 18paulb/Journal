@@ -5,6 +5,7 @@ import { UserProvider } from '@auth0/nextjs-auth0/client';
 import { PageHeader } from './components/header';
 import { Toaster } from '@/components/ui/toaster';
 import PageFooter from '@/app/components/footer';
+import { ThemeProvider } from '@/app/providers/theme-provider';
 
 const geistSans = localFont({
   src: './fonts/GeistVF.woff',
@@ -28,9 +29,9 @@ export default function RootLayout({ children }) {
       <UserProvider>
         <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
           <PageHeader />
-          {children}
+          <ThemeProvider>{children}</ThemeProvider>
           <Toaster />
-          <PageFooter></PageFooter>
+          <PageFooter />{' '}
         </body>
       </UserProvider>
     </html>

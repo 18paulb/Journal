@@ -114,7 +114,7 @@ export default function JournalEntry() {
 
   return user ? (
     <>
-      <div className="min-h-screen bg-gradient-to-b from-rose-50 to-slate-50 p-4 sm:p-6 md:p-8">
+      <div className="min-h-screen p-4 sm:p-6 md:p-8">
         <div className="mx-auto max-w-4xl">
           <Card className="overflow-hidden border-none shadow-lg">
             <div className="border-b bg-white px-6 py-8 sm:px-8">
