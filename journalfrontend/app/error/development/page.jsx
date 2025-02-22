@@ -1,6 +1,6 @@
-import { Button } from "@/components/ui/button"
-import Link from "next/link"
-import { Construction } from "lucide-react"
+import { Button } from '@/components/ui/button';
+import Link from 'next/link';
+import { Construction } from 'lucide-react';
 
 export default function UnderDevelopment() {
   return (
@@ -11,6 +11,5 @@ export default function UnderDevelopment() {
         <Link href="/home">Go Back Home</Link>
       </Button>
     </div>
-  )
+  );
 }
-

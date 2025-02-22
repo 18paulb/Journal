@@ -1,25 +1,26 @@
-"use client"
+'use client';
 
-import { motion } from "framer-motion"
-import { Lock, Shield, Users } from "lucide-react"
+import { motion } from 'framer-motion';
+import { Lock, Shield, Users } from 'lucide-react';
 
 const privacyCards = [
   {
     icon: Lock,
-    title: "End-to-End Encryption",
-    description: "Your entries are encrypted before they leave your device, ensuring complete privacy.",
+    title: 'End-to-End Encryption',
+    description:
+      'Your entries are encrypted before they leave your device, ensuring complete privacy.',
   },
   {
     icon: Shield,
-    title: "Secure Backup",
-    description: "Automatic cloud backups keep your memories safe without compromising security.",
+    title: 'Secure Backup',
+    description: 'Automatic cloud backups keep your memories safe without compromising security.',
   },
   {
     icon: Users,
-    title: "Controlled Sharing",
-    description: "Choose what to share and with whom. Keep private entries private.",
+    title: 'Controlled Sharing',
+    description: 'Choose what to share and with whom. Keep private entries private.',
   },
-]
+];
 
 export default function PrivacySection() {
   return (
@@ -55,6 +56,5 @@ export default function PrivacySection() {
         </div>
       </div>
     </section>
-  )
+  );
 }
-

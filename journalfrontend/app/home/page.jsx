@@ -1,16 +1,15 @@
-"use client"
+'use client';
 
-import Link from "next/link"
-import { Card, CardContent } from "@/components/ui/card"
-import { BookOpen, Download, PenSquare } from "lucide-react"
-import { useUser } from "@auth0/nextjs-auth0/client"
-import JournalEntryCountStat from "../components/stats/journal-entry-count"
-import PhotoCountStat from "../components/stats/photo-count"
-import CurrentStreakStat from "../components/stats/current-streak"
-import LongestStreakStat from "../components/stats/longest-streak"
+import Link from 'next/link';
+import { Card, CardContent } from '@/components/ui/card';
+import { BookOpen, Download, PenSquare } from 'lucide-react';
+import { useUser } from '@auth0/nextjs-auth0/client';
+import JournalEntryCountStat from '../components/stats/journal-entry-count';
+import PhotoCountStat from '../components/stats/photo-count';
+import CurrentStreakStat from '../components/stats/current-streak';
+import LongestStreakStat from '../components/stats/longest-streak';
 
 export default function HomePage() {
-
   const { user } = useUser();
 
   return (
@@ -19,7 +18,9 @@ export default function HomePage() {
         {/* Header Section */}
         <div className="mb-12 text-center space-y-2">
           <h1 className="text-4xl font-bold mb-2 text-primary">My Journal</h1>
-          <p className="text-muted-foreground text-lg">Capture your thoughts, memories, and moments</p>
+          <p className="text-muted-foreground text-lg">
+            Capture your thoughts, memories, and moments
+          </p>
         </div>
 
         {/* Main Actions */}
@@ -57,7 +58,6 @@ export default function HomePage() {
         <div>
           <h2 className="text-2xl font-semibold mb-6">Your Stats</h2>
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-
             <JournalEntryCountStat user={user}></JournalEntryCountStat>
 
             <PhotoCountStat user={user}></PhotoCountStat>
@@ -65,7 +65,6 @@ export default function HomePage() {
             <CurrentStreakStat></CurrentStreakStat>
 
             <LongestStreakStat></LongestStreakStat>
-            
           </div>
         </div>
         {/* Tools Section */}
@@ -89,6 +88,5 @@ export default function HomePage() {
         </div>
       </div>
     </div>
-  )
+  );
 }
-

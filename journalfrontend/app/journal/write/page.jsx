@@ -1,39 +1,27 @@
-"use client";
+'use client';
 
-import { useState, useEffect, useRef } from "react";
-import { v4 as uuidv4 } from "uuid";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import {
-  Card,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { useToast } from "@/hooks/use-toast";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useState, useEffect } from 'react';
+import { v4 as uuidv4 } from 'uuid';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { Card, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { useToast } from '@/hooks/use-toast';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
-import {
-  Save,
-  BookOpen,
-  Calendar,
-  PenTool,
-  ImageIcon,
-  Mic,
-} from "lucide-react";
-import { useUser } from "@auth0/nextjs-auth0/client";
-import { UserLoading } from "@/app/components/user-loading";
-import NetworkClient from "@/lib/network-client";
-import PhotoUpload from "@/app/components/photo/photo-upload";
-import { Label } from "@/components/ui/label";
+import { Save, BookOpen, Calendar, PenTool, ImageIcon, Mic } from 'lucide-react';
+import { useUser } from '@auth0/nextjs-auth0/client';
+import { UserLoading } from '@/app/components/user-loading';
+import NetworkClient from '@/lib/network-client';
+import PhotoUpload from '@/app/components/photo/photo-upload';
+import { Label } from '@/components/ui/label';
 
-import { AudioUpload } from "../../components/audio/audio-upload"
-import DateFactory from "@/lib/DateFactory";
+import { AudioUpload } from '../../components/audio/audio-upload';
+import DateFactory from '@/lib/DateFactory';
 
 export default function JournalEntryEditor() {
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
+  const [title, setTitle] = useState('');
+  const [content, setContent] = useState('');
   const { user, error, isLoading } = useUser();
   const [uploadedPhoto, setUploadedPhoto] = useState(null);
   const [network] = useState(new NetworkClient());
@@ -45,7 +33,7 @@ export default function JournalEntryEditor() {
   // Load in today's entry if it exists
   useEffect(() => {
     if (user != null) {
-      const today = DateFactory.getLocalDateString()
+      const today = DateFactory.getLocalDateString();
 
       network
         .getJournalEntryText(today, user.email)
@@ -53,8 +41,8 @@ export default function JournalEntryEditor() {
           const entry = response.data.journalEntry;
           if (entry != null) {
             // Fallback to empty strings if missing data
-            setTitle(entry?.title || "");
-            setContent(entry?.entry || "");
+            setTitle(entry?.title || '');
+            setContent(entry?.entry || '');
           }
         })
         .catch((error) => console.log(error));
@@ -62,38 +50,38 @@ export default function JournalEntryEditor() {
   }, [user, network]);
 
   const handleSave = async () => {
-    if (content.trim() === "") {
-      alert("Please enter a journal entry.");
+    if (content.trim() === '') {
+      alert('Please enter a journal entry.');
       return;
     }
 
-
     // upload any image data
     const formData = new FormData();
-    formData.append("entry", content);
-    formData.append("title", title ? title : "N/A");
-    formData.append("email", user.email);
-    formData.append("date", DateFactory.getLocalDateString())
-    
+    formData.append('entry', content);
+    formData.append('title', title ? title : 'N/A');
+    formData.append('email', user.email);
+    formData.append('date', DateFactory.getLocalDateString());
+
     if (uploadedPhoto) {
-      let imageType = uploadedPhoto.type.split("/")[1]
-      formData.append("image", uploadedPhoto, `${uuidv4()}.${imageType}`);
+      let imageType = uploadedPhoto.type.split('/')[1];
+      formData.append('image', uploadedPhoto, `${uuidv4()}.${imageType}`);
     }
     if (audioRecording) {
-          formData.append("audio", audioRecording, `${uuidv4()}.webm`);
+      formData.append('audio', audioRecording, `${uuidv4()}.webm`);
     }
 
     try {
       await network.writeJournalEntry(formData);
       toast({
-        title: "Successfully saved",
+        title: 'Successfully saved',
         duration: 2000,
       });
     } catch (err) {
+      console.log(err);
       toast({
-        title: "An error occurred",
+        title: 'An error occurred',
         duration: 2000,
-        variant: "destructive",
+        variant: 'destructive',
       });
     }
   };
@@ -104,18 +92,13 @@ export default function JournalEntryEditor() {
         <CardHeader className="space-y-2 border-b bg-gradient-to-b from-primary/5 to-primary/10">
           <CardTitle className="flex justify-center space-x-3">
             <BookOpen className="h-6 w-6 text-primary" />
-            <span className="text-2xl font-bold text-primary">
-              New Journal Entry
-            </span>
+            <span className="text-2xl font-bold text-primary">New Journal Entry</span>
           </CardTitle>
         </CardHeader>
 
         <div className="p-6">
           <div className="space-y-2 mb-6">
-            <Label
-              htmlFor="title"
-              className="flex items-center space-x-2 text-sm font-medium"
-            >
+            <Label htmlFor="title" className="flex items-center space-x-2 text-sm font-medium">
               <Calendar className="h-4 w-4 text-primary" />
               <span>Entry Title</span>
             </Label>
@@ -134,17 +117,11 @@ export default function JournalEntryEditor() {
                 <PenTool className="h-4 w-4" />
                 <span>Write</span>
               </TabsTrigger>
-              <TabsTrigger
-                value="photos"
-                className="flex items-center space-x-2"
-              >
+              <TabsTrigger value="photos" className="flex items-center space-x-2">
                 <ImageIcon className="h-4 w-4" />
                 <span>Upload Photos</span>
               </TabsTrigger>
-              <TabsTrigger
-                value="audio"
-                className="flex items-center space-x-2"
-              >
+              <TabsTrigger value="audio" className="flex items-center space-x-2">
                 <Mic className="h-4 w-4" />
                 <span>Record Audio</span>
               </TabsTrigger>
@@ -173,10 +150,7 @@ export default function JournalEntryEditor() {
 
             <TabsContent value="photos" className="space-y-4">
               <div className="rounded-lg transition-colors">
-                <PhotoUpload
-                  uploadPhoto={setUploadedPhoto}
-                  className="w-full"
-                />
+                <PhotoUpload uploadPhoto={setUploadedPhoto} className="w-full" />
                 {uploadedPhoto && (
                   <p className="mt-2 text-sm text-muted-foreground">
                     Photo added: {uploadedPhoto.name}
@@ -186,7 +160,10 @@ export default function JournalEntryEditor() {
             </TabsContent>
 
             <TabsContent value="audio" className="space-y-4">
-              <AudioUpload audioRecording={audioRecording} onAudioRecorded={setAudioRecording}></AudioUpload>
+              <AudioUpload
+                audioRecording={audioRecording}
+                onAudioRecorded={setAudioRecording}
+              ></AudioUpload>
             </TabsContent>
           </Tabs>
         </div>

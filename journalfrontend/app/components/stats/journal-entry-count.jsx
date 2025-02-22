@@ -1,47 +1,46 @@
-"use client"
+'use client';
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { useEffect, useState, useRef } from "react"
-import { PenSquare } from "lucide-react"
-import NetworkClient from "@/lib/network-client"
-import LoadingSpinner from "../loading-spinner"
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { useEffect, useState } from 'react';
+import { PenSquare } from 'lucide-react';
+import NetworkClient from '@/lib/network-client';
+import LoadingSpinner from '../loading-spinner';
 
 export default function JournalEntryCountStat({ user }) {
-    const [count, setCount] = useState(null);
-    const [isLoading, setIsLoading] = useState(true);
-  
-    useEffect(() => {
-      if (!user?.email) {
+  const [count, setCount] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    if (!user?.email) {
+      setIsLoading(false);
+      return;
+    }
+
+    const storedCount = localStorage.getItem('journalEntryCount');
+
+    if (storedCount !== null) {
+      setCount(Number.parseInt(storedCount)); // Convert to number
+      setIsLoading(false);
+      return;
+    }
+
+    setIsLoading(true);
+    const networkClient = new NetworkClient();
+
+    networkClient
+      .getJournalEntryCount(user.email)
+      .then((response) => {
+        localStorage.setItem('journalEntryCount', response.data.count.toString());
+        setCount(response.data.count);
+      })
+      .catch((error) => {
+        console.error(error);
+        setCount(null);
+      })
+      .finally(() => {
         setIsLoading(false);
-        return;
-      }
-  
-      const storedCount = localStorage.getItem("journalEntryCount");
-  
-      if (storedCount !== null) {
-        setCount(Number.parseInt(storedCount)); // Convert to number
-        setIsLoading(false);
-        return;
-      }
-  
-      setIsLoading(true);
-      const networkClient = new NetworkClient();
-  
-      networkClient
-        .getJournalEntryCount(user.email)
-        .then((response) => {
-          localStorage.setItem("journalEntryCount", response.data.count.toString());
-          setCount(response.data.count);
-        })
-        .catch((error) => {
-          console.error(error);
-          setCount(null);
-        })
-        .finally(() => {
-          setIsLoading(false);
-        });
-    }, [user]);
-  
+      });
+  }, [user]);
 
   return (
     <Card>
@@ -64,6 +63,5 @@ export default function JournalEntryCountStat({ user }) {
         )}
       </CardContent>
     </Card>
-  )
+  );
 }
-

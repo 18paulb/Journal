@@ -1,9 +1,17 @@
-import React from "react";
-import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog"; // Adjust imports as needed
-import { Button } from "@/components/ui/button"; // Adjust import for your Button component
+import React from 'react';
+import {
+  Dialog,
+  DialogTrigger,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+} from '@/components/ui/dialog'; // Adjust imports as needed
+import { Button } from '@/components/ui/button'; // Adjust import for your Button component
 
 /**
- * 
+ *
  * @param {boolean} show - The boolean state of "showDialog" (whether the dialog is visible or not).
  * @param {function} setShow - The setter function to toggle the "showDialog" state.
  * @param {string} title - The title to display in the dialog.
@@ -33,5 +41,4 @@ export default function DeleteDialog({ show, setShow, title, description, onDele
       </DialogContent>
     </Dialog>
   );
-};
-
+}

@@ -1,25 +1,26 @@
-"use client"
+'use client';
 
-import { motion } from "framer-motion"
-import { ImageIcon, Mic, Pencil } from "lucide-react"
+import { motion } from 'framer-motion';
+import { ImageIcon, Mic, Pencil } from 'lucide-react';
 
 const features = [
   {
     icon: Pencil,
-    title: "Rich Text Entries",
-    description: "Write and format your thoughts with our intuitive editor. Add headings, lists, and more.",
+    title: 'Rich Text Entries',
+    description:
+      'Write and format your thoughts with our intuitive editor. Add headings, lists, and more.',
   },
   {
     icon: ImageIcon,
-    title: "Photo Memories",
-    description: "Upload and attach photos to your entries. A picture is worth a thousand words.",
+    title: 'Photo Memories',
+    description: 'Upload and attach photos to your entries. A picture is worth a thousand words.',
   },
   {
     icon: Mic,
-    title: "Voice Notes",
-    description: "Record audio messages when you prefer speaking over typing.",
+    title: 'Voice Notes',
+    description: 'Record audio messages when you prefer speaking over typing.',
   },
-]
+];
 
 export default function FeaturesSection() {
   return (
@@ -32,7 +33,9 @@ export default function FeaturesSection() {
           className="text-center mb-16"
         >
           <h2 className="text-4xl md:text-5xl font-semibold mb-4">Express yourself your way</h2>
-          <p className="text-xl text-neutral-600">Multiple ways to capture your thoughts and memories</p>
+          <p className="text-xl text-neutral-600">
+            Multiple ways to capture your thoughts and memories
+          </p>
         </motion.div>
         <div className="grid md:grid-cols-3 gap-8">
           {features.map((feature, index) => (
@@ -56,6 +59,5 @@ export default function FeaturesSection() {
         </div>
       </div>
     </section>
-  )
+  );
 }
-

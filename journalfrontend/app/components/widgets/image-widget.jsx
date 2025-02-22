@@ -1,28 +1,28 @@
-import Image from "next/image"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { useState, useEffect } from "react"
-import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog"
-import { X } from "lucide-react"
+import Image from 'next/image';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { useState, useEffect } from 'react';
+import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
+import { X } from 'lucide-react';
 
 export function ImageWidget({ title, imageSrc, description, tags }) {
-  const [imageError, setImageError] = useState(false)
-  const [isLightboxOpen, setIsLightboxOpen] = useState(false)
-  const [naturalSize, setNaturalSize] = useState({ width: 0, height: 0 })
+  const [imageError, setImageError] = useState(false);
+  const [isLightboxOpen, setIsLightboxOpen] = useState(false);
+  const [naturalSize, setNaturalSize] = useState({ width: 0, height: 0 });
 
   // Get the natural image dimensions
   useEffect(() => {
-    if (imageSrc && typeof window !== "undefined") {
-      const img = new window.Image()
-      img.src = imageSrc
+    if (imageSrc && typeof window !== 'undefined') {
+      const img = new window.Image();
+      img.src = imageSrc;
       img.onload = () => {
         setNaturalSize({
           width: img.naturalWidth,
           height: img.naturalHeight,
-        })
-      }
+        });
+      };
     }
-  }, [imageSrc])
+  }, [imageSrc]);
 
   return (
     <>
@@ -33,7 +33,7 @@ export function ImageWidget({ title, imageSrc, description, tags }) {
         >
           {!imageError ? (
             <Image
-              src={imageSrc || "/placeholder.svg"}
+              src={imageSrc || '/placeholder.svg'}
               alt={title}
               fill
               className="object-cover"
@@ -68,10 +68,10 @@ export function ImageWidget({ title, imageSrc, description, tags }) {
           className="p-0 border-0 max-w-none w-auto"
           style={{
             maxWidth: `min(${naturalSize.width}px, 95vw)`,
-            maxHeight: "95vh",
+            maxHeight: '95vh',
           }}
         >
-          <DialogTitle className="sr-only">{title || "Image Preview"}</DialogTitle>
+          <DialogTitle className="sr-only">{title || 'Image Preview'}</DialogTitle>
           <button
             onClick={() => setIsLightboxOpen(false)}
             className="absolute right-2 top-2 z-50 rounded-full bg-black/50 p-1.5 text-white hover:bg-black/70 transition-colors"
@@ -87,7 +87,7 @@ export function ImageWidget({ title, imageSrc, description, tags }) {
             }}
           >
             <Image
-              src={imageSrc || "/placeholder.svg"}
+              src={imageSrc || '/placeholder.svg'}
               alt={title}
               fill
               className="object-contain"
@@ -98,6 +98,5 @@ export function ImageWidget({ title, imageSrc, description, tags }) {
         </DialogContent>
       </Dialog>
     </>
-  )
+  );
 }
-

@@ -1,16 +1,15 @@
-"use client"
+'use client';
 
-import Link from "next/link"
-import { motion } from "framer-motion"
-import { ArrowRight } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { motion } from 'framer-motion';
+import { ArrowRight } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 const freeFeatures = [
-  "Unlimited text entries",
-  "Up to 100 photos per month",
-  "10 hours of voice recording",
-  "Basic text formatting",
-]
+  'Unlimited text entries',
+  'Up to 100 photos per month',
+  '10 hours of voice recording',
+  'Basic text formatting',
+];
 
 export default function CTASection() {
   return (
@@ -32,16 +31,18 @@ export default function CTASection() {
               </div>
             ))}
           </div>
-          <Button size="lg" className="rounded-full bg-white text-black hover:bg-white/90"
-          onClick={() => window.location.href = "/api/auth/login"}>
+          <Button
+            size="lg"
+            className="rounded-full bg-white text-black hover:bg-white/90"
+            onClick={() => (window.location.href = '/api/auth/login')}
+          >
             {/* <Link href="/api/auth/login"> */}
-              Create free account
-              <ArrowRight className="ml-2 h-4 w-4" />
+            Create free account
+            <ArrowRight className="ml-2 h-4 w-4" />
             {/* </Link> */}
           </Button>
         </motion.div>
       </div>
     </section>
-  )
+  );
 }
-

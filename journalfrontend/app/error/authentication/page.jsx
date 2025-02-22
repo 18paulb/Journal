@@ -1,9 +1,9 @@
-import Link from "next/link"
-import { AlertCircle } from "lucide-react"
+import Link from 'next/link';
+import { AlertCircle } from 'lucide-react';
 
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 
 export default function AuthErrorPage() {
   return (
@@ -18,7 +18,9 @@ export default function AuthErrorPage() {
         <CardContent className="space-y-4">
           <Alert variant="destructive">
             <AlertTitle>Unable to sign in</AlertTitle>
-            <AlertDescription>We encountered an issue while trying to authenticate your account.</AlertDescription>
+            <AlertDescription>
+              We encountered an issue while trying to authenticate your account.
+            </AlertDescription>
           </Alert>
 
           <div className="space-y-4 text-sm text-muted-foreground">
@@ -45,6 +47,5 @@ export default function AuthErrorPage() {
         </CardFooter>
       </Card>
     </main>
-  )
+  );
 }
-

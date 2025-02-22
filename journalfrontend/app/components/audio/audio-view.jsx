@@ -1,8 +1,8 @@
-"use client"
+'use client';
 
-import { Card } from "@/components/ui/card"
-import { Mic, Trash2 } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { Card } from '@/components/ui/card';
+import { Mic, Trash2 } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -12,15 +12,15 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "@/components/ui/alert-dialog"
-import LoadingSpinner from "@/app/components/loading-spinner"
-import { useState } from "react"
+} from '@/components/ui/alert-dialog';
+import LoadingSpinner from '@/app/components/loading-spinner';
+import { useState } from 'react';
 
 export default function AudioView({ audioData, isLoading, setAudioData, network }) {
-  const [audioToDelete, setAudioToDelete] = useState(null)
+  const [audioToDelete, setAudioToDelete] = useState(null);
 
   if (isLoading) {
-    return <LoadingSpinner></LoadingSpinner>
+    return <LoadingSpinner></LoadingSpinner>;
   }
 
   if (audioData.length === 0) {
@@ -30,21 +30,21 @@ export default function AudioView({ audioData, isLoading, setAudioData, network 
         <h3 className="text-2xl font-semibold text-center">No Audio Saved</h3>
         <p className="mt-2 text-sm">Audio recordings you add will appear here</p>
       </div>
-    )
+    );
   }
 
   const handleDelete = () => {
     if (audioToDelete) {
-      setAudioData(audioData.filter(audio => audio!== audioToDelete))
+      setAudioData(audioData.filter((audio) => audio !== audioToDelete));
 
       network
         .deleteAudio(audioToDelete.key)
-        .then(response => {})
-        .catch(response => {})
+        .then(() => {})
+        .catch(() => {});
 
-      setAudioToDelete(null)
+      setAudioToDelete(null);
     }
-  }
+  };
 
   return (
     <>
@@ -94,6 +94,5 @@ export default function AudioView({ audioData, isLoading, setAudioData, network 
         </AlertDialogContent>
       </AlertDialog>
     </>
-  )
+  );
 }
-

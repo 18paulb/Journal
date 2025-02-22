@@ -1,12 +1,15 @@
-"use client";
+'use client';
 
-import { useParams } from "next/navigation";
-import { useState, useEffect } from "react";
-import { CalendarDays, Book, Image, Layout, Trash2  } from "lucide-react";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Button } from "@/components/ui/button"
-import { useUser } from "@auth0/nextjs-auth0/client";
+import { useParams } from 'next/navigation';
+import { useState, useEffect } from 'react';
+import { CalendarDays, Book, Image, Layout, Trash2 } from 'lucide-react';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Button } from '@/components/ui/button';
+import { useUser } from '@auth0/nextjs-auth0/client';
+import { useRouter } from 'next/router';
+
+import { useToast } from '@/hooks/use-toast';
 
 import {
   AlertDialog,
@@ -17,14 +20,14 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
+} from '@/components/ui/alert-dialog';
 
-import { UserLoading } from "@/app/components/user-loading";
-import { getWidgets } from "@/lib/widget-controller";
-import NetworkClient from "@/lib/network-client";
-import ImageGrid from "@/app/components/photo/photo-grid";
-import AudioView from "@/app/components/audio/audio-view";
-import LoadingSpinner from "@/app/components/loading-spinner";
+import { UserLoading } from '@/app/components/user-loading';
+import { getWidgets } from '@/lib/widget-controller';
+import NetworkClient from '@/lib/network-client';
+import ImageGrid from '@/app/components/photo/photo-grid';
+import AudioView from '@/app/components/audio/audio-view';
+import LoadingSpinner from '@/app/components/loading-spinner';
 
 export default function JournalEntry() {
   const params = useParams(); // Use useParams to access the dynamic 'date' parameter
@@ -38,10 +41,13 @@ export default function JournalEntry() {
   const [audioData, setAudioData] = useState(null);
   const [mediaIsLoading, setMediaIsLoading] = useState(false);
   const [textIsLoading, setTextIsLoading] = useState(false);
-  const [showDeleteDialog, setShowDeleteDialog] = useState(false)
-  const [isDeleting, setIsDeleting] = useState(false)
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   const [network] = useState(new NetworkClient());
+
+  const { toast } = useToast();
+  const router = useRouter();
 
   // Grab the journal entry once the user Object has loaded in
   // We make two API calls to load the text faster and then the media can load after
@@ -84,37 +90,37 @@ export default function JournalEntry() {
 
   // Formats entry text to have correct spacing
   const renderTextWithNewlines = (text) => {
-    return text.split("\n").map((line, index) => (
+    return text.split('\n').map((line, index) => (
       <p className="text-stone-700 text-lg leading-relaxed mb-1" key={index}>
         {line}
-        {index < text.split("\n").length - 1 && <br />}
+        {index < text.split('\n').length - 1 && <br />}
       </p>
     ));
   };
 
   const handleDeleteEntry = async () => {
-    setIsDeleting(true)
+    setIsDeleting(true);
     try {
-      await network.deleteJournalEntry(date, user.email)
-      toast.success("Journal entry deleted successfully")
-      router.push("/journal") // Redirect to journal list
+      await network.deleteJournalEntry(date, user.email);
+      toast.success('Journal entry deleted successfully');
+      router.push('/journal'); // Redirect to journal list
     } catch (error) {
-      console.error("Error deleting journal entry:", error)
-      toast.error("Failed to delete journal entry")
+      console.error('Error deleting journal entry:', error);
+      toast.error('Failed to delete journal entry');
     } finally {
-      setIsDeleting(false)
-      setShowDeleteDialog(false)
+      setIsDeleting(false);
+      setShowDeleteDialog(false);
     }
-  }
+  };
 
   return user ? (
     <>
       <div className="min-h-screen flex items-center justify-center p-4 sm:p-6 md:p-8">
         <Card className="w-full max-w-5xl shadow-xl rounded-xl overflow-hidden border">
           <CardHeader className="bg-gradient-to-b from-blue-100/80 to-blue-50/50 text-foreground space-y-6 p-6 sm:p-8">
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
               <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-blue-950">
-                {entryData?.title || "Journal Entry"}
+                {entryData?.title || 'Journal Entry'}
               </h2>
               <div className="flex items-center gap-3">
                 <div className="flex items-center space-x-2 text-blue-600 bg-white px-3 py-1.5 rounded-full shadow-sm border border-blue-100">
@@ -133,7 +139,6 @@ export default function JournalEntry() {
                 </Button>
               </div>
             </div>
-
 
             {/* Rest of your existing Tabs component... */}
             <Tabs defaultValue="journal" className="w-full">
@@ -233,7 +238,9 @@ export default function JournalEntry() {
           <AlertDialogHeader>
             <AlertDialogTitle>Delete Journal Entry</AlertDialogTitle>
             <AlertDialogDescription className="space-y-2">
-              <p>Are you sure you want to delete this journal entry? This action cannot be undone.</p>
+              <p>
+                Are you sure you want to delete this journal entry? This action cannot be undone.
+              </p>
               <p className="font-semibold text-destructive">This will permanently delete:</p>
               <ul className="list-disc list-inside space-y-1">
                 <li>The journal text content</li>
@@ -255,7 +262,7 @@ export default function JournalEntry() {
                   <span className="ml-2">Deleting...</span>
                 </>
               ) : (
-                "Delete Everything"
+                'Delete Everything'
               )}
             </AlertDialogAction>
           </AlertDialogFooter>

@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import Link from "next/link";
+import Link from 'next/link';
 
-import { CalendarDays } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Skeleton } from "@/components/ui/skeleton";
-import { ScrollArea } from "@/components/ui/scroll-area";
+import { CalendarDays } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Skeleton } from '@/components/ui/skeleton';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 export default function JournalEntriesList({ entries }) {
   return (
@@ -28,18 +28,16 @@ export default function JournalEntriesList({ entries }) {
                   >
                     <div className="flex items-start justify-between gap-4">
                       <div className="space-y-1.5">
-                        <h3 className="text-lg font-semibold text-primary">
-                          {entry.title}
-                        </h3>
+                        <h3 className="text-lg font-semibold text-primary">{entry.title}</h3>
                         <p className="line-clamp-2 text-sm text-muted-foreground">
                           {entry.content}
                         </p>
                       </div>
                       <time className="shrink-0 text-sm text-muted-foreground">
-                        {new Date(entry.date).toLocaleDateString("en-US", {
-                          year: "numeric",
-                          month: "short",
-                          day: "numeric",
+                        {new Date(entry.date).toLocaleDateString('en-US', {
+                          year: 'numeric',
+                          month: 'short',
+                          day: 'numeric',
                         })}
                       </time>
                     </div>

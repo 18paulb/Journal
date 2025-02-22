@@ -1,30 +1,30 @@
-import { useState, useEffect } from "react"
-import axios from "axios"
-import { Loader2, Rocket } from "lucide-react"
-import { Card, CardContent } from "@/components/ui/card"
-import { ImageWidget } from "./image-widget";
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+import { Loader2, Rocket } from 'lucide-react';
+import { Card, CardContent } from '@/components/ui/card';
+import { ImageWidget } from './image-widget';
 
 export function NasaWidget({ date }) {
-  const [data, setData] = useState(null)
-  const [isLoading, setIsLoading] = useState(true)
-  const [error, setError] = useState(false)
+  const [data, setData] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
-    setIsLoading(true)
+    setIsLoading(true);
     axios
       .get(`/api/widget?date=${date}`)
       .then((response) => {
-        setData(response.data)
-        setError(false)
+        setData(response.data);
+        setError(false);
       })
       .catch((error) => {
-        console.log(error)
-        setError(true)
+        console.log(error);
+        setError(true);
       })
       .finally(() => {
-        setIsLoading(false)
-      })
-  }, [date])
+        setIsLoading(false);
+      });
+  }, [date]);
 
   if (isLoading) {
     return (
@@ -34,7 +34,7 @@ export function NasaWidget({ date }) {
           <p className="mt-4 text-sm text-muted-foreground">Loading NASA image of the day...</p>
         </CardContent>
       </Card>
-    )
+    );
   }
 
   if (!data || error) {
@@ -48,8 +48,15 @@ export function NasaWidget({ date }) {
           </p>
         </CardContent>
       </Card>
-    )
+    );
   }
 
-  return <ImageWidget title={data.title} imageSrc={data.url} description={data.explanation} tags={null} />
+  return (
+    <ImageWidget
+      title={data.title}
+      imageSrc={data.url}
+      description={data.explanation}
+      tags={null}
+    />
+  );
 }

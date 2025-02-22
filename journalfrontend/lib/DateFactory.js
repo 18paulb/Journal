@@ -1,6 +1,6 @@
 export default class DateFactory {
   static convertStringToDateObject(dateString) {
-    const [year, month, day] = dateString.split("-").map(Number);
+    const [year, month, day] = dateString.split('-').map(Number);
     const date = new Date(year, month - 1, day); // Correct local date
     return date;
   }
@@ -11,7 +11,7 @@ export default class DateFactory {
    */
   static getLocalDateString() {
     const date = new Date();
-    return date.toLocaleDateString("en-CA", {
+    return date.toLocaleDateString('en-CA', {
       timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
     });
   }
