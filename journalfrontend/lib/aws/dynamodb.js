@@ -12,7 +12,7 @@ const table_name = 'JournalEntry';
 const client = new DynamoDBClient({});
 const docClient = DynamoDBDocumentClient.from(client);
 
-export async function writeJournalEntry(entryText, entryTitle, date, email) {
+export async function writeJournalEntry(entryText, entryTitle, date, email, isPrivate = false) {
   let command = new PutCommand({
     TableName: table_name,
     Item: {
@@ -20,6 +20,7 @@ export async function writeJournalEntry(entryText, entryTitle, date, email) {
       email: email,
       entry: entryText,
       title: entryTitle,
+      isPrivate: isPrivate,
     },
   });
 

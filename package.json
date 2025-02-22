@@ -8,6 +8,6 @@
     "dev:frontend": "cd journalfrontend && next dev",
     "build": "next build journalfrontend",
     "start": "next start journalfrontend",
-    "lint": "next lint journalfrontend"
+    "lint": "cd journalfrontend && npm run lint"
   }
 }

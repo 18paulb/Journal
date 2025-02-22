@@ -8,6 +8,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Card, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Checkbox } from '@/components/ui/checkbox';
 
 import { Save, BookOpen, Calendar, PenTool, ImageIcon, Mic } from 'lucide-react';
 import { useUser } from '@auth0/nextjs-auth0/client';
@@ -24,6 +25,7 @@ export default function JournalEntryEditor() {
   const [content, setContent] = useState('');
   const { user, error, isLoading } = useUser();
   const [uploadedPhoto, setUploadedPhoto] = useState(null);
+  const [isPrivate, setIsPrivate] = useState(false);
   const [network] = useState(new NetworkClient());
 
   const { toast } = useToast();
@@ -61,6 +63,7 @@ export default function JournalEntryEditor() {
     formData.append('title', title ? title : 'N/A');
     formData.append('email', user.email);
     formData.append('date', DateFactory.getLocalDateString());
+    formData.append('isPrivate', isPrivate);
 
     if (uploadedPhoto) {
       let imageType = uploadedPhoto.type.split('/')[1];
@@ -98,17 +101,19 @@ export default function JournalEntryEditor() {
 
         <div className="p-6">
           <div className="space-y-2 mb-6">
-            <Label htmlFor="title" className="flex items-center space-x-2 text-sm font-medium">
-              <Calendar className="h-4 w-4 text-primary" />
-              <span>Entry Title</span>
-            </Label>
-            <Input
-              id="title"
-              placeholder="What's on your mind today?"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              className="border-primary/20 transition-colors focus-visible:border-primary focus-visible:ring-1 focus-visible:ring-primary"
-            />
+            <div className="space-y-2">
+              <Label htmlFor="title" className="flex items-center space-x-2 text-sm font-bold">
+                <Calendar className="h-4 w-4 text-primary " />
+                <span>Entry Title</span>
+              </Label>
+              <Input
+                id="title"
+                placeholder="What's on your mind today?"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                className="border-primary/20 transition-colors focus-visible:border-primary focus-visible:ring-1 focus-visible:ring-primary"
+              />
+            </div>
           </div>
 
           <Tabs defaultValue="text" className="space-y-4">
@@ -129,11 +134,8 @@ export default function JournalEntryEditor() {
 
             <TabsContent value="text" className="space-y-4">
               <div className="space-y-2">
-                <Label
-                  htmlFor="content"
-                  className="flex items-center space-x-2 text-sm font-medium"
-                >
-                  <span>Your Story</span>
+                <Label htmlFor="content" className="flex items-center space-x-2 text-sm font-bold">
+                  <span>Today&apos;s Story</span>
                   <span className="text-xs text-muted-foreground">
                     (Write freely, express yourself)
                   </span>
@@ -160,12 +162,28 @@ export default function JournalEntryEditor() {
             </TabsContent>
 
             <TabsContent value="audio" className="space-y-4">
-              <AudioUpload
-                audioRecording={audioRecording}
-                onAudioRecorded={setAudioRecording}
-              ></AudioUpload>
+              <AudioUpload audioRecording={audioRecording} onAudioRecorded={setAudioRecording} />
             </TabsContent>
           </Tabs>
+
+          <div className="mt-6 space-y-4 border-t pt-6">
+            <h3 className="font-bold text-base">Additional Settings</h3>
+            <div className="space-y-4">
+              <div className="flex items-center space-x-2">
+                <Checkbox
+                  id="private"
+                  checked={isPrivate}
+                  onCheckedChange={(checked) => setIsPrivate(checked)}
+                />
+                <Label
+                  htmlFor="private"
+                  className="font-medium text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                >
+                  Mark as Private
+                </Label>
+              </div>
+            </div>
+          </div>
         </div>
 
         <CardFooter className="border-t bg-gradient-to-b from-primary/5 to-primary/10 p-6">
