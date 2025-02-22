@@ -43,3 +43,17 @@ export async function POST(request) {
     return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }
 }
+
+
+export async function DELETE(request) {
+  try {
+
+    const url = new URL(request.url);
+    const date = url.searchParams.get("date");
+    const email = url.searchParams.get("email");
+
+    return NextResponse.json({message: "Not currently allowing deletion of Journals"});
+  } catch (error) {
+    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+  }
+}

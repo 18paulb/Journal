@@ -43,6 +43,10 @@ export async function deleteImage(key) {
     }
   }
 
+export async function deleteAllJournalEntryMedia(date, email) {
+  
+}
+
 export async function uploadPhoto(image, email, today) {
     const year = today.getFullYear();
     const month = today.getMonth() + 1; // Gets the month (0-based, so add 1)

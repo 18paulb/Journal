@@ -73,6 +73,17 @@ export default class NetworkClient {
     )
   }
 
+  async deleteJournalEntry(date, email) {
+    return axios.delete(
+      "/api/journal", {
+        params: {
+          date,
+          email
+        }
+      }
+    )
+  }
+
   async writeJournalEntry(formData) {
     return axios.post(
       `/api/journal`,

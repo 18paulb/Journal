@@ -6,7 +6,7 @@ export const widgetsMap = {
         id: "NASA_IMAGE_OF_THE_DAY",
         name: "Nasa Image of the Day",
         description: "See the picture of the day",
-        enabled: false,
+        enabled: true,
         preview: "bg-blue-100",
     }
 }

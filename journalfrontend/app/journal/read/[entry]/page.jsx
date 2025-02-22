@@ -67,7 +67,6 @@ export default function JournalEntry() {
       network
         .getJournalEntryMedia(date, user.email)
         .then((response) => {
-          debugger;
           setEntryImages(response.data.images);
           setAudioData(response.data.audios);
         })
