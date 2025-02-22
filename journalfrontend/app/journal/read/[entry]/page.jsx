@@ -2,8 +2,8 @@
 
 import { useParams, useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
-import { CalendarDays, Book, Image, Layout, Trash2 } from 'lucide-react';
-import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { CalendarDays, Book, Trash2, Lock, ImageIcon, Mic, Unlock } from 'lucide-react';
+import { Card, CardContent } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
 import { useUser } from '@auth0/nextjs-auth0/client';
@@ -114,159 +114,157 @@ export default function JournalEntry() {
 
   return user ? (
     <>
-      <div className="min-h-screen flex items-center justify-center p-4 sm:p-6 md:p-8">
-        <Card className="w-full max-w-5xl shadow-xl rounded-xl overflow-hidden border">
-          <CardHeader className="bg-gradient-to-b from-blue-100/80 to-blue-50/50 text-foreground space-y-6 p-6 sm:p-8">
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-              <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-blue-950">
-                {entryData?.title || 'Journal Entry'}
-              </h2>
-              <div className="flex items-center gap-3">
-                <div className="flex items-center space-x-2 text-blue-600 bg-white px-3 py-1.5 rounded-full shadow-sm border border-blue-100">
-                  <CalendarDays className="h-4 w-4" />
-                  <span className="font-medium text-sm">{date}</span>
+      <div className="min-h-screen bg-gradient-to-b from-rose-50 to-slate-50 p-4 sm:p-6 md:p-8">
+        <div className="mx-auto max-w-4xl">
+          <Card className="overflow-hidden border-none shadow-lg">
+            <div className="border-b bg-white px-6 py-8 sm:px-8">
+              <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
+                <div className="space-y-1">
+                  <h2 className="text-2xl font-semibold tracking-tight text-slate-900 sm:text-3xl">
+                    {entryData?.title || 'Journal Entry'}
+                  </h2>
+                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                    <CalendarDays className="h-4 w-4" />
+                    <span>{date}</span>
+                    <>
+                      {entryData?.isPrivate ? (
+                        <>
+                          <span className="text-slate-300">•</span>
+                          <Lock className="h-4 w-4" />
+                          <span>Private</span>
+                        </>
+                      ) : (
+                        <>
+                          <span className="text-slate-300">•</span>
+                          <Unlock className="h-4 w-4" />
+                          <span>Public</span>
+                        </>
+                      )}
+                    </>
+                  </div>
                 </div>
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="h-8 w-8 text-muted-foreground hover:text-destructive transition-colors"
+                  className="h-9 w-9 self-end text-slate-500 hover:text-red-600 sm:self-auto"
                   onClick={() => setShowDeleteDialog(true)}
-                  disabled={isDeleting}
                 >
                   <Trash2 className="h-4 w-4" />
                   <span className="sr-only">Delete entry</span>
                 </Button>
               </div>
-            </div>
 
-            {/* Rest of your existing Tabs component... */}
-            <Tabs defaultValue="journal" className="w-full">
-              <TabsList className="grid w-full grid-cols-4 gap-1 bg-white/50 p-1 rounded-lg">
-                <TabsTrigger
-                  value="journal"
-                  className="flex items-center gap-2 data-[state=active]:bg-white data-[state=active]:text-blue-600"
-                >
-                  <Book className="h-4 w-4" />
-                  Journal
-                </TabsTrigger>
-                <TabsTrigger
-                  value="photos"
-                  className="flex items-center gap-2 data-[state=active]:bg-white data-[state=active]:text-blue-600"
-                >
-                  <Image alt="imageIcon" className="h-4 w-4" />
-                  Photos
-                </TabsTrigger>
-                <TabsTrigger
-                  value="audio"
-                  className="flex items-center gap-2 data-[state=active]:bg-white data-[state=active]:text-blue-600"
-                >
-                  <Layout className="h-4 w-4" />
-                  Audio
-                </TabsTrigger>
-                <TabsTrigger
-                  value="widgets"
-                  className="flex items-center gap-2 data-[state=active]:bg-white data-[state=active]:text-blue-600"
-                >
-                  <Layout className="h-4 w-4" />
-                  Widgets
-                </TabsTrigger>
-              </TabsList>
-              <TabsContent value="journal">
-                <CardContent className="p-6 sm:p-8">
-                  <Card className="border border-blue-100">
-                    <CardContent className="p-6">
-                      {textIsLoading ? (
-                        <LoadingSpinner />
-                      ) : entryData?.entry ? (
-                        <div className="prose prose-slate max-w-none">
-                          {renderTextWithNewlines(entryData.entry)}
+              <Tabs defaultValue="journal" className="mt-8">
+                <TabsList className="inline-flex h-9 items-center justify-center rounded-lg bg-slate-100 p-1">
+                  <TabsTrigger
+                    value="journal"
+                    className="inline-flex items-center gap-2 rounded-md px-3 py-1 text-sm font-medium transition-colors hover:bg-white hover:text-slate-900 data-[state=active]:bg-white data-[state=active]:text-slate-900"
+                  >
+                    <Book className="h-4 w-4" />
+                    Journal
+                  </TabsTrigger>
+                  <TabsTrigger
+                    value="photos"
+                    className="inline-flex items-center gap-2 rounded-md px-3 py-1 text-sm font-medium transition-colors hover:bg-white hover:text-slate-900 data-[state=active]:bg-white data-[state=active]:text-slate-900"
+                  >
+                    <ImageIcon className="h-4 w-4" />
+                    Photos
+                  </TabsTrigger>
+                  <TabsTrigger
+                    value="audio"
+                    className="inline-flex items-center gap-2 rounded-md px-3 py-1 text-sm font-medium transition-colors hover:bg-white hover:text-slate-900 data-[state=active]:bg-white data-[state=active]:text-slate-900"
+                  >
+                    <Mic className="h-4 w-4" />
+                    Audio
+                  </TabsTrigger>
+                </TabsList>
+
+                <div className="bg-slate-50/50 px-6 py-8 sm:px-8 mt-6">
+                  <TabsContent value="journal" className="mt-0">
+                    {textIsLoading ? (
+                      <LoadingSpinner />
+                    ) : entryData?.entry ? (
+                      <div className="prose prose-slate max-w-none">
+                        {renderTextWithNewlines(entryData.entry)}
+                      </div>
+                    ) : (
+                      <div className="flex items-center justify-center h-32">
+                        <div className="animate-pulse flex space-x-4">
+                          <div className="h-4 w-48 bg-blue-100 rounded"></div>
                         </div>
-                      ) : (
-                        <div className="flex items-center justify-center h-32">
-                          <div className="animate-pulse flex space-x-4">
-                            <div className="h-4 w-48 bg-blue-100 rounded"></div>
-                          </div>
-                        </div>
-                      )}
+                      </div>
+                    )}
+                  </TabsContent>
+                  <TabsContent value="photos">
+                    <CardContent className="p-6 sm:p-8">
+                      <ImageGrid
+                        images={entryImages}
+                        isLoading={mediaIsLoading}
+                        setImages={setEntryImages}
+                        network={network}
+                      />
                     </CardContent>
-                  </Card>
-                </CardContent>
-              </TabsContent>
-              <TabsContent value="photos">
-                <CardContent className="p-6 sm:p-8">
-                  <ImageGrid
-                    images={entryImages}
-                    isLoading={mediaIsLoading}
-                    setImages={setEntryImages}
-                    network={network}
-                  />
-                </CardContent>
-              </TabsContent>
-              <TabsContent value="audio" className="space-y-4">
-                <AudioView
-                  isLoading={mediaIsLoading}
-                  audioData={audioData}
-                  setAudioData={setAudioData}
-                  network={network}
-                ></AudioView>
-              </TabsContent>
-              <TabsContent value="widgets">
-                <CardContent className="p-6 sm:p-8">
-                  <div className="grid gap-6">
-                    {widgets.map((widget, index) => {
-                      const WidgetComponent = widget.component;
-                      const widgetProps = widget.props || {};
-                      return (
-                        <Card key={index} className="border border-blue-100">
-                          <CardContent className="p-4">
-                            <WidgetComponent {...widgetProps} />
-                          </CardContent>
-                        </Card>
-                      );
-                    })}
-                  </div>
-                </CardContent>
-              </TabsContent>
-            </Tabs>
-          </CardHeader>
-        </Card>
-      </div>
+                  </TabsContent>
+                  <TabsContent value="audio" className="space-y-4">
+                    <AudioView
+                      isLoading={mediaIsLoading}
+                      audioData={audioData}
+                      setAudioData={setAudioData}
+                      network={network}
+                    ></AudioView>
+                  </TabsContent>
+                  <TabsContent value="widgets">
+                    <CardContent className="p-6 sm:p-8">
+                      <div className="grid gap-6">
+                        {widgets.map((widget, index) => {
+                          const WidgetComponent = widget.component;
+                          const widgetProps = widget.props || {};
+                          return (
+                            <Card key={index} className="border border-blue-100">
+                              <CardContent className="p-4">
+                                <WidgetComponent {...widgetProps} />
+                              </CardContent>
+                            </Card>
+                          );
+                        })}
+                      </div>
+                    </CardContent>
+                  </TabsContent>
+                </div>
+              </Tabs>
+            </div>
+          </Card>
+        </div>
 
-      <AlertDialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Delete Journal Entry</AlertDialogTitle>
-            <AlertDialogDescription className="space-y-2">
-              <p>
-                Are you sure you want to delete this journal entry? This action cannot be undone.
-              </p>
-              <p className="font-semibold text-destructive">This will permanently delete:</p>
-              <ul className="list-disc list-inside space-y-1">
-                <li>The journal text content</li>
-                <li>All associated images</li>
-                <li>All audio recordings</li>
-              </ul>
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel disabled={isDeleting}>Cancel</AlertDialogCancel>
-            <AlertDialogAction
-              onClick={handleDeleteEntry}
-              disabled={isDeleting}
-              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
-            >
-              {isDeleting ? (
-                <>
-                  <LoadingSpinner />
-                  <span className="ml-2">Deleting...</span>
-                </>
-              ) : (
-                'Delete Everything'
-              )}
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+        <AlertDialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Delete Journal Entry</AlertDialogTitle>
+              <AlertDialogDescription className="space-y-2">
+                <p>
+                  Are you sure you want to delete this journal entry? This action cannot be undone.
+                </p>
+                <p className="font-medium text-red-600">This will permanently delete:</p>
+                <ul className="list-inside list-disc space-y-1">
+                  <li>The journal text content</li>
+                  <li>All associated images</li>
+                  <li>All audio recordings</li>
+                </ul>
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel disabled={isDeleting}>Cancel</AlertDialogCancel>
+              <AlertDialogAction
+                onClick={handleDeleteEntry}
+                disabled={isDeleting}
+                className="bg-red-600 text-white hover:bg-red-700"
+              >
+                {isDeleting ? 'Deleting...' : 'Delete Everything'}
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
+      </div>
     </>
   ) : (
     <UserLoading isLoading={isLoading} error={error} />
