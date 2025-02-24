@@ -1,24 +1,18 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import {
-  Home,
-  LogOut,
-  Settings,
-  MoreHorizontal,
-  BookHeart,
-} from "lucide-react";
-import { useUser } from "@auth0/nextjs-auth0/client";
+} from '@/components/ui/dropdown-menu';
+import { Home, LogOut, Settings, MoreHorizontal, BookHeart } from 'lucide-react';
+import { useUser } from '@auth0/nextjs-auth0/client';
 
 export function PageHeader() {
-  const { user, error, isLoading } = useUser();
+  const { user } = useUser();
   return (
     <header className="sticky top-0 z-50 bg-white/80 border-b backdrop-blur-sm">
       <div className="container mx-auto px-4">
@@ -33,9 +27,7 @@ export function PageHeader() {
               </div>
               <div>
                 <h1 className="text-xl font-bold">Remnity</h1>
-                <p className="text-xs text-muted-foreground">
-                  Record your journey
-                </p>
+                <p className="text-xs text-muted-foreground">Record your journey</p>
               </div>
             </Link>
           </div>
@@ -51,10 +43,7 @@ export function PageHeader() {
                   </Link>
                 </Button>
                 <Button variant="ghost" size="sm" asChild>
-                  <Link
-                    href="/settings"
-                    className="flex items-center space-x-2"
-                  >
+                  <Link href="/settings" className="flex items-center space-x-2">
                     <Settings className="h-4 w-4" />
                     <span>Settings</span>
                   </Link>
@@ -63,7 +52,7 @@ export function PageHeader() {
                   variant="ghost"
                   size="sm"
                   className="text-red-500 hover:text-red-600 hover:bg-red-50 cursor-pointer"
-                  onClick={() => window.location.href = "/api/auth/logout"}
+                  onClick={() => (window.location.href = '/api/auth/logout')}
                   asChild
                 >
                   <span>Logout</span>
@@ -86,22 +75,13 @@ export function PageHeader() {
                       </Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem asChild>
-                      <Link
-                        href="/settings"
-                        className="flex items-center space-x-2"
-                      >
+                      <Link href="/settings" className="flex items-center space-x-2">
                         <Settings className="h-4 w-4" />
                         <span>Settings</span>
                       </Link>
                     </DropdownMenuItem>
-                    <DropdownMenuItem
-                      asChild
-                      className="text-red-500 focus:text-red-500"
-                    >
-                      <Link
-                        href="/api/auth/logout"
-                        className="flex items-center space-x-2"
-                      >
+                    <DropdownMenuItem asChild className="text-red-500 focus:text-red-500">
+                      <Link href="/api/auth/logout" className="flex items-center space-x-2">
                         <LogOut className="h-4 w-4" />
                         <span>Logout</span>
                       </Link>

@@ -1,44 +1,40 @@
-"use client";
+'use client';
 
-import * as React from "react";
-import { ChevronLeft, ChevronRight, CalendarClock } from "lucide-react";
-import Link from "next/link";
-import { useState, useMemo, useEffect } from "react";
+import * as React from 'react';
+import { ChevronLeft, ChevronRight, CalendarClock } from 'lucide-react';
+import Link from 'next/link';
+import { useState, useMemo, useEffect } from 'react';
 
-import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
-import DateFactory from "@/lib/DateFactory";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+import { cn } from '@/lib/utils';
+import { Button } from '@/components/ui/button';
+import DateFactory from '@/lib/DateFactory';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 
 export function JournalEntriesCalendar({ entries }) {
-  const [year, setYear] = useState(parseInt(localStorage.getItem("lastVisitedYear") ?? DateFactory.getTodayDate().getFullYear()));
+  const [year, setYear] = useState(
+    parseInt(localStorage.getItem('lastVisitedYear') ?? DateFactory.getTodayDate().getFullYear())
+  );
   const [currentMonth, setCurrentMonth] = useState(DateFactory.getTodayDate().getMonth());
 
   const months = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
   ];
 
   // Sets the year whenever user navgiates between years
   useEffect(() => {
     localStorage.setItem('lastVisitedYear', year.toString());
   }, [year]);
-    
 
   const entryMap = useMemo(() => {
     const map = new Map();
@@ -57,14 +53,14 @@ export function JournalEntriesCalendar({ entries }) {
     return entryMap.get(dateKey);
   };
 
-  const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
   const getDaysInMonth = (month, year) => {
-    return DateFactory.createDateFromNumbers(year, month + 1, 0).getDate()
+    return DateFactory.createDateFromNumbers(year, month + 1, 0).getDate();
   };
 
   const getFirstDayOfMonth = (month, year) => {
-    return DateFactory.createDateFromNumbers(year, month, 1).getDay()
+    return DateFactory.createDateFromNumbers(year, month, 1).getDay();
   };
 
   const generateMonthGrid = (month) => {
@@ -106,8 +102,8 @@ export function JournalEntriesCalendar({ entries }) {
       return (
         <div
           className={cn(
-            "aspect-square flex items-center justify-center rounded-sm text-xs",
-            "hover:bg-accent hover:text-accent-foreground"
+            'aspect-square flex items-center justify-center rounded-sm text-xs',
+            'hover:bg-accent hover:text-accent-foreground'
           )}
         >
           {day}
@@ -120,9 +116,9 @@ export function JournalEntriesCalendar({ entries }) {
           <Link
             href={{ pathname: `/journal/read/${entry.date}` }}
             className={cn(
-              "aspect-square flex items-center justify-center rounded-sm text-xs",
-              "bg-primary/15 text-primary hover:bg-primary/25 transition-colors",
-              "active:scale-95"
+              'aspect-square flex items-center justify-center rounded-sm text-xs',
+              'bg-primary/15 text-primary hover:bg-primary/25 transition-colors',
+              'active:scale-95'
             )}
           >
             {day}
@@ -148,10 +144,7 @@ export function JournalEntriesCalendar({ entries }) {
       <div className="p-1.5">
         <div className="grid grid-cols-7 gap-0.5">
           {days.map((day) => (
-            <div
-              key={day}
-              className="text-center text-[10px] font-medium text-muted-foreground"
-            >
+            <div key={day} className="text-center text-[10px] font-medium text-muted-foreground">
               {day[0]}
             </div>
           ))}
@@ -190,11 +183,7 @@ export function JournalEntriesCalendar({ entries }) {
         <div className="hidden sm:flex items-center justify-between mb-4">
           <h1 className="text-2xl font-bold">{year}</h1>
           <div className="flex gap-2">
-            <Button
-              variant="outline"
-              size="icon"
-              onClick={() => setYear(year - 1)}
-            >
+            <Button variant="outline" size="icon" onClick={() => setYear(year - 1)}>
               <ChevronLeft className="h-4 w-4" />
             </Button>
             <Button
@@ -208,11 +197,7 @@ export function JournalEntriesCalendar({ entries }) {
             >
               <CalendarClock className="h-4 w-4" />
             </Button>
-            <Button
-              variant="outline"
-              size="icon"
-              onClick={() => setYear(year + 1)}
-            >
+            <Button variant="outline" size="icon" onClick={() => setYear(year + 1)}>
               <ChevronRight className="h-4 w-4" />
             </Button>
           </div>
@@ -225,18 +210,10 @@ export function JournalEntriesCalendar({ entries }) {
             <span className="text-xl font-bold">{year}</span>
           </div>
           <div className="flex gap-2">
-            <Button
-              variant="outline"
-              size="icon"
-              onClick={() => navigateMonth(-1)}
-            >
+            <Button variant="outline" size="icon" onClick={() => navigateMonth(-1)}>
               <ChevronLeft className="h-4 w-4" />
             </Button>
-            <Button
-              variant="outline"
-              size="icon"
-              onClick={() => navigateMonth(1)}
-            >
+            <Button variant="outline" size="icon" onClick={() => navigateMonth(1)}>
               <ChevronRight className="h-4 w-4" />
             </Button>
           </div>

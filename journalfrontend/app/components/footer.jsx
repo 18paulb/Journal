@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from 'next/link';
 
 export default function PageFooter() {
   return (
@@ -9,11 +9,17 @@ export default function PageFooter() {
             <Link href="/" className="font-semibold hover:text-primary transition-colors">
               Remnity
             </Link>
-            <p className="text-sm text-muted-foreground">Your digital safe space for personal reflection</p>
+            <p className="text-sm text-muted-foreground">
+              Your digital safe space for personal reflection
+            </p>
           </div>
           <nav className="flex flex-wrap gap-6">
             {footerLinks.map((link) => (
-              <Link key={link.linkText} href={link.link} className="text-sm transition-colors hover:text-primary">
+              <Link
+                key={link.linkText}
+                href={link.link}
+                className="text-sm transition-colors hover:text-primary"
+              >
                 {link.linkText}
               </Link>
             ))}
@@ -26,15 +32,15 @@ export default function PageFooter() {
 
 const footerLinks = [
   {
-    linkText: "Privacy Policy", 
-    link: "/info/privacy-policy"
+    linkText: 'Privacy Policy',
+    link: '/info/privacy-policy',
   },
   {
-    linkText: "Terms of Service", 
-    link: "/info/terms-of-service"
+    linkText: 'Terms of Service',
+    link: '/info/terms-of-service',
   },
   {
-    linkText: "Contact",
-    link: "/info/contact-us"
-  }
-]
+    linkText: 'Contact',
+    link: '/info/contact-us',
+  },
+];

@@ -1,9 +1,8 @@
-"use client"
+'use client';
 
-import Link from "next/link"
-import { motion } from "framer-motion"
-import { ArrowRight } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { motion } from 'framer-motion';
+import { ArrowRight } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 export default function HeroSection() {
   return (
@@ -15,7 +14,7 @@ export default function HeroSection() {
           muted
           playsInline
           className="w-full h-full object-cover"
-          style={{ filter: "brightness(0.7)" }}
+          style={{ filter: 'brightness(0.7)' }}
         >
           {/* <source src="/placeholder.mp4" type="video/mp4" /> */}
         </video>
@@ -37,15 +36,16 @@ export default function HeroSection() {
           A private digital space for your memories, designed with intention.
         </p>
         <div className="space-x-4">
-          <Button size="lg" className="rounded-full bg-white text-black hover:bg-white/90"
-                            onClick={() => window.location.href = "/api/auth/login"}
-                            >
-              Start journaling
-              <ArrowRight className="ml-2 h-4 w-4" />
+          <Button
+            size="lg"
+            className="rounded-full bg-white text-black hover:bg-white/90"
+            onClick={() => (window.location.href = '/api/auth/login')}
+          >
+            Start journaling
+            <ArrowRight className="ml-2 h-4 w-4" />
           </Button>
         </div>
       </motion.div>
     </section>
-  )
+  );
 }
-

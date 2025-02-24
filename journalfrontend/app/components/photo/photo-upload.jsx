@@ -1,48 +1,49 @@
-"use client"
+'use client';
 
-import { useState, useCallback } from "react"
-import { useDropzone } from "react-dropzone"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
-import { Upload, X } from 'lucide-react'
-import Image from "next/image"
+import { useState, useCallback } from 'react';
+import { useDropzone } from 'react-dropzone';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { Upload, X } from 'lucide-react';
+import Image from 'next/image';
 
 export default function PhotoUpload({ uploadPhoto }) {
-  const [preview, setPreview] = useState(null)
+  const [preview, setPreview] = useState(null);
 
-  const onDrop = useCallback((acceptedFiles) => {
-    const file = acceptedFiles[0]
-  
-    if (file) {
+  const onDrop = useCallback(
+    (acceptedFiles) => {
+      const file = acceptedFiles[0];
 
-      // Remove previously uploaded file
-      if (preview) {
-        URL.revokeObjectURL(preview)
+      if (file) {
+        // Remove previously uploaded file
+        if (preview) {
+          URL.revokeObjectURL(preview);
+        }
+
+        const previewUrl = URL.createObjectURL(file);
+        setPreview(previewUrl);
+
+        uploadPhoto(file);
       }
-
-      const previewUrl = URL.createObjectURL(file)
-      setPreview(previewUrl)
-
-      uploadPhoto(file)
-    }
-
-  }, [preview, uploadPhoto])
+    },
+    [preview, uploadPhoto]
+  );
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
     accept: {
-      'image/*': ['.jpeg', '.jpg', '.png',]
+      'image/*': ['.jpeg', '.jpg', '.png'],
     },
-    multiple: true
-  })
+    multiple: true,
+  });
 
   const removeFile = () => {
     if (preview) {
-      URL.revokeObjectURL(preview)
+      URL.revokeObjectURL(preview);
     }
-    setPreview(null)
-    uploadPhoto(null)
-  }
+    setPreview(null);
+    uploadPhoto(null);
+  };
 
   return (
     <Card className="w-full max-w-md mx-auto">
@@ -50,7 +51,7 @@ export default function PhotoUpload({ uploadPhoto }) {
         <div
           {...getRootProps()}
           className={`border-2 border-dashed rounded-lg p-6 cursor-pointer transition-colors
-            ${isDragActive ? "border-primary bg-primary/5" : "border-gray-300 dark:border-gray-700"}
+            ${isDragActive ? 'border-primary bg-primary/5' : 'border-gray-300 dark:border-gray-700'}
             hover:border-primary hover:bg-primary/5`}
         >
           <input {...getInputProps()} />
@@ -58,7 +59,7 @@ export default function PhotoUpload({ uploadPhoto }) {
             <Upload className="h-8 w-8 text-gray-500" />
             <div className="text-center">
               <p className="text-sm font-medium">
-                {isDragActive ? "Drop the files here" : "Drag & drop files here"}
+                {isDragActive ? 'Drop the files here' : 'Drag & drop files here'}
               </p>
               <p className="text-xs text-gray-500 mt-1">or click to select files</p>
             </div>
@@ -70,25 +71,25 @@ export default function PhotoUpload({ uploadPhoto }) {
 
         {preview && (
           <div className="mt-6 grid grid-cols-2 gap-4">
-              <div key={preview} className="relative group">
-                <Image
-                  src={preview}
-                  alt={`Preview`}
-                  width={200}
-                  height={200}
-                  className="rounded-lg object-cover w-full aspect-square"
-                />
-                <button
-                  onClick={() => removeFile()}
-                  className="absolute top-2 right-2 p-1 rounded-full bg-black/50 text-white 
+            <div key={preview} className="relative group">
+              <Image
+                src={preview}
+                alt={`Preview`}
+                width={200}
+                height={200}
+                className="rounded-lg object-cover w-full aspect-square"
+              />
+              <button
+                onClick={() => removeFile()}
+                className="absolute top-2 right-2 p-1 rounded-full bg-black/50 text-white 
                     opacity-0 group-hover:opacity-100 transition-opacity"
-                >
-                  <X className="h-4 w-4" />
-                </button>
-              </div>
+              >
+                <X className="h-4 w-4" />
+              </button>
+            </div>
           </div>
         )}
       </CardContent>
     </Card>
-  )
+  );
 }

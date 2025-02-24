@@ -1,9 +1,7 @@
-import { ImageIcon, Lock, Mic, Pencil, Shield, Users } from "lucide-react";
-
-import CTASection from "./cta-section";
-import FeaturesSection from "./features-section";
-import HeroSection from "./hero-section";
-import PrivacySection from "./privacy-section";
+import CTASection from './cta-section';
+import FeaturesSection from './features-section';
+import HeroSection from './hero-section';
+import PrivacySection from './privacy-section';
 
 export default function LandingPage() {
   return (
