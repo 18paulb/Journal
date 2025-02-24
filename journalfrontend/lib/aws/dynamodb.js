@@ -20,7 +20,7 @@ export async function writeJournalEntry(entryText, entryTitle, date, email, isPu
       email: email,
       entry: entryText,
       title: entryTitle,
-      isPrivate: !isPublic,
+      isPublic: isPublic,
     },
   });
 
