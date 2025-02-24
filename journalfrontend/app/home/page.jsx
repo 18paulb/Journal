@@ -13,13 +13,27 @@ import NetworkClient from '@/lib/network-client';
 import DateFactory from '@/lib/DateFactory';
 
 export default function HomePage() {
+  const writtenTodayString = 'hasWrittenToday';
   const { user } = useUser();
   const [network] = useState(new NetworkClient());
-  const [browseIsEnabled, setBrowseIsEnabled] = useState(false);
+  const [browseIsEnabled, setBrowseIsEnabled] = useState(
+    localStorage.getItem(writtenTodayString) === 'true'
+  );
 
-  // Load in today's entry if it exists
+  /**
+   Load in today's entry if it exists
+   The way this is set up, it will send a network call no matter what however from the UI side, there won't be
+   a momentary loading state
+  */
   useEffect(() => {
     if (!user) return;
+
+    if (localStorage.getItem(writtenTodayString) === 'true') {
+      setBrowseIsEnabled(true);
+    } else {
+      setBrowseIsEnabled(false);
+    }
+
     const today = DateFactory.getLocalDateString();
 
     network
@@ -27,7 +41,11 @@ export default function HomePage() {
       .then((response) => {
         const entry = response.data.journalEntry;
         if (entry != null) {
+          localStorage.setItem(writtenTodayString, true);
           setBrowseIsEnabled(true);
+        } else {
+          localStorage.setItem(writtenTodayString, false);
+          setBrowseIsEnabled(false);
         }
       })
       .catch((error) => console.log(error));
