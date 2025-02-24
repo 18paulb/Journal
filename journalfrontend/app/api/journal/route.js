@@ -12,7 +12,7 @@ export async function POST(request) {
     const title = formData.get('title');
     const email = formData.get('email');
     const todayString = formData.get('date');
-    const isPrivate = formData.get('isPrivate');
+    const isPublic = formData.get('isPublic');
 
     if (!entry || !email || !todayString) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
@@ -25,7 +25,7 @@ export async function POST(request) {
     const audio = formData.get('audio'); // File object or null
 
     // Save journal entry
-    await writeJournalEntry(entry, title, todayString, email, isPrivate);
+    await writeJournalEntry(entry, title, todayString, email, isPublic);
 
     // Process image upload
     if (image && image instanceof Blob) {
