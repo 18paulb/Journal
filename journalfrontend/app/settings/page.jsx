@@ -19,6 +19,7 @@ import { widgetsMap } from '@/lib/widget-info';
 import { useToast } from '@/hooks/use-toast';
 import NetworkClient from '@/lib/network-client';
 import DateFactory from '@/lib/DateFactory';
+import ThemeSettings from '../components/theme-settings';
 
 export default function SettingsPage() {
   const [widgets, setWidgets] = useState([]);
@@ -76,7 +77,7 @@ export default function SettingsPage() {
 
   // This page should only appear if the user object has loaded in
   return user ? (
-    <div className="min-h-screen bg-muted/40 flex justify-center">
+    <div className="min-h-screen flex justify-center">
       <div className="w-full max-w-3xl px-4 py-8 mx-auto space-y-8">
         {/* Header Section */}
         <div className="flex items-start gap-4 bg-white rounded-lg p-6 shadow-sm">
@@ -137,6 +138,9 @@ export default function SettingsPage() {
             </div>
           </CardFooter>
         </Card>
+
+        <ThemeSettings></ThemeSettings>
+
       </div>
     </div>
   ) : (

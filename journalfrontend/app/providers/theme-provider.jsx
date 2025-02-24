@@ -11,7 +11,7 @@ export function useTheme() {
 }
 
 export function ThemeProvider({ children }) {
-  const [backgroundColor, setBackgroundColor] = useState('rgb(239 246 255)');
+  const [backgroundColor, setBackgroundColor] = useState('rgb(239, 246, 255)');
 
   useEffect(() => {
     // Load theme from localStorage (if exists)
