@@ -25,7 +25,7 @@ export default function JournalEntryEditor() {
   const [content, setContent] = useState('');
   const { user, error, isLoading } = useUser();
   const [uploadedPhoto, setUploadedPhoto] = useState(null);
-  const [isPrivate, setIsPrivate] = useState(false);
+  const [isPublic, setIsPublic] = useState(false);
   const [network] = useState(new NetworkClient());
 
   const { toast } = useToast();
@@ -63,7 +63,7 @@ export default function JournalEntryEditor() {
     formData.append('title', title ? title : 'N/A');
     formData.append('email', user.email);
     formData.append('date', DateFactory.getLocalDateString());
-    formData.append('isPrivate', isPrivate);
+    formData.append('isPublic', isPublic);
 
     if (uploadedPhoto) {
       let imageType = uploadedPhoto.type.split('/')[1];
@@ -171,15 +171,15 @@ export default function JournalEntryEditor() {
             <div className="space-y-4">
               <div className="flex items-center space-x-2">
                 <Checkbox
-                  id="private"
-                  checked={isPrivate}
-                  onCheckedChange={(checked) => setIsPrivate(checked)}
+                  id="public"
+                  checked={isPublic}
+                  onCheckedChange={(checked) => setIsPublic(checked)}
                 />
                 <Label
-                  htmlFor="private"
+                  htmlFor="public"
                   className="font-medium text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                 >
-                  Mark as Private
+                  Mark as Public
                 </Label>
               </div>
             </div>
