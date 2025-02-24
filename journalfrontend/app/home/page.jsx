@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { Card, CardContent } from '@/components/ui/card';
-import { BookOpen, Download, PenSquare } from 'lucide-react';
+import { BookOpen, Download, PenSquare, Globe2 } from 'lucide-react';
 import { useUser } from '@auth0/nextjs-auth0/client';
 import JournalEntryCountStat from '../components/stats/journal-entry-count';
 import PhotoCountStat from '../components/stats/photo-count';
@@ -48,6 +48,25 @@ export default function HomePage() {
                   </div>
                   <h2 className="text-2xl font-semibold mb-2">Write Entry</h2>
                   <p className="text-muted-foreground">Start writing today&apos;s journal entry</p>
+                </div>
+              </CardContent>
+            </Card>
+          </Link>
+        </div>
+
+        {/* Public Journals Section */}
+        <div className="mb-12">
+          <Link href={{ pathname: `/browse` }} className="block max-w-2xl mx-auto">
+            <Card className="hover:shadow-lg transition-all duration-300 group">
+              <CardContent className="p-8">
+                <div className="text-center">
+                  <div className="bg-primary/10 p-4 rounded-full w-fit mx-auto mb-4">
+                    <Globe2 className="h-8 w-8 text-primary" />
+                  </div>
+                  <h2 className="text-2xl font-semibold mb-2">Browse Public Journals</h2>
+                  <p className="text-muted-foreground">
+                    Discover shared journal entries from the community
+                  </p>
                 </div>
               </CardContent>
             </Card>
