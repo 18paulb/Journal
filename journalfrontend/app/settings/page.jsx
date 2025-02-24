@@ -140,7 +140,6 @@ export default function SettingsPage() {
         </Card>
 
         <ThemeSettings></ThemeSettings>
-
       </div>
     </div>
   ) : (
