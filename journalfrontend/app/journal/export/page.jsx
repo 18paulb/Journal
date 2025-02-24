@@ -181,7 +181,7 @@
 //   );
 // }
 
-import UnderDevelopment from '@/app/(error)/development/page';
+import UnderDevelopment from '@/app/error/development/page';
 
 export default function ExportPage() {
   return <UnderDevelopment></UnderDevelopment>;
