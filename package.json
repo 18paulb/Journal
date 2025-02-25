@@ -2,12 +2,17 @@
   "name": "journal",
   "version": "0.1.0",
   "private": true,
-  "workspaces": ["journalfrontend"],
+  "workspaces": [
+    "journalfrontend"
+  ],
   "scripts": {
     "dev": "npm run dev:frontend",
     "dev:frontend": "cd journalfrontend && next dev",
     "build": "next build journalfrontend",
     "start": "next start journalfrontend",
     "lint": "cd journalfrontend && npm run lint"
+  },
+  "dependencies": {
+    "@aws-sdk/client-ses": "^3.750.0"
   }
 }

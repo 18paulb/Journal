@@ -72,6 +72,14 @@ export default class NetworkClient {
     });
   }
 
+  async sendEmail(formData) {
+    return axios.post(`/api/email`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data', // Ensure the right content type for file upload
+      },
+    });
+  }
+
   async clearCache(email) {
     return axios.post(`${this.backendUrl}/clear-cache`, {
       email: email,
