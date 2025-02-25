@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Mail, MessageSquare, Send, Phone } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import NetworkClient from '@/lib/network-client';
 
 export default function ContactPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -17,17 +18,31 @@ export default function ContactPage() {
     event.preventDefault();
     setIsSubmitting(true);
 
-    // Simulate form submission
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-
-    toast({
-      title: 'Message sent!',
-      description: 'We&apos;ll get back to you as soon as possible.',
-    });
-
-    // Reset form
+    // Get form data
     const form = event.target;
-    form.reset();
+    const formData = new FormData(form);
+    const data = Object.fromEntries(formData.entries());
+    console.log(data);
+
+    new NetworkClient()
+      .sendEmail(formData)
+      .then((response) => {
+        console.log(response);
+        toast({
+          title: 'Message sent!',
+          description: "We'll get back to you as soon as possible.",
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+        toast({
+          title: 'An error occurred',
+          description: 'Please try again later',
+        });
+      });
+
+    // Uncomment to reset the form after submission
+    // form.reset();
     setIsSubmitting(false);
   }
 
@@ -99,28 +114,35 @@ export default function ContactPage() {
               <div className="grid gap-4 md:grid-cols-2">
                 <div className="space-y-2">
                   <Label htmlFor="first-name">First name</Label>
-                  <Input id="first-name" placeholder="John" required />
+                  <Input id="first-name" name="firstName" placeholder="John" required />
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="last-name">Last name</Label>
-                  <Input id="last-name" placeholder="Doe" required />
+                  <Input id="last-name" name="lastName" placeholder="Doe" required />
                 </div>
               </div>
 
               <div className="space-y-2">
                 <Label htmlFor="email">Email</Label>
-                <Input id="email" type="email" placeholder="john@example.com" required />
+                <Input
+                  id="email"
+                  name="email"
+                  type="email"
+                  placeholder="john@example.com"
+                  required
+                />
               </div>
 
               <div className="space-y-2">
                 <Label htmlFor="subject">Subject</Label>
-                <Input id="subject" placeholder="How can we help you?" required />
+                <Input id="subject" name="subject" placeholder="How can we help you?" required />
               </div>
 
               <div className="space-y-2">
                 <Label htmlFor="message">Message</Label>
                 <Textarea
                   id="message"
+                  name="message"
                   placeholder="Enter your message here"
                   className="min-h-[150px]"
                   required

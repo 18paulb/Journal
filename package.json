@@ -2,7 +2,9 @@
   "name": "journal",
   "version": "0.1.0",
   "private": true,
-  "workspaces": ["journalfrontend"],
+  "workspaces": [
+    "journalfrontend"
+  ],
   "scripts": {
     "dev": "npm run dev:frontend",
     "dev:frontend": "cd journalfrontend && next dev",
