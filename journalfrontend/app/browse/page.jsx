@@ -16,7 +16,7 @@ export default function BrowsePublicJournals() {
       .catch((error) => {
         console.log(error);
       });
-  });
+  }, []);
 
   return (
     <div className="min-h-screen py-12">
