@@ -11,8 +11,5 @@
     "build": "next build journalfrontend",
     "start": "next start journalfrontend",
     "lint": "cd journalfrontend && npm run lint"
-  },
-  "dependencies": {
-    "@aws-sdk/client-ses": "^3.750.0"
   }
 }

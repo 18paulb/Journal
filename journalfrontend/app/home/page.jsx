@@ -16,9 +16,12 @@ export default function HomePage() {
   const writtenTodayString = 'hasWrittenToday';
   const { user } = useUser();
   const [network] = useState(new NetworkClient());
-  const [browseIsEnabled, setBrowseIsEnabled] = useState(
-    localStorage.getItem(writtenTodayString) === 'true'
-  );
+  const [browseIsEnabled, setBrowseIsEnabled] = useState(true);
+
+  // We access localStorage from useEffect to make sure it is only run on the client
+  useEffect(() => {
+    setBrowseIsEnabled(localStorage.getItem(writtenTodayString) === 'true');
+  }, []);
 
   /**
    Load in today's entry if it exists
