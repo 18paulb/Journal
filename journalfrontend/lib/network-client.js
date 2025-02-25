@@ -1,8 +1,6 @@
 import axios from 'axios';
 
 export default class NetworkClient {
-  backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL ?? 'https://api.remnity.com/api';
-
   async getUserJournals(email) {
     return axios.get(`/api/journal/entries`, {
       headers: {
@@ -78,5 +76,9 @@ export default class NetworkClient {
         'Content-Type': 'multipart/form-data', // Ensure the right content type for file upload
       },
     });
+  }
+
+  async getDailyPublicJournals() {
+    return axios.get('/api/browse');
   }
 }
