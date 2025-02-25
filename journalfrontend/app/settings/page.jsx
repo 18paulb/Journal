@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Settings2, Save } from 'lucide-react';
+import { Settings2 } from 'lucide-react';
 import {
   Card,
   CardContent,
@@ -10,24 +10,17 @@ import {
   CardTitle,
   CardFooter,
 } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { useUser } from '@auth0/nextjs-auth0/client';
 import { UserLoading } from '../components/user-loading';
 import { widgetsMap } from '@/lib/widget-info';
-import { useToast } from '@/hooks/use-toast';
-import NetworkClient from '@/lib/network-client';
-import DateFactory from '@/lib/DateFactory';
+import DateFactory from '@/lib/date-factory';
 import ThemeSettings from '../components/theme-settings';
 
 export default function SettingsPage() {
   const [widgets, setWidgets] = useState([]);
   const { user, error, isLoading } = useUser();
-
-  const { toast } = useToast();
-
-  const network = new NetworkClient();
 
   const handleToggleWidget = (widgetId) => {
     setWidgets((prev) =>
@@ -57,23 +50,6 @@ export default function SettingsPage() {
       setWidgets(newWidgets);
     }
   }, [user]);
-
-  const handleClearCache = async () => {
-    try {
-      await network.clearCache(user.email);
-      toast({
-        title: 'Successfully cleared cache',
-        duration: 2000,
-      });
-    } catch (err) {
-      console.log(err);
-      toast({
-        title: 'Successfully cleared cache',
-        duration: 2000,
-        variant: 'destructive',
-      });
-    }
-  };
 
   // This page should only appear if the user object has loaded in
   return user ? (
@@ -131,10 +107,6 @@ export default function SettingsPage() {
               <p className="text-sm text-muted-foreground">
                 Last updated: {DateFactory.getTodayDate().toLocaleDateString()}
               </p>
-              <Button onClick={handleClearCache} variant="outline" size="sm" className="space-x-2">
-                <Save className="h-4 w-4" />
-                <span>Clear Cache</span>
-              </Button>
             </div>
           </CardFooter>
         </Card>

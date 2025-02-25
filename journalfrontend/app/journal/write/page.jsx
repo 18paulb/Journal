@@ -18,7 +18,7 @@ import PhotoUpload from '@/app/components/photo/photo-upload';
 import { Label } from '@/components/ui/label';
 
 import { AudioUpload } from '../../components/audio/audio-upload';
-import DateFactory from '@/lib/DateFactory';
+import DateFactory from '@/lib/date-factory';
 
 export default function JournalEntryEditor() {
   const [title, setTitle] = useState('');

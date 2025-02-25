@@ -7,7 +7,7 @@ import { useState, useMemo, useEffect } from 'react';
 
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
-import DateFactory from '@/lib/DateFactory';
+import DateFactory from '@/lib/date-factory';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 
 export function JournalEntriesCalendar({ entries }) {

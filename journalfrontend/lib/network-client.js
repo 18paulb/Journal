@@ -79,10 +79,4 @@ export default class NetworkClient {
       },
     });
   }
-
-  async clearCache(email) {
-    return axios.post(`${this.backendUrl}/clear-cache`, {
-      email: email,
-    });
-  }
 }

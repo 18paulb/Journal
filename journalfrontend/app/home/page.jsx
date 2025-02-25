@@ -10,7 +10,7 @@ import PhotoCountStat from '../components/stats/photo-count';
 import CurrentStreakStat from '../components/stats/current-streak';
 import LongestStreakStat from '../components/stats/longest-streak';
 import NetworkClient from '@/lib/network-client';
-import DateFactory from '@/lib/DateFactory';
+import DateFactory from '@/lib/date-factory';
 
 export default function HomePage() {
   const writtenTodayString = 'hasWrittenToday';
