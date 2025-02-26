@@ -26,9 +26,17 @@ export default class NetworkClient {
   }
 
   async getJournalEntryCount(email) {
-    return axios.get(`/api/stats/journal`, {
+    return axios.get('/api/stats/journal', {
       headers: {
         Authorization: `Bearer ${email}`, // Sending email in the header
+      },
+    });
+  }
+
+  async getStreakCount(date, email) {
+    return axios.get(`/api/stats/streak/${date}`, {
+      headers: {
+        Authorization: `Bearer ${email}`,
       },
     });
   }

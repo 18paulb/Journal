@@ -25,9 +25,8 @@ export default function JournalEntryCountStat({ user }) {
     }
 
     setIsLoading(true);
-    const networkClient = new NetworkClient();
 
-    networkClient
+    new NetworkClient()
       .getJournalEntryCount(user.email)
       .then((response) => {
         localStorage.setItem('journalEntryCount', response.data.count.toString());

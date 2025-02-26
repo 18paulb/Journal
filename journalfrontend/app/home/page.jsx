@@ -142,7 +142,7 @@ export default function HomePage() {
 
             <PhotoCountStat user={user}></PhotoCountStat>
 
-            <CurrentStreakStat></CurrentStreakStat>
+            <CurrentStreakStat user={user}></CurrentStreakStat>
 
             <LongestStreakStat></LongestStreakStat>
           </div>
