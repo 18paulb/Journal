@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { getMediaForJournalEntry } from '@/lib/aws/s3';
-import DateFactory from '@/lib/DateFactory';
-import { toBase64, getMimeTypePrefix } from '@/lib/photoManipulator';
+import DateFactory from '@/lib/date-factory';
+import { toBase64, getMimeTypePrefix } from '@/lib/photo-manipulator';
 
 export async function GET(request, { params }) {
   const authHeader = request.headers.get('authorization');

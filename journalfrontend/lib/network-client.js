@@ -1,8 +1,6 @@
 import axios from 'axios';
 
 export default class NetworkClient {
-  backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL ?? 'https://api.remnity.com/api';
-
   async getUserJournals(email) {
     return axios.get(`/api/journal/entries`, {
       headers: {
@@ -28,9 +26,17 @@ export default class NetworkClient {
   }
 
   async getJournalEntryCount(email) {
-    return axios.get(`/api/stats/journal`, {
+    return axios.get('/api/stats/journal', {
       headers: {
         Authorization: `Bearer ${email}`, // Sending email in the header
+      },
+    });
+  }
+
+  async getStreakCount(date, email) {
+    return axios.get(`/api/stats/streak/${date}`, {
+      headers: {
+        Authorization: `Bearer ${email}`,
       },
     });
   }
@@ -80,9 +86,7 @@ export default class NetworkClient {
     });
   }
 
-  async clearCache(email) {
-    return axios.post(`${this.backendUrl}/clear-cache`, {
-      email: email,
-    });
+  async getDailyPublicJournals() {
+    return axios.get('/api/browse');
   }
 }

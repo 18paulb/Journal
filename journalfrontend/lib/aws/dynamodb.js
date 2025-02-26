@@ -35,6 +35,7 @@ export async function getJournalEntries(email) {
       ':email': email,
     },
     ConsistentRead: true,
+    ScanIndexForward: false,
   });
 
   const response = await docClient.send(command);
