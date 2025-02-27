@@ -46,6 +46,42 @@ const themes = [
     color: 'rgb(255, 229, 217)',
     background: 'bg-[rgb(255,229,217)]',
   },
+  {
+    id: 'light-mint',
+    name: 'Light Mint',
+    color: 'rgb(209, 245, 237)',
+    background: 'bg-[rgb(209,245,237)]',
+  },
+  {
+    id: 'light-lavender',
+    name: 'Light Lavender',
+    color: 'rgb(230, 230, 250)',
+    background: 'bg-[rgb(230,230,250)]',
+  },
+  {
+    id: 'light-coral',
+    name: 'Light Coral',
+    color: 'rgb(255, 223, 211)',
+    background: 'bg-[rgb(255,223,211)]',
+  },
+  {
+    id: 'light-teal',
+    name: 'Light Teal',
+    color: 'rgb(204, 236, 239)',
+    background: 'bg-[rgb(204,236,239)]',
+  },
+  {
+    id: 'light-sage',
+    name: 'Light Sage',
+    color: 'rgb(226, 236, 219)',
+    background: 'bg-[rgb(226,236,219)]',
+  },
+  {
+    id: 'light-lilac',
+    name: 'Light Lilac',
+    color: 'rgb(240, 230, 255)',
+    background: 'bg-[rgb(240,230,255)]',
+  },
 ];
 
 export default function ThemeSettings() {
