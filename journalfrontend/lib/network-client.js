@@ -86,7 +86,7 @@ export default class NetworkClient {
     });
   }
 
-  async getDailyPublicJournals() {
-    return axios.get('/api/browse');
+  async getDailyPublicJournals(date) {
+    return axios.get(`/api/browse/${date}`);
   }
 }

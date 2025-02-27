@@ -2,21 +2,30 @@
 
 import { useEffect, useState } from 'react';
 import NetworkClient from '@/lib/network-client';
+import DateFactory from '@/lib/date-factory';
 
 export default function BrowsePublicJournals() {
   const [publicEntries, setPublicEntries] = useState([]);
 
   useEffect(() => {
     new NetworkClient()
-      .getDailyPublicJournals()
+      .getDailyPublicJournals(DateFactory.getLocalDateString())
       .then((response) => {
-        console.log(response);
         setPublicEntries(response.data.publicJournalEntries ?? []);
       })
       .catch((error) => {
         console.log(error);
       });
   }, []);
+
+  // Character limit for preview text
+  const characterLimit = 400;
+
+  // Function to truncate text
+  const truncateText = (text, limit) => {
+    if (text.length <= limit) return text;
+    return text.slice(0, limit) + '...';
+  };
 
   return (
     <div className="min-h-screen py-12">
@@ -32,7 +41,9 @@ export default function BrowsePublicJournals() {
                 <h2 className="text-2xl font-semibold tracking-tight">{entry.title}</h2>
                 <time className="text-sm text-muted-foreground">Date</time>
               </div>
-              <p className="leading-relaxed text-muted-foreground">{entry.entry}</p>
+              <p className="leading-relaxed text-muted-foreground">
+                {truncateText(entry.entry, characterLimit)}
+              </p>
               <div className="mt-4 flex justify-end">
                 <button className="text-sm font-medium text-primary opacity-0 transition-opacity group-hover:opacity-100">
                   Read more →
