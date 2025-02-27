@@ -6,9 +6,8 @@ import { Lock, Shield, Users } from 'lucide-react';
 const privacyCards = [
   {
     icon: Lock,
-    title: 'End-to-End Encryption',
-    description:
-      'Your entries are encrypted before they leave your device, ensuring complete privacy.',
+    title: 'Data Encryption',
+    description: 'Your entries are encrypted, ensuring complete privacy.',
   },
   {
     icon: Shield,
@@ -18,7 +17,7 @@ const privacyCards = [
   {
     icon: Users,
     title: 'Controlled Sharing',
-    description: 'Choose what to share and with whom. Keep private entries private.',
+    description: 'Choose what to share. Keep private entries private.',
   },
 ];
 
