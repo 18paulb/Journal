@@ -46,6 +46,7 @@ export default function JournalEntryEditor() {
             // Fallback to empty strings if missing data
             setTitle(entry?.title || '');
             setContent(entry?.entry || '');
+            setIsPublic(entry?.isPublic)
           }
         })
         .catch((error) => console.log(error));
