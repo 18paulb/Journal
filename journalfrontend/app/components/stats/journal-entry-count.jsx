@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { PenSquare } from 'lucide-react';
 import NetworkClient from '@/lib/network-client';
 import LoadingSpinner from '../loading-spinner';
+import { StatEnum } from '@/lib/enums/StatEnum';
 
 export default function JournalEntryCountStat({ user }) {
   const [count, setCount] = useState(null);
@@ -16,7 +17,7 @@ export default function JournalEntryCountStat({ user }) {
       return;
     }
 
-    const storedCount = localStorage.getItem('journalEntryCount');
+    const storedCount = localStorage.getItem(StatEnum.ENTRY_COUNT);
 
     if (storedCount !== null) {
       setCount(Number.parseInt(storedCount)); // Convert to number
@@ -29,7 +30,7 @@ export default function JournalEntryCountStat({ user }) {
     new NetworkClient()
       .getJournalEntryCount(user.email)
       .then((response) => {
-        localStorage.setItem('journalEntryCount', response.data.count.toString());
+        localStorage.setItem(StatEnum.ENTRY_COUNT, response.data.count.toString());
         setCount(response.data.count);
       })
       .catch((error) => {

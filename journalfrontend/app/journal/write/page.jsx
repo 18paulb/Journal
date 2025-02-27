@@ -19,6 +19,7 @@ import { Label } from '@/components/ui/label';
 
 import { AudioUpload } from '../../components/audio/audio-upload';
 import DateFactory from '@/lib/date-factory';
+import { StatEnum } from '@/lib/enums/StatEnum';
 
 export default function JournalEntryEditor() {
   const [title, setTitle] = useState('');
@@ -45,6 +46,7 @@ export default function JournalEntryEditor() {
             // Fallback to empty strings if missing data
             setTitle(entry?.title || '');
             setContent(entry?.entry || '');
+            setIsPublic(entry?.isPublic);
           }
         })
         .catch((error) => console.log(error));
@@ -73,20 +75,27 @@ export default function JournalEntryEditor() {
       formData.append('audio', audioRecording, `${uuidv4()}.webm`);
     }
 
-    try {
-      await network.writeJournalEntry(formData);
-      toast({
-        title: 'Successfully saved',
-        duration: 2000,
+    await network
+      .writeJournalEntry(formData)
+      .then(() => {
+        toast({
+          title: 'Successfully saved',
+          duration: 2000,
+        });
+
+        // Reset all stats saved in localStorage so that they are recalculated
+        localStorage.removeItem(StatEnum.ENTRY_COUNT);
+        localStorage.removeItem(StatEnum.LONGEST_STREAK);
+        localStorage.removeItem(StatEnum.PHOTO_COUNT);
+        localStorage.removeItem(StatEnum.STREAK);
+      })
+      .catch(() => {
+        toast({
+          title: 'An error occurred',
+          duration: 2000,
+          variant: 'destructive',
+        });
       });
-    } catch (err) {
-      console.log(err);
-      toast({
-        title: 'An error occurred',
-        duration: 2000,
-        variant: 'destructive',
-      });
-    }
   };
 
   return user ? (

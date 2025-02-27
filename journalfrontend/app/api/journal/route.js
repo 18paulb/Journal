@@ -12,7 +12,7 @@ export async function POST(request) {
     const title = formData.get('title');
     const email = formData.get('email');
     const todayString = formData.get('date');
-    const isPublic = formData.get('isPublic');
+    const isPublic = formData.get('isPublic') === 'true';
 
     if (!entry || !email || !todayString) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });

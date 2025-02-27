@@ -7,14 +7,15 @@ import {
   QueryCommand,
 } from '@aws-sdk/lib-dynamodb';
 
-const table_name = 'JournalEntry';
+const tableName = 'JournalEntry';
+const dateIndex = 'date-email-index';
 
 const client = new DynamoDBClient({});
 const docClient = DynamoDBDocumentClient.from(client);
 
 export async function writeJournalEntry(entryText, entryTitle, date, email, isPublic = false) {
   let command = new PutCommand({
-    TableName: table_name,
+    TableName: tableName,
     Item: {
       date: date,
       email: email,
@@ -29,7 +30,7 @@ export async function writeJournalEntry(entryText, entryTitle, date, email, isPu
 
 export async function getJournalEntries(email) {
   const command = new QueryCommand({
-    TableName: table_name,
+    TableName: tableName,
     KeyConditionExpression: 'email = :email',
     ExpressionAttributeValues: {
       ':email': email,
@@ -40,12 +41,36 @@ export async function getJournalEntries(email) {
 
   const response = await docClient.send(command);
 
-  return response.Items;
+  return response.Items ?? [];
+}
+
+export async function getDailyPublicJournalEntries(date) {
+  const command = new QueryCommand({
+    TableName: tableName,
+    IndexName: dateIndex,
+    KeyConditionExpression: '#date = :date',
+    ExpressionAttributeNames: {
+      '#date': 'date',
+    },
+    ExpressionAttributeValues: {
+      ':date': date,
+      ':isPublic': true,
+    },
+    FilterExpression: 'isPublic = :isPublic',
+  });
+
+  try {
+    const response = await docClient.send(command);
+    return response.Items || [];
+  } catch (error) {
+    console.error('Error fetching public journal entries:', error);
+    return [];
+  }
 }
 
 export async function getJournalEntry(key, email) {
   const command = new GetCommand({
-    TableName: table_name,
+    TableName: tableName,
     Key: {
       email: email,
       date: key,
@@ -62,7 +87,7 @@ export async function getJournalEntryCount(email) {
 
   do {
     const params = {
-      TableName: table_name,
+      TableName: tableName,
       KeyConditionExpression: 'email = :email',
       ExpressionAttributeValues: {
         ':email': email,

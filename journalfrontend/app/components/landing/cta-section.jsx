@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Check } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const freeFeatures = [
@@ -23,23 +23,23 @@ export default function CTASection() {
         >
           <h2 className="text-4xl md:text-5xl font-semibold mb-4">Start journaling today</h2>
           <p className="text-xl text-white/80 mb-8">Begin your journey with our free plan</p>
-          <div className="grid grid-cols-2 gap-4 text-left mb-8">
+
+          <ul className="grid sm:grid-cols-2 gap-4 text-left mb-10">
             {freeFeatures.map((feature) => (
-              <div key={feature} className="flex items-center gap-2">
-                <div className="w-2 h-2 rounded-full bg-white" />
-                <p className="text-white/80">{feature}</p>
-              </div>
+              <li key={feature} className="flex items-center gap-3">
+                <Check className="h-5 w-5 text-white flex-shrink-0" />
+                <span className="text-white/90 text-lg">{feature}</span>
+              </li>
             ))}
-          </div>
+          </ul>
+
           <Button
             size="lg"
             className="rounded-full bg-white text-black hover:bg-white/90"
             onClick={() => (window.location.href = '/api/auth/login')}
           >
-            {/* <Link href="/api/auth/login"> */}
             Create free account
             <ArrowRight className="ml-2 h-4 w-4" />
-            {/* </Link> */}
           </Button>
         </motion.div>
       </div>

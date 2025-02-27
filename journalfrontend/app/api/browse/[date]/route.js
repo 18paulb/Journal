@@ -1,6 +1,10 @@
 import { NextResponse } from 'next/server';
 
-export async function GET() {
+import { getDailyPublicJournalEntries } from '@/lib/aws/dynamodb';
+
+export async function GET(request, { params }) {
+  const date = params.date;
+
   const journalEntries = [
     {
       title: 'A Perfect Summer Day',
@@ -28,7 +32,12 @@ export async function GET() {
         "Started my day with a peaceful meditation session. The quiet moments before sunrise have become my favorite time of day. It's amazing how just 15 minutes of mindfulness can set a positive tone for the entire day ahead.",
     },
   ];
+
+  let dailyJournals = await getDailyPublicJournalEntries(date);
+
+  dailyJournals = dailyJournals.concat(journalEntries);
+
   return NextResponse.json({
-    publicJournalEntries: journalEntries,
+    publicJournalEntries: dailyJournals,
   });
 }
