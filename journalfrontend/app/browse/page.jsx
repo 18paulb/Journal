@@ -32,9 +32,9 @@ export default function BrowsePublicJournals() {
       <div className="mx-auto max-w-3xl px-4">
         <h1 className="mb-12 text-4xl font-bold">Read Other Journals</h1>
         <div className="space-y-12">
-          {publicEntries.map((entry) => (
+          {publicEntries.map((entry, index) => (
             <article
-              key={entry.id}
+              key={index}
               className="group relative rounded-xl bg-white p-6 shadow-[0_2px_8px_rgba(0,0,0,0.04)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_8px_16px_rgba(0,0,0,0.08)]"
             >
               <div className="mb-4 flex items-baseline justify-between">

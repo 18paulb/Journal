@@ -5,6 +5,7 @@ import LoadingSpinner from '../loading-spinner';
 import { useEffect, useState } from 'react';
 import NetworkClient from '@/lib/network-client';
 import DateFactory from '@/lib/date-factory';
+import { StatEnum } from '@/lib/enums/StatEnum';
 
 export default function CurrentStreakStat({ user }) {
   const [streak, setStreak] = useState(0);
@@ -13,7 +14,7 @@ export default function CurrentStreakStat({ user }) {
   useEffect(() => {
     if (!user) return;
 
-    const storedStreak = localStorage.getItem('journalStreak');
+    const storedStreak = localStorage.getItem(StatEnum.STREAK);
 
     if (storedStreak) {
       setStreak(Number.parseInt(storedStreak));
@@ -26,7 +27,7 @@ export default function CurrentStreakStat({ user }) {
     new NetworkClient()
       .getStreakCount(DateFactory.getLocalDateString(), user.email)
       .then((response) => {
-        localStorage.setItem('journalStreak', response.data.streak);
+        localStorage.setItem(StatEnum.STREAK, response.data.streak);
         setStreak(response.data.streak ?? -1);
       })
       .catch((error) => {

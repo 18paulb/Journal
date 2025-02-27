@@ -5,6 +5,7 @@ import { ImageIcon } from 'lucide-react';
 import NetworkClient from '@/lib/network-client';
 import { useState, useEffect } from 'react';
 import LoadingSpinner from '../loading-spinner';
+import { StatEnum } from '@/lib/enums/StatEnum';
 
 export default function PhotoCountStat({ user }) {
   const [count, setCount] = useState(null);
@@ -16,7 +17,7 @@ export default function PhotoCountStat({ user }) {
       return;
     }
 
-    const storedCount = localStorage.getItem('photoCount');
+    const storedCount = localStorage.getItem(StatEnum.PHOTO_COUNT);
 
     if (storedCount !== null) {
       setCount(Number.parseInt(storedCount));
@@ -30,7 +31,7 @@ export default function PhotoCountStat({ user }) {
     networkClient
       .getPhotoCount(user.email)
       .then((response) => {
-        localStorage.setItem('photoCount', response.data.count.toString());
+        localStorage.setItem(StatEnum.PHOTO_COUNT, response.data.count.toString());
         setCount(response.data.count);
       })
       .catch((error) => {
