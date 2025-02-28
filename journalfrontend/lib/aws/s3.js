@@ -40,12 +40,16 @@ export async function uploadPhoto(image, email, today) {
   const month = today.getMonth() + 1; // Gets the month (0-based, so add 1)
   const day = today.getDate();
 
-  const key = `${email}/${year}/${month}/${day}/${image.originalname}`;
+  // Convert the file to a buffer
+  const bytes = await image.arrayBuffer();
+  const buffer = Buffer.from(bytes);
+
+  const key = `${email}/${year}/${month}/${day}/${image.name}`;
 
   const input = {
     Bucket: photoBucketName,
     Key: key,
-    Body: image.buffer,
+    Body: buffer,
     ContentType: image.mimetype,
   };
 
