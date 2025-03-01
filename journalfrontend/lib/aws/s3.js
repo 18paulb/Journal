@@ -127,12 +127,16 @@ export async function uploadAudio(audio, email, today) {
   const month = today.getMonth() + 1; // Gets the month (0-based, so add 1)
   const day = today.getDate();
 
-  const key = `${email}/${year}/${month}/${day}/${audio.originalname}`;
+  const key = `${email}/${year}/${month}/${day}/${audio.name}`;
+
+    // Convert the file to a buffer
+  const bytes = await audio.arrayBuffer();
+  const buffer = Buffer.from(bytes);
 
   const uploadParams = {
     Bucket: audioBucketName,
     Key: key,
-    Body: audio.buffer,
+    Body: buffer,
     ContentType: audio.mimetype,
   };
 
