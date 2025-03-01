@@ -5,7 +5,7 @@ import LoadingSpinner from '../loading-spinner';
 import { useEffect, useState } from 'react';
 import NetworkClient from '@/lib/network-client';
 import DateFactory from '@/lib/date-factory';
-import { StatEnum } from '@/lib/enums/StatEnum';
+import { StatEnum } from '@/lib/enums/stat-enum';
 
 export default function CurrentStreakStat({ user }) {
   const [streak, setStreak] = useState(0);

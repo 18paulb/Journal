@@ -5,6 +5,10 @@ import {
   DeleteObjectCommand,
   ListObjectsV2Command,
 } from '@aws-sdk/client-s3';
+import { StatusCodeEnum } from '@/lib/enums/status-code';
+import S3Error from '@/lib/error/s3-error';
+import InvalidParamsError from '@/lib/error/invalid-params';
+import MediaUploadError from '@/lib/error/media-upload-error';
 
 const photoBucketName = 'journalappphotos';
 const audioBucketName = 'journalappaudio';
@@ -12,23 +16,35 @@ const audioBucketName = 'journalappaudio';
 const s3Client = new S3Client({});
 
 export async function deleteAudio(key) {
+  if (!key) throw new InvalidParamsError('Key is invalid', StatusCodeEnum.BAD_REQUEST);
+
   const command = new DeleteObjectCommand({
     Bucket: audioBucketName,
     Key: key,
   });
 
-  const response = await s3Client.send(command);
-  return response;
+  try {
+    const response = await s3Client.send(command);
+    return response;
+  } catch {
+    throw new S3Error('Error deleting audio', StatusCodeEnum.INTERNAL_SERVER_ERROR);
+  }
 }
 
 export async function deleteImage(key) {
+  if (!key) throw new InvalidParamsError('Key is invalid', StatusCodeEnum.BAD_REQUEST);
+
   const command = new DeleteObjectCommand({
     Bucket: photoBucketName,
     Key: key,
   });
 
-  const response = await s3Client.send(command);
-  return response;
+  try {
+    const response = await s3Client.send(command);
+    return response;
+  } catch {
+    throw new S3Error('Error deleting image', StatusCodeEnum.INTERNAL_SERVER_ERROR);
+  }
 }
 
 export async function deleteAllJournalEntryMedia(date, email) {
@@ -36,6 +52,9 @@ export async function deleteAllJournalEntryMedia(date, email) {
 }
 
 export async function uploadPhoto(image, email, today) {
+  if (!image || !email || !today)
+    throw new InvalidParamsError('image, email, or date is invalid', StatusCodeEnum.BAD_REQUEST);
+
   const year = today.getFullYear();
   const month = today.getMonth() + 1; // Gets the month (0-based, so add 1)
   const day = today.getDate();
@@ -43,6 +62,8 @@ export async function uploadPhoto(image, email, today) {
   // Convert the file to a buffer
   const bytes = await image.arrayBuffer();
   const buffer = Buffer.from(bytes);
+
+  if (!buffer) throw new MediaUploadError('Error getting image buffer', StatusCodeEnum.BAD_REQUEST);
 
   const key = `${email}/${year}/${month}/${day}/${image.name}`;
 
@@ -54,10 +75,18 @@ export async function uploadPhoto(image, email, today) {
   };
 
   let command = new PutObjectCommand(input);
-  await s3Client.send(command);
+
+  try {
+    await s3Client.send(command);
+  } catch {
+    throw new S3Error('Error uploading photo', StatusCodeEnum.INTERNAL_SERVER_ERROR);
+  }
 }
 
 export async function getMediaForJournalEntry(email, date) {
+  if (!email || !date)
+    throw new InvalidParamsError('Email or Date is invalid', StatusCodeEnum.BAD_REQUEST);
+
   const year = date.getFullYear();
   const month = date.getMonth() + 1; // Gets the month (0-based, so add 1)
   const day = date.getDate();
@@ -74,6 +103,7 @@ export async function getMediaForJournalEntry(email, date) {
     StartAfter: `${email}/${year}/${month}/${day}/`,
   };
 
+  // Get the names of all the files
   const photoCommand = new ListObjectsV2Command(photoInput);
   const audioCommand = new ListObjectsV2Command(audioInput);
 
@@ -95,7 +125,14 @@ export async function getMediaForJournalEntry(email, date) {
     };
 
     const getObjectCommand = new GetObjectCommand(getObjectParams);
-    const mediaResponse = await s3Client.send(getObjectCommand);
+
+    let mediaResponse;
+
+    try {
+      mediaResponse = await s3Client.send(getObjectCommand);
+    } catch {
+      throw new S3Error('Error fetching media', StatusCodeEnum.INTERNAL_SERVER_ERROR);
+    }
 
     const stream = mediaResponse.Body;
     const chunks = [];
@@ -123,15 +160,20 @@ export async function getMediaForJournalEntry(email, date) {
 }
 
 export async function uploadAudio(audio, email, today) {
+  if (!audio || !email || !today)
+    throw new InvalidParamsError('Audio, Email, or Date is invalid', StatusCodeEnum.BAD_REQUEST);
+
   const year = today.getFullYear();
   const month = today.getMonth() + 1; // Gets the month (0-based, so add 1)
   const day = today.getDate();
 
   const key = `${email}/${year}/${month}/${day}/${audio.name}`;
 
-    // Convert the file to a buffer
+  // Convert the file to a buffer
   const bytes = await audio.arrayBuffer();
   const buffer = Buffer.from(bytes);
+
+  if (!buffer) throw new MediaUploadError('Error getting audio buffer', StatusCodeEnum.BAD_REQUEST);
 
   const uploadParams = {
     Bucket: audioBucketName,
@@ -141,10 +183,17 @@ export async function uploadAudio(audio, email, today) {
   };
 
   const command = new PutObjectCommand(uploadParams);
-  await s3Client.send(command);
+
+  try {
+    await s3Client.send(command);
+  } catch {
+    throw new S3Error('Error inserting audio', StatusCodeEnum.INTERNAL_SERVER_ERROR);
+  }
 }
 
 export async function getPhotoCount(email) {
+  if (!email) throw new InvalidParamsError('Email is an invalid param', StatusCodeEnum.BAD_REQUEST);
+
   let totalCount = 0;
   let continuationToken = undefined;
 
@@ -156,7 +205,14 @@ export async function getPhotoCount(email) {
     };
 
     const command = new ListObjectsV2Command(params);
-    const response = await s3Client.send(command);
+
+    let response;
+
+    try {
+      response = await s3Client.send(command);
+    } catch {
+      throw new S3Error('Error retrieving photo count', StatusCodeEnum.INTERNAL_SERVER_ERROR);
+    }
 
     // Add the count from this page to the total
     if (response.Contents) {
