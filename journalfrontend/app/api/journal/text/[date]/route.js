@@ -1,10 +1,10 @@
-import { NextResponse } from "next/server";
-import { getJournalEntry } from "@/lib/aws/dynamodb";
+import { NextResponse } from 'next/server';
+import { getJournalEntry } from '@/lib/aws/dynamodb';
 
 export async function GET(request, { params }) {
   try {
-    const authHeader = request.headers.get("authorization");
-    const email = authHeader?.split(" ")[1];
+    const authHeader = request.headers.get('authorization');
+    const email = authHeader?.split(' ')[1];
 
     const date = params.date;
 
@@ -14,7 +14,7 @@ export async function GET(request, { params }) {
       journalEntry: entry,
     });
   } catch (error) {
-    console.log(error)
+    console.log(error);
     return NextResponse.json({ error: 'Error fetching journal' }, { status: 500 });
   }
 }
