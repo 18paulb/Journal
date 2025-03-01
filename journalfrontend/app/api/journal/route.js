@@ -39,8 +39,8 @@ export async function POST(request) {
 
     return NextResponse.json({ message: 'Journal entry saved successfully' });
   } catch (error) {
-    console.error('Error handling journal entry:', error);
-    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
+    console.error('Error saving journal entry:', error);
+    return NextResponse.json({ error: 'Error saving journal' }, { status: 500 });
   }
 }
 

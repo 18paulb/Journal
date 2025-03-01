@@ -5,7 +5,7 @@ import { ImageIcon } from 'lucide-react';
 import NetworkClient from '@/lib/network-client';
 import { useState, useEffect } from 'react';
 import LoadingSpinner from '../loading-spinner';
-import { StatEnum } from '@/lib/enums/StatEnum';
+import { StatEnum } from '@/lib/enums/stat-enum';
 
 export default function PhotoCountStat({ user }) {
   const [count, setCount] = useState(null);

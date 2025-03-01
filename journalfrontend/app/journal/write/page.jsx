@@ -19,7 +19,7 @@ import { Label } from '@/components/ui/label';
 
 import { AudioUpload } from '../../components/audio/audio-upload';
 import DateFactory from '@/lib/date-factory';
-import { StatEnum } from '@/lib/enums/StatEnum';
+import { StatEnum } from '@/lib/enums/stat-enum';
 
 export default function JournalEntryEditor() {
   const [title, setTitle] = useState('');

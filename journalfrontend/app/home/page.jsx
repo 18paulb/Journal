@@ -107,7 +107,7 @@ export default function HomePage() {
                     </div>
                     <h2 className="text-2xl font-semibold mb-2">Browse Public Journals</h2>
                     <p className="text-muted-foreground">
-                      Discover shared journal entries from the community
+                      Discover anonymous journal entries from the community
                     </p>
                   </div>
                 </CardContent>

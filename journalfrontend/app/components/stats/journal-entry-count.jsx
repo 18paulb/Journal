@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { PenSquare } from 'lucide-react';
 import NetworkClient from '@/lib/network-client';
 import LoadingSpinner from '../loading-spinner';
-import { StatEnum } from '@/lib/enums/StatEnum';
+import { StatEnum } from '@/lib/enums/stat-enum';
 
 export default function JournalEntryCountStat({ user }) {
   const [count, setCount] = useState(null);
