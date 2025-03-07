@@ -40,7 +40,7 @@ export default function HomePage() {
     const today = DateFactory.getLocalDateString();
 
     network
-      .getJournalEntryText(today, user.email)
+      .getJournalEntryText(today)
       .then((response) => {
         const entry = response.data.journalEntry;
         if (entry != null) {

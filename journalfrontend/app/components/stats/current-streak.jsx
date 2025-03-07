@@ -25,7 +25,7 @@ export default function CurrentStreakStat({ user }) {
     setIsLoading(true);
 
     new NetworkClient()
-      .getStreakCount(DateFactory.getLocalDateString(), user.email)
+      .getStreakCount(DateFactory.getLocalDateString())
       .then((response) => {
         localStorage.setItem(StatEnum.STREAK, response.data.streak);
         setStreak(response.data.streak ?? -1);

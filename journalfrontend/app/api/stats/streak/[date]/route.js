@@ -1,10 +1,13 @@
 import { NextResponse } from 'next/server';
 import { getJournalEntries } from '@/lib/aws/dynamodb';
 import DateFactory from '@/lib/date-factory';
+import { getSession } from '@auth0/nextjs-auth0/edge';
 
 export async function GET(request, { params }) {
-  const authHeader = request.headers.get('authorization');
-  const email = authHeader?.split(' ')[1];
+  
+  const email = (await getSession()).user?.email
+  if (!email) return NextResponse.json({message: "error fetching email"});
+
   const currDate = params.date;
 
   const currDateObj = DateFactory.convertStringToDateObject(currDate);

@@ -20,7 +20,7 @@ export default function JournalEntries() {
   useEffect(() => {
     if (user) {
       network
-        .getUserJournals(user.email)
+        .getUserJournals()
         .then((response) => {
           setData(response.data);
         })

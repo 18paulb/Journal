@@ -29,7 +29,7 @@ export default function PhotoCountStat({ user }) {
     const networkClient = new NetworkClient();
 
     networkClient
-      .getPhotoCount(user.email)
+      .getPhotoCount()
       .then((response) => {
         localStorage.setItem(StatEnum.PHOTO_COUNT, response.data.count.toString());
         setCount(response.data.count);

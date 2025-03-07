@@ -26,15 +26,30 @@ export async function middleware(req) {
   // Check if user is authenticated
   const user = await getSession(req);
 
+  
   if (!user) {
-    // Redirect to login if not authenticated
-    // Store the intended destination to redirect back after login
-    const returnTo = encodeURIComponent(req.nextUrl.pathname);
 
-    console.log("URL:", req.url)
-    return NextResponse.redirect(
-      new URL(`/api/auth/login?returnTo=${returnTo}`, req.url)
-    );
+    // Handle differently based on whether it's an API route or a page
+    if (req.nextUrl.pathname.startsWith('/api/')) {
+
+      // For API routes, return 401 Unauthorized instead of redirecting
+      return new NextResponse(
+        JSON.stringify({ error: 'Unauthorized', message: 'Authentication required' }),
+        { 
+          status: 401,
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }
+      );
+
+    } else {
+      // For regular routes, redirect to login
+      const returnTo = encodeURIComponent(req.nextUrl.pathname);
+      return NextResponse.redirect(
+        new URL(`/api/auth/login?returnTo=${returnTo}`, req.url)
+      );
+    }
   }
 
   return NextResponse.next();
