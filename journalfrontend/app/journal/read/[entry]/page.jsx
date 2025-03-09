@@ -51,41 +51,41 @@ export default function JournalEntry() {
   // Grab the journal entry once the user Object has loaded in
   // We make two API calls to load the text faster and then the media can load after
   useEffect(() => {
-    if (user != null) {
-      setMediaIsLoading(true);
-      setTextIsLoading(true);
+    if (!user) return;
 
-      // Load the text separate
-      network
-        .getJournalEntryText(date)
-        .then((response) => {
-          setEntryData(response.data.journalEntry);
-        })
-        .catch((error) => {
-          console.log(error);
-        })
-        .finally(() => {
-          setTextIsLoading(false);
-        });
+    setMediaIsLoading(true);
+    setTextIsLoading(true);
 
-      // Load Image and Audio Media
-      network
-        .getJournalEntryMedia(date)
-        .then((response) => {
-          setEntryImages(response.data.images);
-          setAudioData(response.data.audios);
-        })
-        .catch((error) => {
-          console.log(error);
-        })
-        .finally(() => {
-          setMediaIsLoading(false);
-        });
+    // Load the text separate
+    network
+      .getJournalEntryText(date)
+      .then((response) => {
+        setEntryData(response.data.journalEntry);
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+      .finally(() => {
+        setTextIsLoading(false);
+      });
 
-      // Also grab the widgets that are active for the user
-      setWidgets(getWidgets(user, date));
-    }
-  }, [user, network, date]);
+    // Load Image and Audio Media
+    network
+      .getJournalEntryMedia(date)
+      .then((response) => {
+        setEntryImages(response.data.images);
+        setAudioData(response.data.audios);
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+      .finally(() => {
+        setMediaIsLoading(false);
+      });
+
+    // Also grab the widgets that are active for the user
+    setWidgets(getWidgets(user, date));
+  }, [user, date, network]);
 
   // Formats entry text to have correct spacing
   const renderTextWithNewlines = (text) => {
@@ -210,7 +210,6 @@ export default function JournalEntry() {
                       isLoading={mediaIsLoading}
                       audioData={audioData}
                       setAudioData={setAudioData}
-                      network={network}
                     ></AudioView>
                   </TabsContent>
                   <TabsContent value="widgets">

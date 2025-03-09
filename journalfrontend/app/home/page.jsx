@@ -15,7 +15,6 @@ import DateFactory from '@/lib/date-factory';
 export default function HomePage() {
   const writtenTodayString = 'hasWrittenToday';
   const { user } = useUser();
-  const [network] = useState(new NetworkClient());
   const [browseIsEnabled, setBrowseIsEnabled] = useState(true);
 
   // We access localStorage from useEffect to make sure it is only run on the client
@@ -31,28 +30,22 @@ export default function HomePage() {
   useEffect(() => {
     if (!user) return;
 
-    if (localStorage.getItem(writtenTodayString) === 'true') {
-      setBrowseIsEnabled(true);
-    } else {
-      setBrowseIsEnabled(false);
-    }
+    let hasWrittenToday = localStorage.getItem(writtenTodayString) === 'true';
+    setBrowseIsEnabled(hasWrittenToday);
 
     const today = DateFactory.getLocalDateString();
 
-    network
+    new NetworkClient()
       .getJournalEntryText(today)
       .then((response) => {
         const entry = response.data.journalEntry;
-        if (entry != null) {
-          localStorage.setItem(writtenTodayString, true);
-          setBrowseIsEnabled(true);
-        } else {
-          localStorage.setItem(writtenTodayString, false);
-          setBrowseIsEnabled(false);
-        }
+
+        const hasEntry = entry != null;
+        localStorage.setItem(writtenTodayString, hasEntry);
+        setBrowseIsEnabled(hasEntry);
       })
       .catch((error) => console.log(error));
-  }, [user, network]);
+  }, [user]);
 
   return (
     <div className="min-h-screen">

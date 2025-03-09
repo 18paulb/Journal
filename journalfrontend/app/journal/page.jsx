@@ -11,22 +11,20 @@ import JournalEntriesList from '../components/journal-entries-list';
 import { Calendar, List } from 'lucide-react';
 
 export default function JournalEntries() {
-  const [network] = useState(new NetworkClient());
   const [data, setData] = useState(null);
   const { user, error, isLoading } = useUser();
-
   const [viewMode, setViewMode] = useState('calendar');
 
   useEffect(() => {
-    if (user) {
-      network
-        .getUserJournals()
-        .then((response) => {
-          setData(response.data);
-        })
-        .catch((error) => console.log(error));
-    }
-  }, [user, network]);
+    if (!user) return;
+
+    new NetworkClient()
+      .getUserJournals()
+      .then((response) => {
+        setData(response.data);
+      })
+      .catch((error) => console.log(error));
+  }, [user]);
 
   return user ? (
     <div>

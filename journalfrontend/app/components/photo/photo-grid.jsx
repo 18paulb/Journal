@@ -16,8 +16,9 @@ import {
 import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import LoadingSpinner from '@/app/components/loading-spinner';
+import NetworkClient from '@/lib/network-client';
 
-export default function ImageGrid({ images, isLoading, setImages, network }) {
+export default function ImageGrid({ images, isLoading, setImages }) {
   const [selectedImage, setSelectedImage] = useState(null);
   const [imageToDelete, setImageToDelete] = useState(null);
 
@@ -44,7 +45,7 @@ export default function ImageGrid({ images, isLoading, setImages, network }) {
     if (imageToDelete) {
       setImages(images.filter((image) => image !== imageToDelete));
 
-      network
+      new NetworkClient()
         .deleteImage(imageToDelete.key)
         .then((response) => {
           console.log(response);

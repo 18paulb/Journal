@@ -27,31 +27,29 @@ export default function JournalEntryEditor() {
   const { user, error, isLoading } = useUser();
   const [uploadedPhoto, setUploadedPhoto] = useState(null);
   const [isPublic, setIsPublic] = useState(false);
-  const [network] = useState(new NetworkClient());
+  const [audioRecording, setAudioRecording] = useState(null);
 
   const { toast } = useToast();
 
-  const [audioRecording, setAudioRecording] = useState(null);
-
   // Load in today's entry if it exists
   useEffect(() => {
-    if (user != null) {
-      const today = DateFactory.getLocalDateString();
+    if (!user) return;
 
-      network
-        .getJournalEntryText(today)
-        .then((response) => {
-          const entry = response.data.journalEntry;
-          if (entry != null) {
-            // Fallback to empty strings if missing data
-            setTitle(entry?.title || '');
-            setContent(entry?.entry || '');
-            setIsPublic(entry?.isPublic);
-          }
-        })
-        .catch((error) => console.log(error));
-    }
-  }, [user, network]);
+    const today = DateFactory.getLocalDateString();
+
+    new NetworkClient()
+      .getJournalEntryText(today)
+      .then((response) => {
+        const entry = response.data.journalEntry;
+        if (entry != null) {
+          // Fallback to empty strings if missing data
+          setTitle(entry?.title || '');
+          setContent(entry?.entry || '');
+          setIsPublic(entry?.isPublic);
+        }
+      })
+      .catch((error) => console.log(error));
+  }, [user]);
 
   const handleSave = async () => {
     if (content.trim() === '') {
@@ -75,7 +73,7 @@ export default function JournalEntryEditor() {
       formData.append('audio', audioRecording, `${uuidv4()}.webm`);
     }
 
-    await network
+    await new NetworkClient()
       .writeJournalEntry(formData)
       .then(() => {
         toast({

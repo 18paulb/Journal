@@ -14,9 +14,10 @@ import {
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
 import LoadingSpinner from '@/app/components/loading-spinner';
+import NetworkClient from '@/lib/network-client';
 import { useState } from 'react';
 
-export default function AudioView({ audioData, isLoading, setAudioData, network }) {
+export default function AudioView({ audioData, isLoading, setAudioData }) {
   const [audioToDelete, setAudioToDelete] = useState(null);
 
   if (isLoading) {
@@ -37,7 +38,7 @@ export default function AudioView({ audioData, isLoading, setAudioData, network 
     if (audioToDelete) {
       setAudioData(audioData.filter((audio) => audio !== audioToDelete));
 
-      network
+      new NetworkClient()
         .deleteAudio(audioToDelete.key)
         .then(() => {})
         .catch(() => {});

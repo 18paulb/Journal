@@ -14,7 +14,7 @@ export async function POST(request) {
     let fullSubject = `${email} : ${subject}`;
     let fullMessage = `From ${firstName} ${lastName} \n\n ${message}`;
 
-    sendEmail(fullSubject, fullMessage);
+    await sendEmail(fullSubject, fullMessage);
 
     return NextResponse.json({ message: 'Email sent successfully' });
   } catch (error) {
