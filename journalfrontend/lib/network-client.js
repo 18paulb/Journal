@@ -40,7 +40,7 @@ export default class NetworkClient {
   async deleteJournalEntry(date) {
     return axios.delete('/api/journal', {
       params: {
-        date
+        date,
       },
     });
   }

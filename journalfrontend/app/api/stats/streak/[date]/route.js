@@ -4,9 +4,8 @@ import DateFactory from '@/lib/date-factory';
 import { getSession } from '@auth0/nextjs-auth0/edge';
 
 export async function GET(request, { params }) {
-  
-  const email = (await getSession()).user?.email
-  if (!email) return NextResponse.json({message: "error fetching email"});
+  const email = (await getSession()).user?.email;
+  if (!email) return NextResponse.json({ message: 'error fetching email' });
 
   const currDate = params.date;
 

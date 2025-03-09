@@ -4,8 +4,8 @@ import { getSession } from '@auth0/nextjs-auth0/edge';
 
 export async function GET(request, { params }) {
   try {
-    const email = (await getSession()).user?.email
-    if (!email) return NextResponse.json({message: "error fetching email"});
+    const email = (await getSession()).user?.email;
+    if (!email) return NextResponse.json({ message: 'error fetching email' });
 
     const date = params.date;
 
