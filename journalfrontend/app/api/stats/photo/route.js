@@ -1,10 +1,11 @@
 import { NextResponse } from 'next/server';
 
 import { getPhotoCount } from '@/lib/aws/s3';
+import { getSession } from '@auth0/nextjs-auth0/edge';
 
-export async function GET(request) {
-  const authHeader = request.headers.get('authorization');
-  const email = authHeader?.split(' ')[1];
+export async function GET() {
+  const email = (await getSession()).user?.email;
+  if (!email) return NextResponse.json({ message: 'error fetching email' });
 
   let count = await getPhotoCount(email);
 

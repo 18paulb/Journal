@@ -57,7 +57,7 @@ export default function JournalEntry() {
 
       // Load the text separate
       network
-        .getJournalEntryText(date, user.email)
+        .getJournalEntryText(date)
         .then((response) => {
           setEntryData(response.data.journalEntry);
         })
@@ -70,7 +70,7 @@ export default function JournalEntry() {
 
       // Load Image and Audio Media
       network
-        .getJournalEntryMedia(date, user.email)
+        .getJournalEntryMedia(date)
         .then((response) => {
           setEntryImages(response.data.images);
           setAudioData(response.data.audios);
@@ -100,7 +100,7 @@ export default function JournalEntry() {
   const handleDeleteEntry = async () => {
     setIsDeleting(true);
     try {
-      await network.deleteJournalEntry(date, user.email);
+      await network.deleteJournalEntry(date);
       toast.success('Journal entry deleted successfully');
       router.push('/journal'); // Redirect to journal list
     } catch (error) {

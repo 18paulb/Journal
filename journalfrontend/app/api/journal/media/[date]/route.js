@@ -2,10 +2,11 @@ import { NextResponse } from 'next/server';
 import { getMediaForJournalEntry } from '@/lib/aws/s3';
 import DateFactory from '@/lib/date-factory';
 import { toBase64, getMimeTypePrefix } from '@/lib/photo-manipulator';
+import { getSession } from '@auth0/nextjs-auth0/edge';
 
 export async function GET(request, { params }) {
-  const authHeader = request.headers.get('authorization');
-  const email = authHeader?.split(' ')[1];
+  const email = (await getSession()).user?.email;
+  if (!email) return NextResponse.json({ message: 'error fetching email' });
 
   const date = params.date;
 

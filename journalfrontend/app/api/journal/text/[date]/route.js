@@ -1,10 +1,11 @@
 import { NextResponse } from 'next/server';
 import { getJournalEntry } from '@/lib/aws/dynamodb';
+import { getSession } from '@auth0/nextjs-auth0/edge';
 
 export async function GET(request, { params }) {
   try {
-    const authHeader = request.headers.get('authorization');
-    const email = authHeader?.split(' ')[1];
+    const email = (await getSession()).user?.email;
+    if (!email) return NextResponse.json({ message: 'error fetching email' });
 
     const date = params.date;
 

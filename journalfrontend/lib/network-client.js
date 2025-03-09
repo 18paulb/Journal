@@ -1,52 +1,28 @@
 import axios from 'axios';
 
 export default class NetworkClient {
-  async getUserJournals(email) {
-    return axios.get(`/api/journal/entries`, {
-      headers: {
-        Authorization: `Bearer ${email}`, // Sending email in the header
-      },
-    });
+  async getUserJournals() {
+    return axios.get(`/api/journal/entries`, {});
   }
 
-  async getJournalEntryText(date, email) {
-    return axios.get(`/api/journal/text/${date}`, {
-      headers: {
-        Authorization: `Bearer ${email}`, // Sending email in the header
-      },
-    });
+  async getJournalEntryText(date) {
+    return axios.get(`/api/journal/text/${date}`, {});
   }
 
-  async getJournalEntryMedia(date, email) {
-    return axios.get(`/api/journal/media/${date}`, {
-      headers: {
-        Authorization: `Bearer ${email}`, // Sending email in the header
-      },
-    });
+  async getJournalEntryMedia(date) {
+    return axios.get(`/api/journal/media/${date}`, {});
   }
 
-  async getJournalEntryCount(email) {
-    return axios.get('/api/stats/journal', {
-      headers: {
-        Authorization: `Bearer ${email}`, // Sending email in the header
-      },
-    });
+  async getJournalEntryCount() {
+    return axios.get('/api/stats/journal', {});
   }
 
-  async getStreakCount(date, email) {
-    return axios.get(`/api/stats/streak/${date}`, {
-      headers: {
-        Authorization: `Bearer ${email}`,
-      },
-    });
+  async getStreakCount(date) {
+    return axios.get(`/api/stats/streak/${date}`, {});
   }
 
-  async getPhotoCount(email) {
-    return axios.get(`/api/stats/photo`, {
-      headers: {
-        Authorization: `Bearer ${email}`, // Sending email in the header
-      },
-    });
+  async getPhotoCount() {
+    return axios.get(`/api/stats/photo`, {});
   }
 
   async deleteAudio(key) {
@@ -61,11 +37,10 @@ export default class NetworkClient {
     });
   }
 
-  async deleteJournalEntry(date, email) {
+  async deleteJournalEntry(date) {
     return axios.delete('/api/journal', {
       params: {
         date,
-        email,
       },
     });
   }
