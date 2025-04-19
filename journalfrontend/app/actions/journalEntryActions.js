@@ -3,6 +3,10 @@
 import { deleteImage } from '@/lib/aws/s3';
 import { deleteAudio } from '@/lib/aws/s3';
 
+export async function uploadJournalEntry() {
+
+}
+
 export async function deleteJournalEntry(date) {
     console.log("Deleted");
 }

@@ -1,22 +1,9 @@
-'use client';
+import { getDailyPublicJournalEntries } from "@/lib/aws/dynamodb";
 
-import { useEffect, useState } from 'react';
-import NetworkClient from '@/lib/client/network-client';
-import DateFactory from '@/lib/client/date-factory';
+export default async function BrowsePublicJournals({ params }) {
+  const date = (await params).date;
 
-export default function BrowsePublicJournals() {
-  const [publicEntries, setPublicEntries] = useState([]);
-
-  useEffect(() => {
-    new NetworkClient()
-      .getDailyPublicJournals(DateFactory.getLocalDateString())
-      .then((response) => {
-        setPublicEntries(response.data.publicJournalEntries ?? []);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
+  const publicEntries = await getDailyPublicJournalEntries(date);
 
   // Character limit for preview text
   const characterLimit = 400;
@@ -24,7 +11,7 @@ export default function BrowsePublicJournals() {
   // Function to truncate text
   const truncateText = (text, limit) => {
     if (text.length <= limit) return text;
-    return text.slice(0, limit) + '...';
+    return text.slice(0, limit) + "...";
   };
 
   return (
@@ -38,7 +25,9 @@ export default function BrowsePublicJournals() {
               className="group relative rounded-xl bg-white p-6 shadow-[0_2px_8px_rgba(0,0,0,0.04)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_8px_16px_rgba(0,0,0,0.08)]"
             >
               <div className="mb-4 flex items-baseline justify-between">
-                <h2 className="text-2xl font-semibold tracking-tight">{entry.title}</h2>
+                <h2 className="text-2xl font-semibold tracking-tight">
+                  {entry.title}
+                </h2>
                 <time className="text-sm text-muted-foreground">Date</time>
               </div>
               <p className="leading-relaxed text-muted-foreground">
