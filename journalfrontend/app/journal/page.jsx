@@ -1,57 +1,15 @@
-'use client';
+import { getJournalEntries } from '@/lib/aws/dynamodb';
+import JournalEntries from "./journalEntries";
+import { getSession } from "@auth0/nextjs-auth0/edge";
 
-import { useEffect, useState } from 'react';
+export default async function JournalPage() {
+  const session = await getSession();
+  const user = session?.user;
 
-import { useUser } from '@auth0/nextjs-auth0/client';
-import { UserLoading } from '../components/user-loading';
-import { Toggle } from '@/components/ui/toggle';
-import NetworkClient from '@/lib/network-client';
-import { JournalEntriesCalendar } from '../components/journal-entries-calendar';
-import JournalEntriesList from '../components/journal-entries-list';
-import { Calendar, List } from 'lucide-react';
+  if (!user) return <p>Please Log In</p>
 
-export default function JournalEntries() {
-  const [data, setData] = useState(null);
-  const { user, error, isLoading } = useUser();
-  const [viewMode, setViewMode] = useState('calendar');
+  const journals = await getJournalEntries(user.email)
 
-  useEffect(() => {
-    if (!user) return;
+  return <JournalEntries entries={journals}></JournalEntries>
 
-    new NetworkClient()
-      .getUserJournals()
-      .then((response) => {
-        setData(response.data);
-      })
-      .catch((error) => console.log(error));
-  }, [user]);
-
-  return user ? (
-    <div>
-      <Toggle
-        pressed={viewMode === 'calendar'}
-        onPressedChange={() => setViewMode('calendar')}
-        size="sm"
-        aria-label="Calendar view"
-      >
-        <Calendar className="h-4 w-4" />
-      </Toggle>
-      <Toggle
-        pressed={viewMode === 'list'}
-        onPressedChange={() => setViewMode('list')}
-        size="sm"
-        aria-label="List view"
-      >
-        <List className="h-4 w-4" />
-      </Toggle>
-
-      {viewMode === 'calendar' ? (
-        <JournalEntriesCalendar entries={data}></JournalEntriesCalendar>
-      ) : (
-        <JournalEntriesList entries={data}></JournalEntriesList>
-      )}
-    </div>
-  ) : (
-    <UserLoading isLoading={isLoading} error={error} />
-  );
 }

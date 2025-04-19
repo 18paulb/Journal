@@ -9,8 +9,8 @@ import JournalEntryCountStat from '../components/stats/journal-entry-count';
 import PhotoCountStat from '../components/stats/photo-count';
 import CurrentStreakStat from '../components/stats/current-streak';
 import LongestStreakStat from '../components/stats/longest-streak';
-import NetworkClient from '@/lib/network-client';
-import DateFactory from '@/lib/date-factory';
+import NetworkClient from '@/lib/client/network-client';
+import DateFactory from '@/lib/client/date-factory';
 
 export default function HomePage() {
   const writtenTodayString = 'hasWrittenToday';

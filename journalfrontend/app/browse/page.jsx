@@ -1,8 +1,8 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import NetworkClient from '@/lib/network-client';
-import DateFactory from '@/lib/date-factory';
+import NetworkClient from '@/lib/client/network-client';
+import DateFactory from '@/lib/client/date-factory';
 
 export default function BrowsePublicJournals() {
   const [publicEntries, setPublicEntries] = useState([]);

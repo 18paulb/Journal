@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Mail, MessageSquare, Send, Phone } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
-import NetworkClient from '@/lib/network-client';
+import NetworkClient from '@/lib/client/network-client';
 
 export default function ContactPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);

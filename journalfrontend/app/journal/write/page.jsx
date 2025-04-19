@@ -13,12 +13,12 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Save, BookOpen, Calendar, PenTool, ImageIcon, Mic } from 'lucide-react';
 import { useUser } from '@auth0/nextjs-auth0/client';
 import { UserLoading } from '@/app/components/user-loading';
-import NetworkClient from '@/lib/network-client';
+import NetworkClient from '@/lib/client/network-client';
 import PhotoUpload from '@/app/components/photo/photo-upload';
 import { Label } from '@/components/ui/label';
 
 import { AudioUpload } from '../../components/audio/audio-upload';
-import DateFactory from '@/lib/date-factory';
+import DateFactory from '@/lib/client/date-factory';
 import { StatEnum } from '@/lib/enums/stat-enum';
 
 export default function JournalEntryEditor() {

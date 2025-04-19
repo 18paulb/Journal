@@ -3,8 +3,8 @@ import { Sparkles } from 'lucide-react';
 import LoadingSpinner from '../loading-spinner';
 
 import { useEffect, useState } from 'react';
-import NetworkClient from '@/lib/network-client';
-import DateFactory from '@/lib/date-factory';
+import NetworkClient from '@/lib/client/network-client';
+import DateFactory from '@/lib/client/date-factory';
 import { StatEnum } from '@/lib/enums/stat-enum';
 
 export default function CurrentStreakStat({ user }) {

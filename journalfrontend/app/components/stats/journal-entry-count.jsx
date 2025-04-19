@@ -3,7 +3,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useEffect, useState } from 'react';
 import { PenSquare } from 'lucide-react';
-import NetworkClient from '@/lib/network-client';
+import NetworkClient from '@/lib/client/network-client';
 import LoadingSpinner from '../loading-spinner';
 import { StatEnum } from '@/lib/enums/stat-enum';
 

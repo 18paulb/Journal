@@ -1,9 +1,10 @@
 import { NextResponse } from 'next/server';
 import { getJournalEntries } from '@/lib/aws/dynamodb';
-import DateFactory from '@/lib/date-factory';
+import DateFactory from '@/lib/client/date-factory';
 import { getSession } from '@auth0/nextjs-auth0/edge';
 
-export async function GET(request, { params }) {
+export async function GET(request, props) {
+  const params = await props.params;
   const email = (await getSession()).user?.email;
   if (!email) return NextResponse.json({ message: 'error fetching email' });
 

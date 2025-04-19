@@ -2,7 +2,7 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ImageIcon } from 'lucide-react';
-import NetworkClient from '@/lib/network-client';
+import NetworkClient from '@/lib/client/network-client';
 import { useState, useEffect } from 'react';
 import LoadingSpinner from '../loading-spinner';
 import { StatEnum } from '@/lib/enums/stat-enum';

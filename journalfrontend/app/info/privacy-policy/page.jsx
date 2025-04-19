@@ -2,7 +2,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Shield } from 'lucide-react';
-import DateFactory from '@/lib/date-factory';
+import DateFactory from '@/lib/client/date-factory';
 
 export default function PrivacyPolicy() {
   return (

@@ -1,10 +1,6 @@
 import axios from 'axios';
 
 export default class NetworkClient {
-  async getUserJournals() {
-    return axios.get(`/api/journal/entries`, {});
-  }
-
   async getJournalEntryText(date) {
     return axios.get(`/api/journal/text/${date}`, {});
   }
@@ -23,18 +19,6 @@ export default class NetworkClient {
 
   async getPhotoCount() {
     return axios.get(`/api/stats/photo`, {});
-  }
-
-  async deleteAudio(key) {
-    return axios.delete(`/api/journal/media/audio`, {
-      params: { key },
-    });
-  }
-
-  async deleteImage(key) {
-    return axios.delete(`/api/journal/media/image`, {
-      params: { key },
-    });
   }
 
   async deleteJournalEntry(date) {
