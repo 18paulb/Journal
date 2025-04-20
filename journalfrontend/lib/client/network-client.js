@@ -5,18 +5,6 @@ export default class NetworkClient {
     return axios.get(`/api/journal/text/${date}`, {});
   }
 
-  async getJournalEntryCount() {
-    return axios.get('/api/stats/journal', {});
-  }
-
-  async getStreakCount(date) {
-    return axios.get(`/api/stats/streak/${date}`, {});
-  }
-
-  async getPhotoCount() {
-    return axios.get(`/api/stats/photo`, {});
-  }
-
   async deleteJournalEntry(date) {
     return axios.delete('/api/journal', {
       params: {
