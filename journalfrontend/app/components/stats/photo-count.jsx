@@ -2,7 +2,6 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ImageIcon } from "lucide-react";
-import LoadingSpinner from "../loading-spinner";
 
 export default function PhotoCountStat({ count }) {
   return (
