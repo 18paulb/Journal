@@ -1,47 +1,10 @@
-'use client';
+"use client";
 
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { useEffect, useState } from 'react';
-import { PenSquare } from 'lucide-react';
-import NetworkClient from '@/lib/client/network-client';
-import LoadingSpinner from '../loading-spinner';
-import { StatEnum } from '@/lib/enums/stat-enum';
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { PenSquare } from "lucide-react";
+import LoadingSpinner from "../loading-spinner";
 
-export default function JournalEntryCountStat({ user }) {
-  const [count, setCount] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    if (!user?.email) {
-      setIsLoading(false);
-      return;
-    }
-
-    const storedCount = localStorage.getItem(StatEnum.ENTRY_COUNT);
-
-    if (storedCount !== null) {
-      setCount(Number.parseInt(storedCount)); // Convert to number
-      setIsLoading(false);
-      return;
-    }
-
-    setIsLoading(true);
-
-    new NetworkClient()
-      .getJournalEntryCount()
-      .then((response) => {
-        localStorage.setItem(StatEnum.ENTRY_COUNT, response.data.count.toString());
-        setCount(response.data.count);
-      })
-      .catch((error) => {
-        console.error(error);
-        setCount(null);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
-  }, [user]);
-
+export default function JournalEntryCountStat({ count }) {
   return (
     <Card>
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -51,16 +14,12 @@ export default function JournalEntryCountStat({ user }) {
         </div>
       </CardHeader>
       <CardContent>
-        {isLoading ? (
-          <LoadingSpinner />
-        ) : count === null ? (
-          <div className="text-sm text-muted-foreground">Unable to load data</div>
-        ) : (
-          <>
-            <div className="text-2xl font-bold">{count}</div>
-            <p className="text-xs text-muted-foreground">You&apos;re in the top 10% of users!</p>
-          </>
-        )}
+        <>
+          <div className="text-2xl font-bold">{count}</div>
+          <p className="text-xs text-muted-foreground">
+            You&apos;re in the top 10% of users!
+          </p>
+        </>
       </CardContent>
     </Card>
   );

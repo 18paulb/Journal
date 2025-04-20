@@ -5,10 +5,6 @@ export default class NetworkClient {
     return axios.get(`/api/journal/text/${date}`, {});
   }
 
-  async getJournalEntryMedia(date) {
-    return axios.get(`/api/journal/media/${date}`, {});
-  }
-
   async getJournalEntryCount() {
     return axios.get('/api/stats/journal', {});
   }
@@ -43,9 +39,5 @@ export default class NetworkClient {
         'Content-Type': 'multipart/form-data', // Ensure the right content type for file upload
       },
     });
-  }
-
-  async getDailyPublicJournals(date) {
-    return axios.get(`/api/browse/${date}`);
   }
 }

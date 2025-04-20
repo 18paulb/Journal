@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
 import { BookOpen, Download, PenSquare, Globe2, Lock } from "lucide-react";
-import { useUser } from "@auth0/nextjs-auth0/client";
 import { useEffect, useState } from "react";
 import JournalEntryCountStat from "../components/stats/journal-entry-count";
 import PhotoCountStat from "../components/stats/photo-count";
@@ -11,8 +10,12 @@ import CurrentStreakStat from "../components/stats/current-streak";
 import LongestStreakStat from "../components/stats/longest-streak";
 import DateFactory from "@/lib/client/date-factory";
 
-export default function HomePageComponent({ entry }) {
-  const { user } = useUser();
+export default function HomePageComponent({
+  entry,
+  entryCount,
+  photoCount,
+  streak,
+}) {
   const [browseIsEnabled, setBrowseIsEnabled] = useState(true);
 
   // We access localStorage from useEffect to make sure it is only run on the client
@@ -118,11 +121,11 @@ export default function HomePageComponent({ entry }) {
         <div>
           <h2 className="text-2xl font-semibold mb-6">Your Stats</h2>
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            <JournalEntryCountStat user={user}></JournalEntryCountStat>
+            <JournalEntryCountStat count={entryCount}></JournalEntryCountStat>
 
-            <PhotoCountStat user={user}></PhotoCountStat>
+            <PhotoCountStat count={photoCount}></PhotoCountStat>
 
-            <CurrentStreakStat user={user}></CurrentStreakStat>
+            <CurrentStreakStat streak={streak}></CurrentStreakStat>
 
             <LongestStreakStat></LongestStreakStat>
           </div>
