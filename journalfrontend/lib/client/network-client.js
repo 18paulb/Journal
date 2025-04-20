@@ -1,18 +1,6 @@
 import axios from 'axios';
 
 export default class NetworkClient {
-  async getJournalEntryText(date) {
-    return axios.get(`/api/journal/text/${date}`, {});
-  }
-
-  async deleteJournalEntry(date) {
-    return axios.delete('/api/journal', {
-      params: {
-        date,
-      },
-    });
-  }
-
   async writeJournalEntry(formData) {
     return axios.post(`/api/journal`, formData, {
       headers: {
