@@ -11,9 +11,7 @@ import DateFactory from '@/lib/client/date-factory';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 
 export function JournalEntriesCalendar({ entries }) {
-  const [year, setYear] = useState(
-    parseInt(DateFactory.getTodayDate().getFullYear())
-  );
+  const [year, setYear] = useState(parseInt(DateFactory.getTodayDate().getFullYear()));
   const [currentMonth, setCurrentMonth] = useState(DateFactory.getTodayDate().getMonth());
 
   const months = [

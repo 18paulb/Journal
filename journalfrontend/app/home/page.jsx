@@ -1,18 +1,14 @@
-import DateFactory from "@/lib/client/date-factory";
-import { getSession } from "@auth0/nextjs-auth0/edge";
-import {
-  getJournalEntry,
-  getJournalEntries,
-  getJournalEntryCount,
-} from "@/lib/aws/dynamodb";
-import { getPhotoCount } from "@/lib/aws/s3";
-import Link from "next/link";
-import { Card, CardContent } from "@/components/ui/card";
-import { BookOpen, Download, PenSquare, Globe2, Lock } from "lucide-react";
-import JournalEntryCountStat from "../components/stats/journal-entry-count";
-import PhotoCountStat from "../components/stats/photo-count";
-import CurrentStreakStat from "../components/stats/current-streak";
-import LongestStreakStat from "../components/stats/longest-streak";
+import DateFactory from '@/lib/client/date-factory';
+import { getSession } from '@auth0/nextjs-auth0/edge';
+import { getJournalEntry, getJournalEntries, getJournalEntryCount } from '@/lib/aws/dynamodb';
+import { getPhotoCount } from '@/lib/aws/s3';
+import Link from 'next/link';
+import { Card, CardContent } from '@/components/ui/card';
+import { BookOpen, Download, PenSquare, Globe2, Lock } from 'lucide-react';
+import JournalEntryCountStat from '../components/stats/journal-entry-count';
+import PhotoCountStat from '../components/stats/photo-count';
+import CurrentStreakStat from '../components/stats/current-streak';
+import LongestStreakStat from '../components/stats/longest-streak';
 
 export default async function HomePage() {
   const session = await getSession();
@@ -58,9 +54,7 @@ export default async function HomePage() {
                     <BookOpen className="h-8 w-8 text-primary" />
                   </div>
                   <h2 className="text-2xl font-semibold mb-2">Read Journal</h2>
-                  <p className="text-muted-foreground">
-                    Browse through your past entries
-                  </p>
+                  <p className="text-muted-foreground">Browse through your past entries</p>
                 </div>
               </CardContent>
             </Card>
@@ -74,9 +68,7 @@ export default async function HomePage() {
                     <PenSquare className="h-8 w-8 text-primary" />
                   </div>
                   <h2 className="text-2xl font-semibold mb-2">Write Entry</h2>
-                  <p className="text-muted-foreground">
-                    Start writing today&apos;s journal entry
-                  </p>
+                  <p className="text-muted-foreground">Start writing today&apos;s journal entry</p>
                 </div>
               </CardContent>
             </Card>
@@ -95,9 +87,7 @@ export default async function HomePage() {
                     <div className="bg-primary/10 p-4 rounded-full w-fit mx-auto mb-4">
                       <Globe2 className="h-8 w-8 text-primary" />
                     </div>
-                    <h2 className="text-2xl font-semibold mb-2">
-                      Browse Public Journals
-                    </h2>
+                    <h2 className="text-2xl font-semibold mb-2">Browse Public Journals</h2>
                     <p className="text-muted-foreground">
                       Discover anonymous journal entries from the community
                     </p>
@@ -117,8 +107,7 @@ export default async function HomePage() {
                       Browse Public Journals
                     </h2>
                     <p className="text-muted-foreground text-red-500">
-                      Write in your entry for today to view others&apos;
-                      entries!
+                      Write in your entry for today to view others&apos; entries!
                     </p>
                   </div>
                 </CardContent>
@@ -151,12 +140,8 @@ export default async function HomePage() {
                     <div className="bg-primary/10 p-4 rounded-full w-fit mx-auto mb-4">
                       <Download className="h-8 w-8 text-primary" />
                     </div>
-                    <h2 className="text-2xl font-semibold mb-2">
-                      Export Journal
-                    </h2>
-                    <p className="text-muted-foreground">
-                      Download your entries as PDF
-                    </p>
+                    <h2 className="text-2xl font-semibold mb-2">Export Journal</h2>
+                    <p className="text-muted-foreground">Download your entries as PDF</p>
                   </div>
                 </CardContent>
               </Card>

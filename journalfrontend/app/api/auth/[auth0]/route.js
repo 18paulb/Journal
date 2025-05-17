@@ -3,7 +3,7 @@ import { handleAuth, handleLogin, handleLogout } from '@auth0/nextjs-auth0';
 export async function GET(request, { params }) {
   // Await params before using it
   const authParams = await params;
-  
+
   return handleAuth({
     login: handleLogin({
       returnTo: '/home',

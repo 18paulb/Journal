@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { PenSquare } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { PenSquare } from 'lucide-react';
 
 export default function JournalEntryCountStat({ count }) {
   return (
@@ -15,9 +15,7 @@ export default function JournalEntryCountStat({ count }) {
       <CardContent>
         <>
           <div className="text-2xl font-bold">{count}</div>
-          <p className="text-xs text-muted-foreground">
-            You&apos;re in the top 10% of users!
-          </p>
+          <p className="text-xs text-muted-foreground">You&apos;re in the top 10% of users!</p>
         </>
       </CardContent>
     </Card>
