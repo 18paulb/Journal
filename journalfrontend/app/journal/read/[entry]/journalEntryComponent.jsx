@@ -19,7 +19,6 @@ import {
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
 
-import NetworkClient from '@/lib/client/network-client';
 import ImageGrid from '@/app/components/photo/photo-grid';
 import AudioView from '@/app/components/audio/audio-view';
 import { deleteJournalEntry } from '@/app/actions/journalEntryActions';
