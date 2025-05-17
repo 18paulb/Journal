@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { writeJournalEntry } from '@/lib/aws/dynamodb';
 import { uploadAudio, uploadPhoto } from '@/lib/aws/s3';
-import DateFactory from '@/lib/date-factory';
+import DateFactory from '@/lib/client/date-factory';
 
 export async function POST(request) {
   try {

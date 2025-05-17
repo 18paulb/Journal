@@ -14,8 +14,8 @@ import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { useUser } from '@auth0/nextjs-auth0/client';
 import { UserLoading } from '../components/user-loading';
-import { widgetsMap } from '@/lib/widget-info';
-import DateFactory from '@/lib/date-factory';
+import { widgetsMap } from '@/lib/client/widget-info';
+import DateFactory from '@/lib/client/date-factory';
 import ThemeSettings from '../components/theme-settings';
 
 export default function SettingsPage() {

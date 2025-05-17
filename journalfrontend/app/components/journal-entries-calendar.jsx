@@ -5,14 +5,14 @@ import { ChevronLeft, ChevronRight, CalendarClock } from 'lucide-react';
 import Link from 'next/link';
 import { useState, useMemo, useEffect } from 'react';
 
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/client/utils';
 import { Button } from '@/components/ui/button';
-import DateFactory from '@/lib/date-factory';
+import DateFactory from '@/lib/client/date-factory';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 
 export function JournalEntriesCalendar({ entries }) {
   const [year, setYear] = useState(
-    parseInt(localStorage.getItem('lastVisitedYear') ?? DateFactory.getTodayDate().getFullYear())
+    parseInt(DateFactory.getTodayDate().getFullYear())
   );
   const [currentMonth, setCurrentMonth] = useState(DateFactory.getTodayDate().getMonth());
 
@@ -30,6 +30,16 @@ export function JournalEntriesCalendar({ entries }) {
     'November',
     'December',
   ];
+
+  // Use useEffect to access localStorage after component mounts
+  useEffect(() => {
+    const savedYear = localStorage.getItem('lastVisitedYear');
+    if (savedYear) {
+      setYear(parseInt(savedYear));
+    } else {
+      setYear(DateFactory.getTodayDate().getFullYear());
+    }
+  }, []);
 
   // Sets the year whenever user navgiates between years
   useEffect(() => {
