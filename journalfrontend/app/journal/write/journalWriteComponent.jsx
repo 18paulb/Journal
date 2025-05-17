@@ -21,11 +21,11 @@ import { AudioUpload } from '../../components/audio/audio-upload';
 import DateFactory from '@/lib/client/date-factory';
 
 export default function JournalEntryEditor({ entry }) {
-  const [title, setTitle] = useState(entry.title);
-  const [content, setContent] = useState(entry.entry);
+  const [title, setTitle] = useState(entry?.title ?? '');
+  const [content, setContent] = useState(entry?.entry ?? null);
   const { user, error, isLoading } = useUser();
   const [uploadedPhoto, setUploadedPhoto] = useState(null);
-  const [isPublic, setIsPublic] = useState(entry.isPublic);
+  const [isPublic, setIsPublic] = useState(entry?.isPublic ?? false);
   const [audioRecording, setAudioRecording] = useState(null);
 
   const { toast } = useToast();
@@ -123,7 +123,7 @@ export default function JournalEntryEditor({ entry }) {
                 <Textarea
                   id="content"
                   placeholder="Begin writing your thoughts, feelings, and experiences..."
-                  value={content}
+                  value={content ?? ''}
                   onChange={(e) => setContent(e.target.value)}
                   className="min-h-[300px] border-primary/20 transition-colors focus-visible:border-primary focus-visible:ring-1 focus-visible:ring-primary resize-none"
                 />
