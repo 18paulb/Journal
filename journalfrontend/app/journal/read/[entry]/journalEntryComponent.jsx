@@ -1,20 +1,12 @@
-"use client";
+'use client';
 
-import { useParams, useRouter } from "next/navigation";
-import { useState } from "react";
-import {
-  CalendarDays,
-  Book,
-  Trash2,
-  Lock,
-  ImageIcon,
-  Mic,
-  Unlock,
-} from "lucide-react";
-import { Card, CardContent } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Button } from "@/components/ui/button";
-import { useToast } from "@/hooks/use-toast";
+import { useParams, useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { CalendarDays, Book, Trash2, Lock, ImageIcon, Mic, Unlock } from 'lucide-react';
+import { Card, CardContent } from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Button } from '@/components/ui/button';
+import { useToast } from '@/hooks/use-toast';
 
 import {
   AlertDialog,
@@ -25,18 +17,14 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
+} from '@/components/ui/alert-dialog';
 
-import NetworkClient from "@/lib/client/network-client";
-import ImageGrid from "@/app/components/photo/photo-grid";
-import AudioView from "@/app/components/audio/audio-view";
-import { deleteJournalEntry } from "@/app/actions/journalEntryActions";
+import NetworkClient from '@/lib/client/network-client';
+import ImageGrid from '@/app/components/photo/photo-grid';
+import AudioView from '@/app/components/audio/audio-view';
+import { deleteJournalEntry } from '@/app/actions/journalEntryActions';
 
-export default function JournalEntryComponent({
-  entryData,
-  initialEntryImages,
-  initialAudioData,
-}) {
+export default function JournalEntryComponent({ entryData, initialEntryImages, initialAudioData }) {
   const params = useParams(); // Use useParams to access the dynamic 'date' parameter
 
   const [date] = useState(params.entry);
@@ -51,10 +39,10 @@ export default function JournalEntryComponent({
 
   // Formats entry text to have correct spacing
   const renderTextWithNewlines = (text) => {
-    return text.split("\n").map((line, index) => (
+    return text.split('\n').map((line, index) => (
       <p className="text-stone-700 text-lg leading-relaxed mb-1" key={index}>
         {line}
-        {index < text.split("\n").length - 1 && <br />}
+        {index < text.split('\n').length - 1 && <br />}
       </p>
     ));
   };
@@ -63,11 +51,11 @@ export default function JournalEntryComponent({
     setIsDeleting(true);
     try {
       await deleteJournalEntry(date);
-      toast.success("Journal entry deleted successfully");
-      router.push("/journal"); // Redirect to journal list
+      toast.success('Journal entry deleted successfully');
+      router.push('/journal'); // Redirect to journal list
     } catch (error) {
-      console.error("Error deleting journal entry:", error);
-      toast.error("Failed to delete journal entry");
+      console.error('Error deleting journal entry:', error);
+      toast.error('Failed to delete journal entry');
     } finally {
       setIsDeleting(false);
       setShowDeleteDialog(false);
@@ -83,7 +71,7 @@ export default function JournalEntryComponent({
               <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
                 <div className="space-y-1">
                   <h2 className="text-2xl font-semibold tracking-tight text-slate-900 sm:text-3xl">
-                    {entryData?.title || "Journal Entry"}
+                    {entryData?.title || 'Journal Entry'}
                   </h2>
                   <div className="flex items-center gap-2 text-sm text-muted-foreground">
                     <CalendarDays className="h-4 w-4" />
@@ -157,17 +145,11 @@ export default function JournalEntryComponent({
                   </TabsContent>
                   <TabsContent value="photos">
                     <CardContent className="p-6 sm:p-8">
-                      <ImageGrid
-                        images={entryImages}
-                        setImages={setEntryImages}
-                      />
+                      <ImageGrid images={entryImages} setImages={setEntryImages} />
                     </CardContent>
                   </TabsContent>
                   <TabsContent value="audio" className="space-y-4">
-                    <AudioView
-                      audioData={audioData}
-                      setAudioData={setAudioData}
-                    ></AudioView>
+                    <AudioView audioData={audioData} setAudioData={setAudioData}></AudioView>
                   </TabsContent>
                 </div>
               </Tabs>
@@ -181,12 +163,9 @@ export default function JournalEntryComponent({
               <AlertDialogTitle>Delete Journal Entry</AlertDialogTitle>
               <AlertDialogDescription className="space-y-2">
                 <p>
-                  Are you sure you want to delete this journal entry? This
-                  action cannot be undone.
+                  Are you sure you want to delete this journal entry? This action cannot be undone.
                 </p>
-                <p className="font-medium text-red-600">
-                  This will permanently delete:
-                </p>
+                <p className="font-medium text-red-600">This will permanently delete:</p>
                 <ul className="list-inside list-disc space-y-1">
                   <li>The journal text content</li>
                   <li>All associated images</li>
@@ -195,15 +174,13 @@ export default function JournalEntryComponent({
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
-              <AlertDialogCancel disabled={isDeleting}>
-                Cancel
-              </AlertDialogCancel>
+              <AlertDialogCancel disabled={isDeleting}>Cancel</AlertDialogCancel>
               <AlertDialogAction
                 onClick={handleDeleteEntry}
                 disabled={isDeleting}
                 className="bg-red-600 text-white hover:bg-red-700"
               >
-                {isDeleting ? "Deleting..." : "Delete Everything"}
+                {isDeleting ? 'Deleting...' : 'Delete Everything'}
               </AlertDialogAction>
             </AlertDialogFooter>
           </AlertDialogContent>

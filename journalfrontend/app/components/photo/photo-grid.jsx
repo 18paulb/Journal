@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import Image from "next/image";
-import { ImageIcon, Trash2, X } from "lucide-react";
+import { useState } from 'react';
+import Image from 'next/image';
+import { ImageIcon, Trash2, X } from 'lucide-react';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -12,11 +12,11 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
-import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
+} from '@/components/ui/alert-dialog';
+import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
 
-import { deleteEntryImage } from "@/app/actions/journalEntryActions";
+import { deleteEntryImage } from '@/app/actions/journalEntryActions';
 
 export default function ImageGrid({ images, setImages }) {
   const [selectedImage, setSelectedImage] = useState(null);
@@ -26,12 +26,8 @@ export default function ImageGrid({ images, setImages }) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[300px] text-muted-foreground">
         <ImageIcon className="w-16 h-16 mb-4 opacity-50" />
-        <h3 className="text-2xl font-semibold text-center">
-          No Photos Saved :)
-        </h3>
-        <p className="mt-2 text-sm">
-          Photos you add to this entry will appear here
-        </p>
+        <h3 className="text-2xl font-semibold text-center">No Photos Saved :)</h3>
+        <p className="mt-2 text-sm">Photos you add to this entry will appear here</p>
       </div>
     );
   }
@@ -63,14 +59,14 @@ export default function ImageGrid({ images, setImages }) {
               role="button"
               tabIndex={0}
               onKeyDown={(e) => {
-                if (e.key === "Enter" || e.key === " ") {
+                if (e.key === 'Enter' || e.key === ' ') {
                   setSelectedImage(image);
                 }
               }}
             >
               <Image
-                src={image.image || "/placeholder.svg"}
-                alt={image.alt || "Journal photo"}
+                src={image.image || '/placeholder.svg'}
+                alt={image.alt || 'Journal photo'}
                 fill
                 className="object-cover group-hover:opacity-90 transition-opacity"
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
@@ -92,19 +88,15 @@ export default function ImageGrid({ images, setImages }) {
       <ImageModal
         isOpen={!!selectedImage}
         onClose={() => setSelectedImage(null)}
-        image={selectedImage || { image: "", alt: "" }}
+        image={selectedImage || { image: '', alt: '' }}
       />
 
-      <AlertDialog
-        open={!!imageToDelete}
-        onOpenChange={(open) => !open && setImageToDelete(null)}
-      >
+      <AlertDialog open={!!imageToDelete} onOpenChange={(open) => !open && setImageToDelete(null)}>
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Are you sure?</AlertDialogTitle>
             <AlertDialogDescription>
-              This action cannot be undone. This will permanently delete the
-              image.
+              This action cannot be undone. This will permanently delete the image.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
@@ -129,7 +121,7 @@ export function ImageModal({ isOpen, onClose, image }) {
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-[90vw] max-h-[90vh] p-0 bg-background/95 backdrop-blur-sm">
-        <DialogTitle className="sr-only">{"Image Preview"}</DialogTitle>
+        <DialogTitle className="sr-only">{'Image Preview'}</DialogTitle>
         <Button
           variant="ghost"
           size="icon"
@@ -141,8 +133,8 @@ export function ImageModal({ isOpen, onClose, image }) {
         </Button>
         <div className="relative w-full h-full max-h-[90vh] flex items-center justify-center">
           <Image
-            src={image.image || "/placeholder.svg"}
-            alt={image.alt || "Journal photo"}
+            src={image.image || '/placeholder.svg'}
+            alt={image.alt || 'Journal photo'}
             width={1200}
             height={800}
             className="object-contain w-full h-full"

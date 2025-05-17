@@ -1,24 +1,26 @@
-"use client"
+'use client';
 
-import { useState } from "react"
+import { useState } from 'react';
 
 export default function BrowsePublicJournalsComponent({ publicEntries = [] }) {
   // State to track which entries are expanded
-  const [expandedEntries, setExpandedEntries] = useState([])
+  const [expandedEntries, setExpandedEntries] = useState([]);
 
   // Character limit for preview text
-  const characterLimit = 400
+  const characterLimit = 400;
 
   // Function to truncate text
   const truncateText = (text, limit) => {
-    if (text.length <= limit) return text
-    return text.slice(0, limit) + "..."
-  }
+    if (text.length <= limit) return text;
+    return text.slice(0, limit) + '...';
+  };
 
   // Toggle expanded state for an entry
   const toggleExpand = (index) => {
-    setExpandedEntries((prev) => (prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index]))
-  }
+    setExpandedEntries((prev) =>
+      prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index]
+    );
+  };
 
   return (
     <div className="min-h-screen py-12">
@@ -26,7 +28,7 @@ export default function BrowsePublicJournalsComponent({ publicEntries = [] }) {
         <h1 className="mb-12 text-4xl font-bold">Read Other Journals</h1>
         <div className="space-y-12">
           {publicEntries.map((entry, index) => {
-            const isExpanded = expandedEntries.includes(index)
+            const isExpanded = expandedEntries.includes(index);
 
             return (
               <article
@@ -46,15 +48,15 @@ export default function BrowsePublicJournalsComponent({ publicEntries = [] }) {
                       onClick={() => toggleExpand(index)}
                       className="text-sm font-medium text-primary transition-opacity group-hover:opacity-100"
                     >
-                      {isExpanded ? "Show less ↑" : "Read more →"}
+                      {isExpanded ? 'Show less ↑' : 'Read more →'}
                     </button>
                   )}
                 </div>
               </article>
-            )
+            );
           })}
         </div>
       </div>
     </div>
-  )
+  );
 }

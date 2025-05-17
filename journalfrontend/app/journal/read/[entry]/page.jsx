@@ -1,9 +1,9 @@
-import { getJournalEntry } from "@/lib/aws/dynamodb";
+import { getJournalEntry } from '@/lib/aws/dynamodb';
 import { getMediaForJournalEntry } from '@/lib/aws/s3';
 import DateFactory from '@/lib/client/date-factory';
-import { getSession } from "@auth0/nextjs-auth0/edge";
+import { getSession } from '@auth0/nextjs-auth0/edge';
 import { toBase64, getMimeTypePrefix } from '@/lib/client/photo-manipulator';
-import JournalEntryComponent from "./journalEntryComponent";
+import JournalEntryComponent from './journalEntryComponent';
 
 export default async function JournalEntry({ params }) {
   const date = (await params).entry;
@@ -15,10 +15,7 @@ export default async function JournalEntry({ params }) {
   const entryPromise = getJournalEntry(date, user.email);
   const mediaPromise = getMediaForJournalEntry(user.email, dateObject);
 
-  const [entryText, mediaData] = await Promise.all([
-    entryPromise,
-    mediaPromise,
-  ]);
+  const [entryText, mediaData] = await Promise.all([entryPromise, mediaPromise]);
 
   let audios = mediaData.audios;
   let images = mediaData.images;
@@ -27,7 +24,7 @@ export default async function JournalEntry({ params }) {
     const base64String = toBase64(audio.mediaBuffer);
     const audioUrl = getMimeTypePrefix(
       base64String,
-      audio?.mediaKey?.split(".")?.pop()?.toLowerCase()
+      audio?.mediaKey?.split('.')?.pop()?.toLowerCase()
     );
     return {
       key: audio.mediaKey,
@@ -39,7 +36,7 @@ export default async function JournalEntry({ params }) {
     const base64String = toBase64(photo.mediaBuffer);
     const photoUrl = getMimeTypePrefix(
       base64String,
-      photo?.mediaKey?.split(".")?.pop()?.toLowerCase()
+      photo?.mediaKey?.split('.')?.pop()?.toLowerCase()
     );
     return {
       key: photo.mediaKey,

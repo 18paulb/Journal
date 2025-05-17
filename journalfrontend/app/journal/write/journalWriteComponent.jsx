@@ -20,7 +20,7 @@ import { Label } from '@/components/ui/label';
 import { AudioUpload } from '../../components/audio/audio-upload';
 import DateFactory from '@/lib/client/date-factory';
 
-export default function JournalEntryEditor({entry}) {
+export default function JournalEntryEditor({ entry }) {
   const [title, setTitle] = useState(entry.title);
   const [content, setContent] = useState(entry.entry);
   const { user, error, isLoading } = useUser();
