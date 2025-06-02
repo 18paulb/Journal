@@ -17,7 +17,7 @@ import NetworkClient from '@/lib/client/network-client';
 import PhotoUpload from '@/app/components/photo/photo-upload';
 import { Label } from '@/components/ui/label';
 
-import { AudioUpload } from '../../components/audio/audio-upload';
+import { AudioUpload } from '../../../components/audio/audio-upload';
 import DateFactory from '@/lib/client/date-factory';
 
 export default function JournalEntryEditor({ entry }) {

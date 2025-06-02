@@ -2,6 +2,7 @@
 
 import { deleteImage } from '@/lib/aws/s3';
 import { deleteAudio } from '@/lib/aws/s3';
+import { getJournalEntry as getEntry } from '@/lib/aws/dynamodb';
 
 export async function uploadJournalEntry() {}
 
@@ -15,4 +16,8 @@ export async function deleteEntryImage(key) {
 
 export async function deleteEntryAudio(key) {
   await deleteAudio(key);
+}
+
+export async function getJournalEntry(date, email) {
+  await getEntry(date, email)
 }
