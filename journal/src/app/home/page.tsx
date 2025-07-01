@@ -11,7 +11,6 @@ import LongestStreakStat from '../components/stats/longest-streak';
 import WriteEntryButton from './writeEntryButton';
 import BrowseButton from './browseButton';
 
-// TODO: Use the getJournalEntry server action, extract parts of this to a client component, anything that depends on date
 export default async function HomePage() {
   const session = await getSession();
   const user = session?.user;

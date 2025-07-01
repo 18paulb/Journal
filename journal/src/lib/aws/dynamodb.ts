@@ -1,10 +1,11 @@
-import { DynamoDBClient, QueryCommandInput } from '@aws-sdk/client-dynamodb';
+import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 
 import {
   PutCommand,
   DynamoDBDocumentClient,
   GetCommand,
   QueryCommand,
+  QueryCommandInput
 } from '@aws-sdk/lib-dynamodb';
 import DatabaseError from '../error/db-error';
 import { StatusCode } from '../enums/status-code';
@@ -42,7 +43,7 @@ export async function getJournalEntries(email: string) {
   if (!email)
     throw new InvalidParamsError('Email is in an invalid format', StatusCode.BAD_REQUEST);
 
-  const command = new QueryCommand({
+  const params: QueryCommandInput = {
     TableName: tableName,
     KeyConditionExpression: 'email = :email',
     ExpressionAttributeValues: {
@@ -50,12 +51,14 @@ export async function getJournalEntries(email: string) {
     },
     ConsistentRead: true,
     ScanIndexForward: false,
-  });
+  }
+
+  const command = new QueryCommand(params);
 
   try {
     const response = await docClient.send(command);
     return response.Items ?? [];
-  } catch {
+  } catch (error) {
     throw new DatabaseError('Error getting journal entries', StatusCode.INTERNAL_SERVER_ERROR);
   }
 }
@@ -117,7 +120,7 @@ export async function getJournalEntryCount(email: string) {
       TableName: tableName,
       KeyConditionExpression: 'email = :email',
       ExpressionAttributeValues: {
-        ':email':{ S: email },
+        ':email': email,
       },
       Select: 'COUNT',
       ExclusiveStartKey: lastEvaluatedKey,
