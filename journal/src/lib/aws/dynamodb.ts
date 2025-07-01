@@ -1,3 +1,5 @@
+"use server"
+
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 
 import {
@@ -58,7 +60,7 @@ export async function getJournalEntries(email: string) {
   try {
     const response = await docClient.send(command);
     return response.Items ?? [];
-  } catch (error) {
+  } catch {
     throw new DatabaseError('Error getting journal entries', StatusCode.INTERNAL_SERVER_ERROR);
   }
 }
