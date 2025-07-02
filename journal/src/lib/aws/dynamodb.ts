@@ -12,6 +12,7 @@ import {
 import DatabaseError from '../error/db-error';
 import { StatusCode } from '../enums/status-code';
 import InvalidParamsError from '../error/invalid-params';
+import { JournalEntry } from '@/app/models/journal-entry';
 
 const tableName = 'JournalEntry';
 const dateIndex = 'date-email-index';
@@ -41,7 +42,7 @@ export async function writeJournalEntry(entryText: string, entryTitle: string, d
   }
 }
 
-export async function getJournalEntries(email: string) {
+export async function getJournalEntries(email: string): Promise<JournalEntry[]> {
   if (!email)
     throw new InvalidParamsError('Email is in an invalid format', StatusCode.BAD_REQUEST);
 
@@ -59,7 +60,7 @@ export async function getJournalEntries(email: string) {
 
   try {
     const response = await docClient.send(command);
-    return response.Items ?? [];
+    return response.Items as JournalEntry[] ?? [];
   } catch {
     throw new DatabaseError('Error getting journal entries', StatusCode.INTERNAL_SERVER_ERROR);
   }
@@ -91,7 +92,7 @@ export async function getDailyPublicJournalEntries(date: string) {
   }
 }
 
-export async function getJournalEntry(date: string, email: string) {
+export async function getJournalEntry(date: string, email: string): Promise<JournalEntry> {
   if (!date || !email)
     throw new InvalidParamsError('Date or email is in invalid format', StatusCode.BAD_REQUEST);
 
@@ -105,7 +106,7 @@ export async function getJournalEntry(date: string, email: string) {
 
   try {
     const response = await docClient.send(command);
-    return response.Item;
+    return response.Item as JournalEntry;
   } catch {
     throw new DatabaseError('error fething journal entry', StatusCode.INTERNAL_SERVER_ERROR);
   }

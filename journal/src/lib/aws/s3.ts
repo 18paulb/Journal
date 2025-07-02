@@ -11,6 +11,8 @@ import S3Error from '@/lib/error/s3-error';
 import InvalidParamsError from '@/lib/error/invalid-params';
 import MediaUploadError from '@/lib/error/media-upload-error';
 import { Readable } from 'stream';
+import { MediaData } from '@/app/models/media-data';
+import { MediaItemBuffer } from '@/app/models/media-item-buffer';
 
 const photoBucketName = 'journalappphotos';
 const audioBucketName = 'journalappaudio';
@@ -85,7 +87,7 @@ export async function uploadPhoto(image: any, email: string, today: Date) {
   }
 }
 
-export async function getMediaForJournalEntry(email: string, date: Date) {
+export async function getMediaForJournalEntry(email: string, date: Date): Promise<MediaData> {
   if (!email || !date)
     throw new InvalidParamsError('Email or Date is invalid', StatusCode.BAD_REQUEST);
 
@@ -119,7 +121,7 @@ export async function getMediaForJournalEntry(email: string, date: Date) {
   const audios = audioResponse.Contents || [];
 
   // Function to fetch data for a media item (photo or audio)
-  const fetchMedia = async (item: any, bucketName: string) => {
+  const fetchMedia = async (item: any, bucketName: string): Promise<MediaItemBuffer> => {
     const mediaKey = item.Key;
     const getObjectParams = {
       Bucket: bucketName,
