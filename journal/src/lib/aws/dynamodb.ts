@@ -66,7 +66,7 @@ export async function getJournalEntries(email: string): Promise<JournalEntry[]> 
   }
 }
 
-export async function getDailyPublicJournalEntries(date: string) {
+export async function getDailyPublicJournalEntries(date: string): Promise<JournalEntry[]> {
   if (!date)
     throw new InvalidParamsError('Date is in an invalid format', StatusCode.BAD_REQUEST);
 
@@ -86,7 +86,7 @@ export async function getDailyPublicJournalEntries(date: string) {
 
   try {
     const response = await docClient.send(command);
-    return response.Items || [];
+    return response.Items as JournalEntry[] || [];
   } catch {
     throw new DatabaseError('Error fetching public journals', StatusCode.INTERNAL_SERVER_ERROR);
   }
