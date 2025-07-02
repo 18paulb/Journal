@@ -6,6 +6,7 @@ import { UserProvider } from '@auth0/nextjs-auth0/client';
 import { PageHeader } from "./components/header";
 import { Toaster } from "sonner";
 import { ThemeProvider } from "./providers/theme-provider";
+import PageFooter from "./components/footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -36,6 +37,7 @@ export default function RootLayout({
           <PageHeader />
           <ThemeProvider>{children}</ThemeProvider>
           <Toaster />
+          <PageFooter />
         </body>
       </UserProvider>
     </html>
