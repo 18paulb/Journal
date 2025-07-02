@@ -86,7 +86,7 @@ export async function uploadPhoto(image: any, email: string, today: Date) {
     ContentType: image.mimetype,
   };
 
-  let command = new PutObjectCommand(input);
+  const command = new PutObjectCommand(input);
 
   try {
     await s3Client.send(command);

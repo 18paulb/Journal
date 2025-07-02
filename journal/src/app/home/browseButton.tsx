@@ -9,7 +9,7 @@ import { useUser } from "@auth0/nextjs-auth0/client";
 import Link from 'next/link';
 
 export default function BrowseButton() {
-  const { user, error, isLoading } = useUser()
+  const { user } = useUser()
   const [hasWritten, setHasWritten] = useState(false);
 
   useEffect(() => {

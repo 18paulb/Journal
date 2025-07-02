@@ -6,7 +6,12 @@ import { toBase64, getMimeTypePrefix } from '@/lib/client/photo-manipulator';
 import JournalEntryComponent from './journalEntryComponent';
 import { MediaItemUrl } from '@/app/models/media-item-string';
 
-export default async function JournalEntry({ params }:any) {
+type JournalEntryParams = {
+  params: {
+    entry: string;
+  };
+};
+export default async function JournalEntry({ params }: JournalEntryParams) {
   const date = (await params).entry;
   const dateObject = DateFactory.convertStringToDateObject(date);
 
@@ -18,10 +23,10 @@ export default async function JournalEntry({ params }:any) {
 
   const [entryData, mediaData] = await Promise.all([entryPromise, mediaPromise]);
 
-  let audios = mediaData.audios;
-  let images = mediaData.images;
+  const audios = mediaData.audios;
+  const images = mediaData.images;
 
-  let audioData: MediaItemUrl[] = audios.map((audio) => {
+  const audioData: MediaItemUrl[] = audios.map((audio) => {
     const base64String = toBase64(audio.mediaBuffer);
     const audioUrl = getMimeTypePrefix(
       base64String,
@@ -34,7 +39,7 @@ export default async function JournalEntry({ params }:any) {
     };
   });
 
-  let imageData: MediaItemUrl[] = images.map((photo) => {
+  const imageData: MediaItemUrl[] = images.map((photo) => {
     const base64String = toBase64(photo.mediaBuffer);
     const photoUrl = getMimeTypePrefix(
       base64String,

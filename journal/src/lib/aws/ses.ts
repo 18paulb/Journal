@@ -42,14 +42,13 @@ export async function sendEmail(subject: string, textBody: string) {
     Source: 'bjpaul99@gmail.com',
   };
 
-  let command = new SendEmailCommand(params);
+  const command = new SendEmailCommand(params);
 
   try {
     const result = await sesClient.send(command);
     console.log('Email sent successfully:', result.MessageId);
     return { success: true, messageId: result.MessageId };
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error sending email:', error);
-    return { success: false, error: error.message };
   }
 }

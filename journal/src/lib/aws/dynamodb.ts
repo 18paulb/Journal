@@ -32,7 +32,7 @@ export async function writeJournalEntry(entryText: string, entryTitle: string, d
   if (!email || !date)
     return new InvalidParamsError('Missing required db keys', StatusCode.BAD_REQUEST);
 
-  let command = new PutCommand({
+  const command = new PutCommand({
     TableName: tableName,
     Item: {
       date: date,

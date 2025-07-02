@@ -50,7 +50,11 @@ export async function DELETE(request: NextRequest) {
       message: 'Not currently allowing deletion of Journals',
       request: request,
     });
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      return NextResponse.json({ error: error.message });
+    } else {
+      return NextResponse.json({ error: 'Unknown error occurred' });
+    }
   }
 }

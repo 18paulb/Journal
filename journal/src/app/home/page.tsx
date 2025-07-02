@@ -3,7 +3,7 @@ import { getJournalEntryCount } from '@/lib/aws/dynamodb';
 import { getPhotoCount } from '@/lib/aws/s3';
 import Link from 'next/link';
 import { Card, CardContent } from '@/components/ui/card';
-import { BookOpen, Download, PenSquare, Globe2, Lock } from 'lucide-react';
+import { BookOpen, Download } from 'lucide-react';
 import JournalEntryCountStat from '../components/stats/journal-entry-count';
 import PhotoCountStat from '../components/stats/photo-count';
 import CurrentStreakStat from '../components/stats/current-streak';

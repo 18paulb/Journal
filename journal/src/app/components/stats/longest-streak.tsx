@@ -7,7 +7,7 @@ import { Trophy } from "lucide-react";
 import { useEffect, useState } from "react";
 
 export default function LongestStreakStat() {
-  const { user, error, isLoading } = useUser();
+  const { user } = useUser();
   const [streak, setStreak] = useState(0);
 
   useEffect(() => {
@@ -45,11 +45,11 @@ async function calculateStreak(currDate: string, email: string) {
   // Set the currDateObj to be very beginning of day, makes it easier for comparison
   currDateObj.setHours(0, 0, 0, 0);
 
-  let entries = await getJournalEntries(email);
+  const entries = await getJournalEntries(email);
 
   // Set all dates to be very beginning of day, makes it easier for comparison
-  let entryDates = entries.map((entry) => {
-    let dateObj = DateFactory.convertStringToDateObject(entry.date);
+  const entryDates = entries.map((entry) => {
+    const dateObj = DateFactory.convertStringToDateObject(entry.date);
     dateObj.setHours(0, 0, 0, 0);
     return dateObj;
   });
@@ -60,7 +60,7 @@ async function calculateStreak(currDate: string, email: string) {
   let streak = 0;
   let prevDate = currDateObj;
 
-  for (let date of entryDates) {
+  for (const date of entryDates) {
     // If they have written today, incrememnt the streak
     if (currDateObj.getTime() - date.getTime() == 0) {
       streak++;
