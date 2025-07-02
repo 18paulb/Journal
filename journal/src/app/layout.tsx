@@ -5,6 +5,7 @@ import "./globals.css";
 import { UserProvider } from '@auth0/nextjs-auth0/client';
 import { PageHeader } from "./components/header";
 import { Toaster } from "sonner";
+import { ThemeProvider } from "./providers/theme-provider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -33,7 +34,7 @@ export default function RootLayout({
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
           <PageHeader />
-          {children}
+          <ThemeProvider>{children}</ThemeProvider>
           <Toaster />
         </body>
       </UserProvider>
