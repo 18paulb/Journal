@@ -17,7 +17,15 @@ import { MediaItemBuffer } from '@/app/models/media-item-buffer';
 const photoBucketName = 'journalappphotos';
 const audioBucketName = 'journalappaudio';
 
-const s3Client = new S3Client({});
+const s3Client = new S3Client(
+  {
+    region: process.env.AWS_REGION,
+    credentials: {
+      accessKeyId: process.env.AWS_ACCESS!,
+      secretAccessKey: process.env.AWS_SECRET!,
+    }
+  }
+);
 
 export async function deleteAudio(key: string) {
   if (!key) throw new InvalidParamsError('Key is invalid', StatusCode.BAD_REQUEST);

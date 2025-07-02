@@ -1,7 +1,15 @@
 import { SendEmailCommand, SESClient } from '@aws-sdk/client-ses';
 
 // Create SES service object
-const sesClient = new SESClient({});
+const sesClient = new SESClient(
+  {
+    region: process.env.AWS_REGION,
+    credentials: {
+      accessKeyId: process.env.AWS_ACCESS!,
+      secretAccessKey: process.env.AWS_SECRET!,
+    }
+  }
+);
 
 /**
  * Send an email using Amazon SES
