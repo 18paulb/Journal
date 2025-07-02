@@ -100,7 +100,7 @@ export function JournalEntriesCalendar({ entries }: JournalEntriesCalenderProps)
     return grid;
   };
 
-  const DayCell = ({ day, month }: {day: number, month: number}) => {
+  const DayCell = ({ day, month }: {day: number | null, month: number}) => {
     if (!day)
       return (
         <div className="aspect-square flex items-center justify-center text-xs text-muted-foreground/25">
@@ -163,7 +163,7 @@ export function JournalEntriesCalendar({ entries }: JournalEntriesCalenderProps)
           {generateMonthGrid(monthIndex).map((week, i) => (
             <React.Fragment key={i}>
               {week.map((day, j) => (
-                <DayCell key={`${i}-${j}`} day={day ?? 1} month={monthIndex} />
+                <DayCell key={`${i}-${j}`} day={day} month={monthIndex} />
               ))}
             </React.Fragment>
           ))}
