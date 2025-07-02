@@ -52,7 +52,7 @@ export function JournalEntriesCalendar({ entries }: JournalEntriesCalenderProps)
     const map = new Map();
     if (entries != null || entries != undefined) {
       entries.forEach((entry) => {
-        let date = new Date(entry.date + 'T00:00:00');
+        const date = new Date(entry.date + 'T00:00:00');
         const dateKey = `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
         map.set(dateKey, entry);
       });
@@ -175,7 +175,7 @@ export function JournalEntriesCalendar({ entries }: JournalEntriesCalenderProps)
   // Navigation for mobile view
   const navigateMonth = (direction: number) => {
     setCurrentMonth((prev) => {
-      let newMonth = prev + direction;
+      const newMonth = prev + direction;
       if (newMonth > 11) {
         setYear(year + 1);
         return 0;

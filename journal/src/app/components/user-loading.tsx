@@ -1,6 +1,6 @@
 type UserLoadingProps = {
   isLoading: boolean,
-  error: any
+  error: Error | undefined
 }
 export function UserLoading({isLoading, error}: UserLoadingProps) {
 
@@ -9,6 +9,6 @@ export function UserLoading({isLoading, error}: UserLoadingProps) {
   }
 
   if (error) {
-    return <h1 className="text-stone-700 text-lg  leading-relaxed mb-6">Error: {error.message}</h1>;
+    return <h1 className="text-stone-700 text-lg  leading-relaxed mb-6">An error has occured</h1>;
   }
 }

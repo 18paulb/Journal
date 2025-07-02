@@ -20,7 +20,6 @@ import {
 import { useUser } from "@auth0/nextjs-auth0/client";
 import { UserLoading } from "@/app/components/user-loading";
 import NetworkClient from "@/lib/client/network-client";
-import PhotoUpload from "@/app/components/image/image-upload";
 import { Label } from "@/components/ui/label";
 
 import { AudioUpload } from "@/app/components/audio/audio-upload";
@@ -55,7 +54,7 @@ export default function JournalEntryEditor({ entry }: JournalEntryEditorProps) {
     formData.append("isPublic", String(isPublic));
 
     if (uploadedPhoto) {
-      let imageType = uploadedPhoto.type.split("/")[1];
+      const imageType = uploadedPhoto.type.split("/")[1];
       formData.append("image", uploadedPhoto, `${uuidv4()}.${imageType}`);
     }
     if (audioRecording) {

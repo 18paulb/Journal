@@ -53,7 +53,7 @@ export default function BrowsePublicJournalsComponent({ publicEntries = [] }: Br
               </div>
               <h2 className="text-3xl font-bold text-foreground mb-4">No Stories to Share Yet</h2>
               <p className="text-xl text-muted-foreground leading-relaxed mb-6">
-                The journal community is just getting started! There aren't any public journals at the moment, but
+                The journal community is just getting started! There aren&apos;t any public journals at the moment, but
                 amazing stories are on their way.
               </p>
               <p className="text-lg text-muted-foreground/80">

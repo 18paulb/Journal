@@ -5,6 +5,7 @@ import {
   DeleteObjectCommand,
   ListObjectsV2Command,
   ListObjectsV2CommandInput,
+  _Object
 } from '@aws-sdk/client-s3';
 import { StatusCode } from '@/lib/enums/status-code';
 import S3Error from '@/lib/error/s3-error';
@@ -13,6 +14,7 @@ import MediaUploadError from '@/lib/error/media-upload-error';
 import { Readable } from 'stream';
 import { MediaData } from '@/app/models/media-data';
 import { MediaItemBuffer } from '@/app/models/media-item-buffer';
+
 
 const photoBucketName = 'journalappphotos';
 const audioBucketName = 'journalappaudio';
@@ -63,7 +65,7 @@ export async function deleteAllJournalEntryMedia(date: Date, email: string) {
   console.log(date, email);
 }
 
-export async function uploadPhoto(image: any, email: string, today: Date) {
+export async function uploadPhoto(image: File, email: string, today: Date) {
   if (!image || !email || !today)
     throw new InvalidParamsError('image, email, or date is invalid', StatusCode.BAD_REQUEST);
 
@@ -83,10 +85,9 @@ export async function uploadPhoto(image: any, email: string, today: Date) {
     Bucket: photoBucketName,
     Key: key,
     Body: buffer,
-    ContentType: image.mimetype,
   };
 
-  let command = new PutObjectCommand(input);
+  const command = new PutObjectCommand(input);
 
   try {
     await s3Client.send(command);
@@ -128,45 +129,30 @@ export async function getMediaForJournalEntry(email: string, date: Date): Promis
   const photos = photoResponse.Contents || [];
   const audios = audioResponse.Contents || [];
 
-  // Function to fetch data for a media item (photo or audio)
-  const fetchMedia = async (item: any, bucketName: string): Promise<MediaItemBuffer> => {
-    const mediaKey = item.Key;
-    const getObjectParams = {
-      Bucket: bucketName,
-      Key: mediaKey,
-    };
+const fetchMedia = async (item: _Object, bucketName: string): Promise<MediaItemBuffer> => {
+  const mediaKey = item.Key;
+  if (!mediaKey) throw new Error('Missing media key');
 
-    const getObjectCommand = new GetObjectCommand(getObjectParams);
+  const getObjectCommand = new GetObjectCommand({
+    Bucket: bucketName,
+    Key: mediaKey,
+  });
 
-    let mediaResponse;
+  let mediaResponse;
+  try {
+    mediaResponse = await s3Client.send(getObjectCommand);
+  } catch {
+    throw new S3Error('Error fetching media', StatusCode.INTERNAL_SERVER_ERROR);
+  }
 
-    try {
-      mediaResponse = await s3Client.send(getObjectCommand);
-    } catch {
-      throw new S3Error('Error fetching media', StatusCode.INTERNAL_SERVER_ERROR);
-    }
+  if (!(mediaResponse.Body instanceof Readable)) {
+    throw new Error('Expected mediaResponse.Body to be a Readable stream');
+  }
 
-    const streamBody = mediaResponse.Body;
+  const mediaBuffer = await streamToBuffer(mediaResponse.Body) as Buffer<ArrayBuffer>;
 
-    const chunks: Buffer[] = [];
-
-    if (streamBody instanceof Readable) {
-      for await (const chunk of streamBody) {
-        chunks.push(chunk as Buffer);
-      }
-    } else {
-      // fallback: convert to Readable if needed
-      const stream = Readable.from(streamBody as any);
-      for await (const chunk of stream) {
-        chunks.push(chunk as Buffer);
-      }
-    }
-
-    const mediaBuffer = Buffer.concat(chunks);
-
-    return { mediaKey, mediaBuffer };
-  };
-
+  return { mediaKey, mediaBuffer };
+};
   // Fetch all photos and audios in parallel
   const fetchPhotoPromises = photos.map((item) => fetchMedia(item, photoBucketName));
   const fetchAudioPromises = audios.map((item) => fetchMedia(item, audioBucketName));
@@ -182,7 +168,7 @@ export async function getMediaForJournalEntry(email: string, date: Date): Promis
   };
 }
 
-export async function uploadAudio(audio: any, email: string, today: Date) {
+export async function uploadAudio(audio: File, email: string, today: Date) {
   if (!audio || !email || !today)
     throw new InvalidParamsError('Audio, Email, or Date is invalid', StatusCode.BAD_REQUEST);
 
@@ -202,7 +188,6 @@ export async function uploadAudio(audio: any, email: string, today: Date) {
     Bucket: audioBucketName,
     Key: key,
     Body: buffer,
-    ContentType: audio.mimetype,
   };
 
   const command = new PutObjectCommand(uploadParams);
@@ -247,4 +232,12 @@ export async function getPhotoCount(email: string) {
   } while (continuationToken);
 
   return totalCount;
+}
+
+async function streamToBuffer(stream: Readable): Promise<Buffer> {
+  const chunks: Uint8Array[] = [];
+  for await (const chunk of stream) {
+    chunks.push(typeof chunk === 'string' ? Buffer.from(chunk) : chunk);
+  }
+  return Buffer.concat(chunks);
 }

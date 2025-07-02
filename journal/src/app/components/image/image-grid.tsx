@@ -38,7 +38,7 @@ export default function ImageGrid({ images, setImages }: ImageGridProps) {
     );
   }
 
-  const handleDeleteClick = (e: any, image: MediaItemUrl) => {
+  const handleDeleteClick = (e: React.MouseEvent<HTMLButtonElement>, image: MediaItemUrl) => {
     e.stopPropagation(); // Prevent opening the image modal
     setImageToDelete(image);
   };
@@ -94,7 +94,7 @@ export default function ImageGrid({ images, setImages }: ImageGridProps) {
       <ImageModal
         isOpen={!!selectedImage}
         onClose={() => setSelectedImage(undefined)}
-        image={selectedImage || { image: '', alt: '' }}
+        image={selectedImage}
       />
 
       <AlertDialog open={!!imageToDelete} onOpenChange={(open) => !open && setImageToDelete(undefined)}>
@@ -125,8 +125,8 @@ export default function ImageGrid({ images, setImages }: ImageGridProps) {
  **/
 export type ImageModalProps = {
   isOpen: boolean,
-  onClose: any,
-  image: any
+  onClose: () => void,
+  image: MediaItemUrl | undefined
 }
 export function ImageModal({ isOpen, onClose, image }: ImageModalProps) {
   return (
@@ -144,8 +144,8 @@ export function ImageModal({ isOpen, onClose, image }: ImageModalProps) {
         </Button>
         <div className="relative w-full h-full max-h-[90vh] flex items-center justify-center">
           <Image
-            src={image.image || '/placeholder.svg'}
-            alt={image.alt || 'Journal photo'}
+            src={image?.mediaUrl || '/placeholder.svg'}
+            alt={'Journal photo'}
             width={1200}
             height={800}
             className="object-contain w-full h-full"

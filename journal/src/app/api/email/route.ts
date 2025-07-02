@@ -11,13 +11,17 @@ export async function POST(request: NextRequest) {
     const email = formData.get('email') as string;
     const message = formData.get('message') as string;
 
-    let fullSubject = `${email} : ${subject}`;
-    let fullMessage = `From ${firstName} ${lastName} \n\n ${message}`;
+    const fullSubject = `${email} : ${subject}`;
+    const fullMessage = `From ${firstName} ${lastName} \n\n ${message}`;
 
     await sendEmail(fullSubject, fullMessage);
 
     return NextResponse.json({ message: 'Email sent successfully' });
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message });
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      return NextResponse.json({ error: error.message });
+    } else {
+      return NextResponse.json({ error: 'Unknown error occurred' });
+    }
   }
 }

@@ -4,7 +4,6 @@ import { useState, useRef } from 'react';
 import { Mic } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import DeleteDialog from '../deletion-dialog';
-import { MediaItemUrl } from '@/app/models/media-item-string';
 
 /**
   AudioUpload should not keep track of it's own audioState, the data from audioRecording should be stored in a parent component
