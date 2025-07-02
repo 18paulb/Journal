@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { useToast } from "@/hooks/use-toast";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Checkbox } from "@/components/ui/checkbox";
 
@@ -28,6 +27,7 @@ import { AudioUpload } from "@/app/components/audio/audio-upload";
 import DateFactory from "@/lib/client/date-factory";
 import { JournalEntry } from "@/app/models/journal-entry";
 import ImageUpload from "@/app/components/image/image-upload";
+import { toast } from 'sonner';
 
 type JournalEntryEditorProps = {
   entry: JournalEntry;
@@ -39,8 +39,6 @@ export default function JournalEntryEditor({ entry }: JournalEntryEditorProps) {
   const [uploadedPhoto, setUploadedPhoto] = useState<File | null>(null);
   const [isPublic, setIsPublic] = useState<boolean>(entry?.isPublic ?? false);
   const [audioRecording, setAudioRecording] = useState<Blob | null>(null);
-
-  const { toast } = useToast();
 
   const handleSave = async () => {
     if (content.trim() === "") {
@@ -67,17 +65,10 @@ export default function JournalEntryEditor({ entry }: JournalEntryEditorProps) {
     await new NetworkClient()
       .writeJournalEntry(formData)
       .then(() => {
-        toast({
-          title: "Successfully saved",
-          duration: 2000,
-        });
+        toast("Successfully Saved");
       })
       .catch(() => {
-        toast({
-          title: "An error occurred",
-          duration: 2000,
-          variant: "destructive",
-        });
+        toast( "An error occurred");
       });
   };
 

@@ -7,12 +7,12 @@ import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Mail, MessageSquare, Send, Phone } from 'lucide-react';
-import { useToast } from '@/hooks/use-toast';
+import { toast } from 'sonner';
+
 import NetworkClient from '@/lib/client/network-client';
 
 export default function ContactPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const { toast } = useToast();
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -28,17 +28,11 @@ export default function ContactPage() {
       .sendEmail(formData)
       .then((response) => {
         console.log(response);
-        toast({
-          title: 'Message sent!',
-          description: "We'll get back to you as soon as possible.",
-        });
+        toast('Message sent!');
       })
       .catch((error) => {
         console.log(error);
-        toast({
-          title: 'An error occurred',
-          description: 'Please try again later',
-        });
+        toast('An error occurred');
       });
 
     // Uncomment to reset the form after submission
