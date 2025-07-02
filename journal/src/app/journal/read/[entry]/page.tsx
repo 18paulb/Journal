@@ -7,9 +7,9 @@ import JournalEntryComponent from './journalEntryComponent';
 import { MediaItemUrl } from '@/app/models/media-item-string';
 
 type JournalEntryParams = {
-  params: {
+  params: Promise<{
     entry: string;
-  };
+  }>;
 };
 export default async function JournalEntry({ params }: JournalEntryParams) {
   const date = (await params).entry;

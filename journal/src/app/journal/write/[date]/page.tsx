@@ -3,9 +3,9 @@ import { getSession } from '@auth0/nextjs-auth0/edge';
 import JournalEntryEditor from './journalWriteComponent';
 
 interface PageProps {
-  params: {
+  params: Promise<{
     date: string;
-  };
+  }>;
 }
 
 export default async function Index({ params }: PageProps) {
