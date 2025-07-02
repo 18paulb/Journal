@@ -6,18 +6,18 @@ import { getJournalEntry as getEntry } from '@/lib/aws/dynamodb';
 
 export async function uploadJournalEntry() {}
 
-export async function deleteJournalEntry(date) {
+export async function deleteJournalEntry(date: string) {
   console.log(date);
 }
 
-export async function deleteEntryImage(key) {
+export async function deleteEntryImage(key: string) {
   await deleteImage(key);
 }
 
-export async function deleteEntryAudio(key) {
+export async function deleteEntryAudio(key: string) {
   await deleteAudio(key);
 }
 
-export async function getJournalEntry(date, email) {
-  await getEntry(date, email)
+export async function getJournalEntry(date: string, email: string) {
+  return await getEntry(date, email)
 }

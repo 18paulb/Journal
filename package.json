@@ -7,9 +7,9 @@
   ],
   "scripts": {
     "dev": "npm run dev:frontend",
-    "dev:frontend": "cd journalfrontend && next dev",
-    "build": "next build journalfrontend",
-    "start": "next start journalfrontend",
-    "lint": "cd journalfrontend && npm run lint"
+    "dev:frontend": "cd journal && next dev",
+    "build": "next build journal",
+    "start": "next start journal",
+    "lint": "cd journal && npm run lint"
   }
 }

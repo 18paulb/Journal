@@ -12,11 +12,11 @@ export default function LongestStreakStat() {
 
   useEffect(() => {
     const fetchData = async () => {
+      if (!user || !user.email) return;
+      
       const today = DateFactory.getLocalDateString();
 
-      const streakPromise = calculateStreak(today, user.email);
-      const [streak] = await Promise.all([streakPromise]);
-
+      const streak = await calculateStreak(today, user.email)
       setStreak(streak);
     };
 
@@ -39,7 +39,7 @@ export default function LongestStreakStat() {
   );
 }
 
-async function calculateStreak(currDate, email) {
+async function calculateStreak(currDate: string, email: string) {
   const currDateObj = DateFactory.convertStringToDateObject(currDate);
 
   // Set the currDateObj to be very beginning of day, makes it easier for comparison
@@ -55,7 +55,7 @@ async function calculateStreak(currDate, email) {
   });
 
   // Sort dates in descending order (latest first), just in case DB didn't sort correctly
-  entryDates.sort((a, b) => b - a);
+  entryDates.sort((a, b) => b.getMilliseconds() - a.getMilliseconds());
 
   let streak = 0;
   let prevDate = currDateObj;
@@ -80,7 +80,7 @@ async function calculateStreak(currDate, email) {
 }
 
 // Helper function to check if `date1` is exactly one day before `date2`
-function isOneDayBefore(date1, date2) {
+function isOneDayBefore(date1: Date, date2: Date) {
   const ONE_DAY_MS = 24 * 60 * 60 * 1000;
 
   // To make it easy to compare, we set the hr/min/ms to 0 so that we can just check if the dates are one day in MS less than the other
