@@ -24,6 +24,7 @@ import AudioView from '@/app/components/audio/audio-view';
 import { deleteJournalEntry } from '@/app/actions/journalEntryActions';
 import { JournalEntry } from '@/app/models/journal-entry';
 import { MediaItemUrl } from '@/app/models/media-item-string';
+import { toast } from 'sonner';
 
 type JournalEntryComponentProps = {
   entryData: JournalEntry,
@@ -39,8 +40,7 @@ export default function JournalEntryComponent({ entryData, initialEntryImages, i
   const [audioData, setAudioData] = useState(initialAudioData);
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
-
-  const { toast } = useToast();
+  
   const router = useRouter();
 
   // Formats entry text to have correct spacing
@@ -58,11 +58,11 @@ export default function JournalEntryComponent({ entryData, initialEntryImages, i
     try {
       if (!date) throw new Error("Date is invalid");
       await deleteJournalEntry(date as string);
-      // toast.success('Journal entry deleted successfully');
+      toast("Journal entry deleted successfully");
       router.push('/journal'); // Redirect to journal list
     } catch (error) {
       console.error('Error deleting journal entry:', error);
-      // toast.error('Failed to delete journal entry');
+      toast('Failed to delete journal entry')
     } finally {
       setIsDeleting(false);
       setShowDeleteDialog(false);
