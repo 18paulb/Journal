@@ -17,7 +17,15 @@ import { JournalEntry } from '@/app/models/journal-entry';
 const tableName = 'JournalEntry';
 const dateIndex = 'date-email-index';
 
-const client = new DynamoDBClient({});
+const client = new DynamoDBClient(
+  {
+    region: process.env.AWS_REGION,
+    credentials: {
+      accessKeyId: process.env.AWS_ACCESS!,
+      secretAccessKey: process.env.AWS_SECRET!,
+    }
+  }
+);
 const docClient = DynamoDBDocumentClient.from(client);
 
 export async function writeJournalEntry(entryText: string, entryTitle: string, date: string, email: string, isPublic = false) {
